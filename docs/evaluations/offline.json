@@ -1,0 +1,79 @@
+{
+  "mode": "offline_fixtures",
+  "timestamp_utc": "2026-10-01T18:55:52.996498+00:00",
+  "model": null,
+  "quality_assessment": "not_measured",
+  "note": "Dados fictícios: mede apenas validação local, não qualidade do modelo ou latência da API.",
+  "results": [
+    {
+      "case": "adocao_veiculos",
+      "prompt_variant": "fixture",
+      "iso_codes_total": 3,
+      "iso_codes_valid": 3,
+      "validation_ok": true,
+      "countries": 3,
+      "score_min": 20.0,
+      "score_max": 90.0,
+      "score_mean": 60.0,
+      "score_stddev": 29.44,
+      "score_distribution": {
+        "0–<25": 1,
+        "25–<50": 0,
+        "50–<75": 1,
+        "75–100": 1
+      },
+      "local_validation_ms": 0.044,
+      "fixture_check_passed": true
+    },
+    {
+      "case": "contextos_equivalentes",
+      "prompt_variant": "fixture",
+      "iso_codes_total": 3,
+      "iso_codes_valid": 3,
+      "validation_ok": true,
+      "countries": 3,
+      "score_min": 60.0,
+      "score_max": 60.0,
+      "score_mean": 60.0,
+      "score_stddev": 0.0,
+      "score_distribution": {
+        "0–<25": 0,
+        "25–<50": 0,
+        "50–<75": 3,
+        "75–100": 0
+      },
+      "local_validation_ms": 0.009,
+      "fixture_check_passed": true
+    },
+    {
+      "case": "contexto_insuficiente",
+      "prompt_variant": "fixture",
+      "iso_codes_total": 0,
+      "iso_codes_valid": 0,
+      "validation_ok": true,
+      "countries": 0,
+      "score_min": null,
+      "score_max": null,
+      "score_mean": null,
+      "score_stddev": null,
+      "score_distribution": {
+        "0–<25": 0,
+        "25–<50": 0,
+        "50–<75": 0,
+        "75–100": 0
+      },
+      "local_validation_ms": 0.004,
+      "fixture_check_passed": true
+    },
+    {
+      "case": "codigo_invalido",
+      "prompt_variant": "fixture",
+      "iso_codes_total": 1,
+      "iso_codes_valid": 0,
+      "validation_ok": false,
+      "error": "A resposta da IA contém JSON, países ou pontuações inválidos. Tente novamente.",
+      "local_validation_ms": 0.009,
+      "fixture_check_passed": true
+    }
+  ]
+}
