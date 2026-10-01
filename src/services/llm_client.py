@@ -57,8 +57,8 @@ def generate_heatmap(context: str, *, system_prompt: str = SYSTEM_PROMPT) -> Hea
         raise HeatmapError(f"Use até {MAX_CONTEXT_LENGTH} caracteres no contexto.")
 
     model = configured_model()
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
-    if not api_key or not api_key.strip():
+    api_key = os.getenv("GEMINI_API_KEY", "").strip() or os.getenv("GOOGLE_API_KEY", "").strip()
+    if not api_key:
         raise ConfigurationError("Configure GEMINI_API_KEY no arquivo .env para usar a IA.")
 
     try:
@@ -89,4 +89,17 @@ def generate_heatmap(context: str, *, system_prompt: str = SYSTEM_PROMPT) -> Hea
     except (httpx.HTTPError, TimeoutError, ConnectionError):
         raise ProviderError("Falha de conexão ou tempo limite da IA. Tente novamente.") from None
 
+    if response.prompt_feedback and response.prompt_feedback.block_reason not in (
+        None, types.BlockedReason.BLOCKED_REASON_UNSPECIFIED,
+    ):
+        raise InvalidResponseError("A IA bloqueou a solicitação. Reformule o contexto da pesquisa.")
+    if not response.candidates:
+        raise InvalidResponseError("A IA não retornou dados. Reformule o contexto e tente novamente.")
+    finish_reason = response.candidates[0].finish_reason
+    if finish_reason == types.FinishReason.MAX_TOKENS:
+        raise InvalidResponseError(
+            "A resposta da IA atingiu o limite de geração. Reduza o escopo da pesquisa e tente novamente."
+        )
+    if finish_reason != types.FinishReason.STOP:
+        raise InvalidResponseError("A IA não concluiu a resposta. Reformule o contexto e tente novamente.")
     return parse_response(response.text)

@@ -52,6 +52,35 @@ com objetivo, mudanças e validação na mensagem, sem trailers de coautoria.
 
 ## Escopo da entrega
 
-MVP das quatro issues implementado e integrado localmente à `develop`, com as
-branches preservadas. A issue #4 permanece com aceite empírico parcial até a
-avaliação real. Nenhuma issue foi fechada automaticamente.
+MVP das quatro issues integrado à `main` pela
+[PR #5](https://github.com/felpzw/jev-global-heatmap/pull/5), em 01/10/2026.
+As branches de implementação foram preservadas.
+
+## Revisão pós-merge
+
+A revisão identificou e corrigiu dois casos no serviço:
+
+- JSON válido era aceito mesmo quando o provedor indicava uma geração interrompida.
+  Agora somente respostas concluídas com `STOP` seguem para validação Pydantic;
+  limites de geração e bloqueios produzem mensagens compreensíveis e preservam o mapa anterior.
+- Uma `GEMINI_API_KEY` contendo apenas espaços impedia o fallback para
+  `GOOGLE_API_KEY`. As duas variáveis agora são normalizadas antes da seleção.
+
+Foram adicionados testes com o SDK real e transporte HTTP simulado, sem rede,
+além da regressão do estado da interface. A suíte passou de 20 para 27 testes.
+O avaliador offline continua aprovando os quatro cenários esperados.
+
+As correções seguem em `fix/mvp-review` → `develop`, separadas do merge original.
+O encerramento das issues #1–#3 refere-se ao escopo do MVP entregue pela PR #5;
+a revisão adicional precisa ser promovida da `develop` para a `main`.
+
+### Pendências mantidas
+
+- [ ] Executar `test_llm.py` com credenciais configuradas.
+- [ ] Comparar baseline/refinado na API, registrando códigos ISO, distribuição e latência.
+- [ ] Revisar a precisão factual das justificativas e documentar a conclusão da issue #4.
+
+Essas verificações reais continuam pendentes por decisão do usuário. Testes
+simulados não encerram o aceite empírico da issue #4.
+
+Referência: [motivos de término da API Gemini](https://ai.google.dev/api/generate-content#FinishReason).
