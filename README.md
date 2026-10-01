@@ -26,6 +26,16 @@ Preencha `GEMINI_API_KEY` no `.env`. `GOOGLE_API_KEY` também é aceito como fal
 python -m streamlit run src/app.py
 ```
 
+Sem chave, use **Carregar demonstração** na barra lateral. Os dados são fictícios.
+Com a chave configurada, descreva um tema e clique em **Gerar Mapeamento**.
+O mapa, a tabela de justificativas e o download JSON permanecem disponíveis
+entre reruns da mesma sessão. Uma falha preserva o resultado anterior, identificado
+pelo contexto original; recarregar a página ou abrir outra sessão pode limpar o estado.
+
+Os scores são estimativas qualitativas produzidas pelo modelo, sem pesquisa em
+tempo real. Países não retornados ficam cinza, sem atribuição artificial de zero.
+O mapa base do Plotly requer acesso do navegador ao CDN de geometrias.
+
 ## Validação do pipeline
 
 ```sh
