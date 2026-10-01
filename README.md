@@ -18,7 +18,8 @@ python -m pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Preencha `GEMINI_API_KEY` no `.env`. `GOOGLE_API_KEY` também é aceito como fallback.
+Preencha `GEMINI_API_KEY` no `.env`. `GOOGLE_API_KEY` também é aceito como fallback
+quando a primeira estiver ausente, vazia ou contiver apenas espaços.
 `GEMINI_MODEL` permite escolher um modelo com Structured Outputs; o padrão é
 `gemini-3.5-flash-lite`. Nunca versione o `.env`.
 
@@ -31,6 +32,8 @@ Com a chave configurada, descreva um tema e clique em **Gerar Mapeamento**.
 O mapa, a tabela de justificativas e o download JSON permanecem disponíveis
 entre reruns da mesma sessão. Uma falha preserva o resultado anterior, identificado
 pelo contexto original; recarregar a página ou abrir outra sessão pode limpar o estado.
+Respostas interrompidas pelo limite de geração ou bloqueadas pelo provedor são
+recusadas, mesmo quando contêm JSON válido.
 
 Os scores são estimativas qualitativas produzidas pelo modelo, sem pesquisa em
 tempo real. Países não retornados ficam cinza, sem atribuição artificial de zero.

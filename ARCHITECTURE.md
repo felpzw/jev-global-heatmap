@@ -21,6 +21,9 @@ não recebem score zero. O limite é de 249 entradas.
 O serviço usa Gemini Structured Outputs e revalida o JSON localmente antes de
 retorná-lo. O timeout HTTP é de 60 segundos, sem repetição automática de chamadas.
 Erros do provedor são convertidos em mensagens sem credenciais ou respostas brutas.
+Antes de validar o JSON, o serviço exige uma resposta concluída (`finish_reason=STOP`).
+Gerações interrompidas, bloqueadas ou sem candidatos não substituem o resultado
+anterior, mesmo que o trecho retornado seja JSON válido.
 
 ## 3. Interface e avaliação
 
