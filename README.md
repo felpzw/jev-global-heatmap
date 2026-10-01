@@ -44,3 +44,19 @@ python -m unittest discover -s tests -v
 # Smoke test real; utiliza a API configurada
 python test_llm.py "Adoção de carros elétricos"
 ```
+
+## Avaliação de prompts
+
+```sh
+# Fixtures fictícias, sem API: valida contrato e calcula distribuição de scores
+python evaluate_prompts.py
+# Comparação real baseline/refinado: 3 cenários × 2 prompts × 3 repetições = 18 chamadas
+python evaluate_prompts.py --live --repeats 3
+```
+
+O relatório padrão fica em `artifacts/prompt_evaluation.json` (ignorado pelo Git).
+A execução real pode gerar custos. As justificativas precisam de revisão manual;
+validez do JSON e dos códigos ISO não prova precisão factual dos scores.
+Veja [o protocolo e as limitações](docs/PROMPT_DESIGN.md),
+[o relatório offline](docs/evaluations/offline.json) e
+[a sequência de branches e merges](docs/IMPLEMENTATION.md).

@@ -21,3 +21,18 @@ não recebem score zero. O limite é de 249 entradas.
 O serviço usa Gemini Structured Outputs e revalida o JSON localmente antes de
 retorná-lo. O timeout HTTP é de 60 segundos, sem repetição automática de chamadas.
 Erros do provedor são convertidos em mensagens sem credenciais ou respostas brutas.
+
+## 3. Interface e avaliação
+
+- A UI só chama o serviço no envio do formulário; entradas vazias são barradas.
+- `session_state.mapping` guarda resposta, contexto e origem (`gemini`/`demo`).
+  Reruns não disparam consultas. Falhas mantêm o resultado anterior identificado.
+- `plot_heatmap` valida dados, retorna `Figure` e não depende de Streamlit.
+- O mapa usa escala fixa 0–100 e cinza para ausência de dados. A geografia de
+  base é carregada pelo navegador a partir do CDN do Plotly.
+- `src/services/prompts.py` é a fonte executável dos prompts. O refinado pede
+  uma amostra de até 40 países para reduzir geração; isso é uma orientação,
+  não uma garantia de cobertura mundial nem uma otimização medida.
+- `evaluate_prompts.py` separa fixtures offline de comparação real, incluindo
+  tempos, distribuição e respostas para revisão humana. Não há busca na web
+  nem validação factual automatizada neste MVP.
