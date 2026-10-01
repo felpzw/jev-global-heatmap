@@ -35,3 +35,23 @@ com objetivo, mudanças e validação na mensagem, sem trailers de coautoria.
   sucesso; uma resposta vazia substitui o resultado por uma explicação.
 - Verificação: 5 testes AppTest cobrem geração, rerun sem nova chamada, demo,
   entrada vazia, falhas e resultado vazio; 17 testes offline no total.
+- Conferência no Safari: formulário, demonstração, legenda e renderização do mapa.
+
+## Issue #4 — prompt e avaliação
+
+- Prompt refinado alinha envelope e chaves ao Pydantic, exige ISO existente,
+  mantém critério comparável e proíbe contrastes artificiais e fontes inventadas.
+- Baseline da etapa #1 preservado para comparação. O avaliador real alterna
+  ordem por repetição e grava respostas e latência para revisão manual.
+- Avaliação offline registrada em `docs/evaluations/offline.json`: quatro
+  cenários passaram, incluindo scores iguais, resposta vazia e ISO inválido rejeitado.
+- Verificação final: 20 testes offline aprovados; `pip check` sem dependências quebradas.
+- **Pendente, conforme decisão do usuário:** smoke test com credenciais e
+  comparação real baseline/refinado (precisão factual, justificativas e latência
+  do provedor). Não há alegação de melhoria de qualidade ou velocidade medida.
+
+## Escopo da entrega
+
+MVP das quatro issues implementado e integrado localmente à `develop`, com as
+branches preservadas. A issue #4 permanece com aceite empírico parcial até a
+avaliação real. Nenhuma issue foi fechada automaticamente.

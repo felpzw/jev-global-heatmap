@@ -1,0 +1,37 @@
+[
+  {
+    "id": "adocao_veiculos",
+    "context": "Adoção de carros elétricos: compare participação relativa na frota, não tamanho absoluto do mercado.",
+    "expected_valid": true,
+    "response": {"countries": [
+      {"iso_alpha_3": "NOR", "heat_score": 90, "context_summary": "Fixture fictícia: cenário de alta participação relativa na frota."},
+      {"iso_alpha_3": "CHN", "heat_score": 70, "context_summary": "Fixture fictícia: cenário de participação intermediária na frota."},
+      {"iso_alpha_3": "BRA", "heat_score": 20, "context_summary": "Fixture fictícia: cenário de baixa participação relativa na frota."}
+    ]}
+  },
+  {
+    "id": "contextos_equivalentes",
+    "context": "Cenário hipotético: Brasil, Canadá e Japão apresentam a mesma intensidade do fenômeno. Não fabrique diferenças.",
+    "expected_valid": true,
+    "response": {"countries": [
+      {"iso_alpha_3": "BRA", "heat_score": 60, "context_summary": "Fixture fictícia: contexto equivalente ao dos outros países."},
+      {"iso_alpha_3": "CAN", "heat_score": 60, "context_summary": "Fixture fictícia: contexto equivalente ao dos outros países."},
+      {"iso_alpha_3": "JPN", "heat_score": 60, "context_summary": "Fixture fictícia: contexto equivalente ao dos outros países."}
+    ]}
+  },
+  {
+    "id": "contexto_insuficiente",
+    "context": "Distribuição do fenômeno fictício zorbflux, sem definição ou evidências disponíveis.",
+    "expected_valid": true,
+    "response": {"countries": []}
+  },
+  {
+    "id": "codigo_invalido",
+    "context": "Relevância de um tema com código de país inexistente.",
+    "offline_only": true,
+    "expected_valid": false,
+    "response": {"countries": [
+      {"iso_alpha_3": "ZZZ", "heat_score": 50, "context_summary": "Fixture inválida que deve ser rejeitada."}
+    ]}
+  }
+]
