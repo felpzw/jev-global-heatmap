@@ -9,10 +9,28 @@ Protótipo rápido de pesquisa de amostragem global. O sistema recebe um input t
 
 ## Como rodar localmente
 
-1. Clone o repositório e ative o ambiente virtual:
-   `source venv/bin/activate`
-2. Instale as dependências:
-   `pip install -r requirements.txt`
-3. Configure as credenciais copiando o `.env.example` para `.env` e inserindo sua API Key.
-4. Inicie o app:
-   `streamlit run src/app.py`
+Requer Python 3.12+ (validado com Python 3.14). Na raiz do projeto:
+
+```sh
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+cp .env.example .env
+```
+
+Preencha `GEMINI_API_KEY` no `.env`. `GOOGLE_API_KEY` também é aceito como fallback.
+`GEMINI_MODEL` permite escolher um modelo com Structured Outputs; o padrão é
+`gemini-3.5-flash-lite`. Nunca versione o `.env`.
+
+```sh
+python -m streamlit run src/app.py
+```
+
+## Validação do pipeline
+
+```sh
+# Testes offline, sem credenciais ou chamadas à API
+python -m unittest discover -s tests -v
+# Smoke test real; utiliza a API configurada
+python test_llm.py "Adoção de carros elétricos"
+```
