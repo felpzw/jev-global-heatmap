@@ -26,3 +26,12 @@ com objetivo, mudanças e validação na mensagem, sem trailers de coautoria.
 - `data/demo_heatmap.json` contém oito países com scores explicitamente fictícios.
 - Verificação: 3 testes do componente, cobrindo localizações, scores, tooltip,
   escala, serialização, dados vazios/inválidos e escape de HTML; 12 testes no total.
+
+## Issue #3 — interface
+
+- Interface Streamlit com formulário, bloqueio de input vazio, spinner, erros
+  compreensíveis, mapa, tabela, download JSON e demonstração sem API.
+- `session_state` mantém resposta e contexto original. Falhas preservam o último
+  sucesso; uma resposta vazia substitui o resultado por uma explicação.
+- Verificação: 5 testes AppTest cobrem geração, rerun sem nova chamada, demo,
+  entrada vazia, falhas e resultado vazio; 17 testes offline no total.
