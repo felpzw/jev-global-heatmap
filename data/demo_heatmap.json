@@ -1,0 +1,12 @@
+{
+  "countries": [
+    {"iso_alpha_3": "BRA", "heat_score": 65, "context_summary": "Dado fictício: intensidade moderada no cenário de demonstração."},
+    {"iso_alpha_3": "USA", "heat_score": 80, "context_summary": "Dado fictício: intensidade alta no cenário de demonstração."},
+    {"iso_alpha_3": "NOR", "heat_score": 95, "context_summary": "Dado fictício: intensidade muito alta no cenário de demonstração."},
+    {"iso_alpha_3": "CHN", "heat_score": 90, "context_summary": "Dado fictício: intensidade muito alta no cenário de demonstração."},
+    {"iso_alpha_3": "IND", "heat_score": 40, "context_summary": "Dado fictício: intensidade intermediária no cenário de demonstração."},
+    {"iso_alpha_3": "ZAF", "heat_score": 25, "context_summary": "Dado fictício: intensidade baixa no cenário de demonstração."},
+    {"iso_alpha_3": "AUS", "heat_score": 55, "context_summary": "Dado fictício: intensidade moderada no cenário de demonstração."},
+    {"iso_alpha_3": "JPN", "heat_score": 70, "context_summary": "Dado fictício: intensidade alta no cenário de demonstração."}
+  ]
+}

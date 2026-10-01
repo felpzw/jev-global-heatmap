@@ -17,3 +17,12 @@ com objetivo, mudanças e validação na mensagem, sem trailers de coautoria.
 - Verificação: 9 testes offline aprovados; incluem ISO inválido, limites, duplicatas,
   JSON malformado, credenciais ausentes, timeout e erros do provedor.
 - Chamada real não executada: sem credenciais, conforme opção do usuário.
+
+## Issue #2 — mapa
+
+- `plot_heatmap(list[dict])` retorna uma figura Plotly com projeção mundial,
+  localização ISO-3, escala fixa 0–100 e justificativa no tooltip.
+- Países sem dados ficam cinza; ausência não significa score zero.
+- `data/demo_heatmap.json` contém oito países com scores explicitamente fictícios.
+- Verificação: 3 testes do componente, cobrindo localizações, scores, tooltip,
+  escala, serialização, dados vazios/inválidos e escape de HTML; 12 testes no total.
