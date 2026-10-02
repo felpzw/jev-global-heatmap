@@ -105,6 +105,17 @@ usuário de prosseguir sem credenciais. Portanto, o aceite empírico da issue #4
 
 ## Referências de implementação
 
+### Evolução JEV: contrato novo, ainda não implementado
+
+O prompt descrito neste documento é o do MVP qualitativo. A proposta da #8 usa
+evento e prazo fornecidos pelo usuário, registro obrigatório dos 195 Estados,
+evidências e probabilidades com status explícito. Isso exige novos prompts e
+contratos por etapa/lote, conforme [JEV_DESIGN.md](JEV_DESIGN.md); não basta mudar
+a instrução de “até 40” para “195”, nem tratar `heat_score` como probabilidade.
+A avaliação atual de distribuição/ISO não mede calibração probabilística.
+
+### Fontes do MVP
+
 - [Gemini Structured Outputs](https://ai.google.dev/gemini-api/docs/generate-content/structured-output?hl=en)
 - [Catálogo de modelos Gemini](https://ai.google.dev/gemini-api/docs/models)
 - [Catálogo ISO do pycountry](https://pypi.org/project/pycountry/)
