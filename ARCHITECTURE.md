@@ -4,7 +4,7 @@
 1. **Input UI:** Usuário insere o contexto/tema no `src/app.py`.
 2. **LLM Service:** `src/services/llm_client.py` envia o prompt + input para a IA solicitando uma saída JSON estruturada.
 3. **Data Parsing:** A resposta é validada via Pydantic para garantir que contenha a chave do país e o score numérico.
-4. **Map Rendering:** `src/components/map_renderer.py` consome o JSON validado e plota o mapa via `plotly.express.choropleth`.
+4. **Map Rendering:** `src/components/map_renderer.py` consome o JSON validado e monta uma figura `plotly.graph_objects.Choropleth`, sem um DataFrame intermediário.
 
 ## 2. Contrato de Dados (Pydantic Schema)
 O modelo DEVE retornar um objeto `HeatmapResponse` com a chave `countries`,
@@ -31,6 +31,9 @@ anterior, mesmo que o trecho retornado seja JSON válido.
 - `session_state.mapping` guarda resposta, contexto e origem (`gemini`/`demo`).
   Reruns não disparam consultas. Falhas mantêm o resultado anterior identificado.
 - `plot_heatmap` valida dados, retorna `Figure` e não depende de Streamlit.
+- A figura é construída ao salvar um resultado e reutilizada na própria sessão,
+  sem cache global de contextos. Uma revisão derivada dos dados permite preservar
+  o enquadramento em reruns e reiniciá-lo quando o resultado muda.
 - O mapa usa escala fixa 0–100 e cinza para ausência de dados. A geografia de
   base é carregada pelo navegador a partir do CDN do Plotly.
 - `src/services/prompts.py` é a fonte executável dos prompts. O refinado pede

@@ -10,8 +10,10 @@ from src.services.schema import HeatmapResponse
 
 
 def save_result(response: HeatmapResponse, context: str, source: str) -> None:
+    data = response.model_dump()
     st.session_state["mapping"] = {
-        "response": response.model_dump(), "context": context, "source": source,
+        "response": data, "context": context, "source": source,
+        "figure": plot_heatmap(data["countries"]),
     }
 
 
@@ -69,8 +71,14 @@ def main() -> None:
         st.info("Não há países com contexto suficiente para este tema. Acrescente detalhes à pesquisa.")
         return
 
-    st.caption(f"{len(data)} países/territórios · Intensidade de 0 a 100")
-    st.plotly_chart(plot_heatmap(data), width="stretch", key="heatmap")
+    st.caption(f"{len(data)} países/territórios · Intensidade de 0 a 100 · Cinza: sem dados")
+    # Support sessions created before the redesign, then reuse the figure on reruns.
+    if "figure" not in mapping:
+        mapping["figure"] = plot_heatmap(data)
+    st.plotly_chart(
+        mapping["figure"], width="stretch", key="heatmap", on_select="ignore",
+        config={"scrollZoom": False, "displaylogo": False, "responsive": True},
+    )
     with st.expander("Ver dados e justificativas"):
         st.dataframe(data, hide_index=True, width="stretch")
     st.download_button(
