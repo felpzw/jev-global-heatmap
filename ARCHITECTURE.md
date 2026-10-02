@@ -5,15 +5,20 @@
 Análise da `develop` no commit `bc9360b`, em 02/10/2026. A existência de código
 nessa branch não comprova sua implantação em um ambiente publicado.
 
-**JEV aparece como nome do produto, mas seu significado e papel de domínio ainda
-não estão definidos no repositório.** Não há componente executável independente
-denominado JEV. O mecanismo de geração implementado usa Gemini, instruções de
-prompt e validação local. Isso descreve o código; não confirma que JEV seja apenas
-uma marca, metodologia ou outro mecanismo pretendido pelo responsável.
+**Papel confirmado pelo responsável:** JEV deve participar da arquitetura com
+IA, organizar e otimizar a busca a partir do contexto e retornar estimativas de
+probabilidade para todos os 195 Estados do escopo adotado. **O usuário informa o
+evento e o prazo**; a IA não os escolhe silenciosamente. A expansão da sigla não
+foi fornecida e não é necessária para definir essa responsabilidade funcional.
+
+Esse é o objetivo da evolução. Não há ainda componente executável independente
+denominado JEV: o código analisado usa Gemini para scores qualitativos, validação
+local e mapa. As seções 1–5 abaixo descrevem esse estado atual.
 
 A [ADR 0001](docs/adr/0001-jev-role-and-architecture.md) registra evidências,
-alternativas e recomendação provisória para a [issue #8](https://github.com/felpzw/jev-global-heatmap/issues/8).
-O encerramento depende da definição de JEV e da conclusão dessa decisão.
+alternativas e proposta de implementação para a [issue #8](https://github.com/felpzw/jev-global-heatmap/issues/8).
+O [desenho detalhado](docs/JEV_DESIGN.md) define cobertura, contratos, busca,
+estimativas, migração e avaliação. Ainda não há implementação dessa proposta.
 
 ```mermaid
 flowchart TD
@@ -99,7 +104,8 @@ O comportamento atual permite exploração inicial de um tema, comparação visu
 de estimativas qualitativas e demonstração do fluxo geográfico. Por exemplo, um
 tema sobre adoção de veículos elétricos pode resultar em países com scores e uma
 justificativa curta; não resulta em percentuais oficiais ou dados atuais coletados.
-Aplicações de domínio atribuídas especificamente à JEV dependem de sua definição.
+Na evolução JEV, esses temas deverão virar eventos verificáveis com prazo,
+como um limiar de adoção especificado pelo usuário para uma data futura.
 
 A sessão guarda contexto, origem (`gemini`/`demo`), resposta e figura. O download
 contém somente `countries`: não inclui contexto, modelo, versão do prompt,
@@ -115,8 +121,10 @@ Gemini é externo; geometrias do mapa são carregadas pelo navegador via CDN.
 
 A [issue #10](https://github.com/felpzw/jev-global-heatmap/issues/10) prevê runtime
 local em Docker, adaptadores de geração e aba de modelos. O ponto de extensão é
-a camada de serviços: manter contexto/prompt como entrada e `HeatmapResponse`
-como saída validada, isolando configurações, SDKs e motivos de término por provedor.
+a camada de serviços: manter contratos de domínio independentes do provedor,
+isolando configurações, SDKs e motivos de término. `HeatmapResponse` permanece
+como contrato legado; a JEV exige um contrato versionado de probabilidades,
+conforme o desenho abaixo, sem reinterpretar `heat_score` como probabilidade.
 Mapa e contrato não devem depender de Docker ou de qual modelo gerou os scores.
 
 Uma geração local também precisará de validação; trocar o provedor não resolve
@@ -126,3 +134,38 @@ como já especificado na #10. Essa capacidade ainda não existe na versão anali
 A [issue #4](https://github.com/felpzw/jev-global-heatmap/issues/4) continua sendo
 o lugar da avaliação real de prompts. A #8 define o papel de JEV e a decisão
 arquitetural; ela não substitui nem encerra o aceite empírico da #4.
+
+## 7. Arquitetura-alvo da JEV — proposta
+
+```mermaid
+flowchart TD
+    UI[Streamlit: contexto, evento e prazo] --> J[JEV: validar pedido e planejar pesquisa]
+    R[Registro versionado dos 195 Estados] --> J
+    J --> E[Busca e seleção de evidências por país]
+    L[Documentos locais ou fontes externas habilitadas] --> E
+    E --> B[JEV: lotes, orçamento e retomada]
+    B --> P[Adaptador de IA local ou cloud]
+    P --> V[Validação por país e reconciliação dos 195 registros]
+    V --> S[Resultado versionado: probabilidades, status e fontes]
+    S --> M[Mapa, tabela e JSON]
+```
+
+A JEV é proposta como serviço de aplicação dentro do projeto, acima dos adaptadores
+de IA. Coordena evidências e inferência, mas não substitui o modelo nem a validação.
+Não exige um novo microserviço. A busca é uma capacidade separada da geração:
+modelo local não implica pesquisa externa e busca externa não implica modelo cloud.
+
+O universo é **193 membros da ONU + Santa Sé e Estado da Palestina**, os dois
+Estados observadores, conforme [ONU](https://www.un.org/en/about-us) e
+[observadores](https://www.un.org/en/about-us/non-member-states). Não corresponde
+ao catálogo inteiro de países e territórios aceito hoje por `pycountry`.
+
+O resultado terá exatamente um registro por Estado e distinguirá probabilidade
+estimada, evidência insuficiente, não aplicabilidade e erro técnico. Cobertura
+de 195 registros não garante 195 estimativas numéricas justificáveis. Uma
+probabilidade de zero não substitui ausência de evidência.
+
+A saída será `P(evento ocorrer no país até o prazo | evidências disponíveis na
+data de referência)`. Não é recomendação automática de uma ação, porcentagem
+da população, confiança verbal da LLM ou normalização dos scores antigos.
+As probabilidades dos diferentes países não precisam somar 100%.

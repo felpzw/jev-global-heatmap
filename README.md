@@ -3,10 +3,13 @@
 Protótipo rápido de pesquisa de amostragem global. O sistema recebe um input textual (tema de pesquisa), processa o contexto via IA e gera um mapa de calor coroplético mundial indicando a relevância/intensidade do tema por país.
 
 “Amostragem” significa aqui o subconjunto de países selecionado pelo modelo, sem
-garantia de representatividade estatística. O significado e o papel de **JEV**
-ainda estão em definição na issue #8; o código atual usa Gemini, validação
-Pydantic e Plotly. Veja a [arquitetura e seus limites](ARCHITECTURE.md) e a
-[análise da JEV](docs/adr/0001-jev-role-and-architecture.md).
+garantia de representatividade estatística. **JEV foi definida como a camada de
+IA que deve organizar a busca e estimar a probabilidade de um evento, informado
+pelo usuário junto com o prazo, para os 195 Estados do escopo adotado.** Essa
+evolução ainda não está implementada: o código atual gera scores qualitativos
+com Gemini, Pydantic e Plotly. Veja a [arquitetura](ARCHITECTURE.md), a
+[ADR](docs/adr/0001-jev-role-and-architecture.md) e o
+[desenho da JEV para 195 países](docs/JEV_DESIGN.md).
 
 ## Stack
 * **UI & App:** Streamlit

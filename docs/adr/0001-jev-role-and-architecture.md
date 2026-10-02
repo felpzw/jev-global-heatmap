@@ -1,130 +1,100 @@
-# ADR 0001 — Papel da JEV e limites da arquitetura
+# ADR 0001 — JEV como coordenadora de pesquisa e previsão por país
 
 - Data: 02/10/2026.
-- Estado: **proposta; definição de JEV pendente de confirmação**.
+- Estado: **requisitos funcionais confirmados; arquitetura proposta para implementação**.
 - Issue: [#8](https://github.com/felpzw/jev-global-heatmap/issues/8).
-- Base analisada: `develop`, commit `bc9360b`.
+- Base de código analisada: `develop`, commit `bc9360b`.
 - Escopo desta alteração: documentação; nenhum comportamento de execução alterado.
 
-## Contexto e definição pendente
+## Contexto e requisitos confirmados
 
-O repositório chama o produto de JEV Global Heatmap, sem expandir a sigla nem
-definir uma metodologia ou mecanismo JEV. As ocorrências no código estão no
-título da aplicação, identificação do pacote e nome do arquivo exportado.
-Não existe uma implementação independente de JEV que possa ser descrita como
-motor próprio. O mecanismo observado é o pipeline Gemini → validação → mapa.
+O responsável definiu que a JEV deve participar da arquitetura com IA, otimizar
+as buscas a partir do contexto e retornar a probabilidade de um evento/decisão
+nos 195 países do escopo. Em esclarecimento posterior, confirmou que **o usuário
+informa o evento e o prazo**. Não cabe à IA escolher esses parâmetros silenciosamente.
+A expansão da sigla não foi fornecida, mas não impede definir seu papel funcional.
 
-Essa constatação não define a intenção do produto. É necessário confirmar com o
-responsável o significado de JEV, sua finalidade, casos de uso, eventuais regras
-de domínio e referências. Nenhuma expansão da sigla ou referência externa é
-adotada por semelhança de nome.
+O escopo é 193 membros da ONU mais os dois Estados observadores. Referências e
+mapeamento geográfico estão no [desenho detalhado](../JEV_DESIGN.md).
 
-## Evidências do funcionamento atual
+No código atual, Gemini seleciona um subconjunto de países, produz intensidade
+qualitativa e justificativa, Pydantic valida estrutura e Plotly apresenta o mapa.
+Não há pesquisa em fontes, estimador probabilístico, cobertura obrigatória dos
+195 países ou motor JEV independente. O objetivo novo exige evolução explícita.
 
-| Pergunta | Evidência |
-| --- | --- |
-| Quem interpreta o tema? | Gemini recebe o texto do usuário e `SYSTEM_PROMPT` por `generate_heatmap` |
-| Quem escolhe os países? | O modelo, orientado a omitir países sem suporte e preferir até 40 entradas |
-| Quem atribui o score? | O modelo; o código não aplica fórmula ou normalização estatística |
-| Quem justifica os scores? | O mesmo modelo, em `context_summary`, sem citações verificadas |
-| Quem valida? | O cliente verifica conclusão com `STOP`; Pydantic valida estrutura, ISO e limites |
-| Quem apresenta? | Streamlit mantém o estado; Plotly usa diretamente os scores validados |
-| Como a demonstração funciona? | Uma fixture fictícia validada substitui a chamada à LLM |
-| Há motor JEV separado? | Não foi encontrado em `src/`; o significado do nome continua pendente |
+## Decisão arquitetural proposta
 
-O contrato público permanece `HeatmapResponse` com `countries`, contendo
-`iso_alpha_3`, `heat_score` e `context_summary`. Ausência de país é ausência de
-informação; zero é um score válido. Resultados vazios válidos substituem o mapa;
-falhas preservam o resultado anterior e seu contexto.
+Adicionar a JEV como serviço de aplicação no próprio projeto, acima dos adaptadores
+de IA local/cloud. Ela será responsável por validar o pedido, planejar a pesquisa,
+obter evidências, distribuir inferência em lotes, controlar orçamento/retomada e
+reconciliar os resultados com o registro versionado dos 195 Estados.
 
-## Adequação e lacunas
+Manter as camadas interface → serviços → validação → visualização. Aproveitar o
+renderer e o gerenciamento de sessão, adaptando-os para probabilidade, status por
+país e proveniência. A seleção de provedor continua no escopo da #10.
 
-| Critério | Situação observada | Consequência |
-| --- | --- | --- |
-| Qualidade | Prompt orienta a análise; schema valida estrutura | Validade do JSON não demonstra precisão factual |
-| Rastreabilidade | Sessão guarda contexto e origem; download só contém países | Falta identificação completa de uma execução exportada |
-| Testabilidade | Renderer puro, schema compartilhado, cliente e UI testados com simulação | Boa cobertura do contrato; não comprova qualidade real do Gemini |
-| Acoplamento | UI chama um cliente específico Gemini | Adaptadores são justificados para a alternância local/cloud da #10 |
-| Latência | Uma chamada síncrona, timeout de 60 s, sem retry automático | Latência real do provedor ainda precisa ser medida pela #4 |
-| Custo | Geração só no envio; reruns reutilizam estado e figura | Não há medição de tokens/custo por pesquisa no app |
-| Manutenção | Poucas camadas e um contrato comum | Separar provedores preserva simplicidade; serviços extras exigem motivação |
+Usar contrato novo e versionado de previsão, separado de `HeatmapResponse`.
+`heat_score` não será rebatizado nem convertido em probabilidade: os dados legados
+continuam identificados como intensidade qualitativa.
 
-O uso atual se aproxima de uma ferramenta de exploração geográfica qualitativa.
-Não há dados suficientes para atribuir a ela uma metodologia de pesquisa JEV,
-uma amostragem representativa ou capacidade de produzir estatísticas oficiais.
+A resposta representará todos os 195 Estados exatamente uma vez, com número em
+[0, 1] quando houver estimativa justificável, ou `null` e status explícito para
+insuficiência de evidência, não aplicabilidade ou erro técnico. Isso preserva
+cobertura sem inventar precisão. Com erro técnico, a execução é identificada como
+parcial; a existência de 195 registros não significa 195 inferências bem-sucedidas.
 
-## Alternativas consideradas
+## Alternativas
 
-| Alternativa | Benefícios | Limitações | Encaminhamento proposto |
+| Alternativa | Vantagem | Limitação | Encaminhamento |
 | --- | --- | --- | --- |
-| Manter o pipeline Gemini atual | Menor complexidade; comportamento existente testado | Não atende a escolha de modelos locais | Manter como baseline durante a evolução |
-| Adaptadores local/cloud sob o mesmo contrato | Atende ao requisito da #10 sem acoplar o mapa ao runtime | Exige normalizar capacidades, erros e conclusão da geração | Implementar na #10 |
-| Criar um serviço ou motor independente denominado JEV | Poderia encapsular regras próprias, se elas existirem | Responsabilidades e necessidade ainda não definidas | Não justificar essa extração apenas pelo nome |
-| Adicionar fontes verificáveis e recuperação de documentos | Poderia sustentar rastreabilidade factual | Requer fontes, contratos, critérios e avaliação adicionais | Avaliar somente após definir objetivos de domínio |
+| Apenas pedir 195 países ao Gemini | Alteração pequena de prompt | Não garante cobertura, fontes, probabilidade ou retomada; saída atual limitada a 8.192 tokens | Rejeitar como solução completa |
+| Manter o MVP sem JEV | Simplicidade e regressões já testadas | Não atende à finalidade confirmada | Preservar somente como fluxo legado durante a migração |
+| JEV modular dentro da aplicação | Reutiliza arquitetura e permite fontes, contratos, lotes e provedores independentes | Aumenta responsabilidades e exige avaliação nova | Recomendada |
+| Novo microserviço JEV com filas distribuídas | Escala e isolamento operacional | Complexidade sem volume/requisitos operacionais demonstrados | Adiar até haver necessidade medida |
 
-## Recomendação provisória
+## Contratos e pontos de integração
 
-Preservar a separação interface → geração → validação → visualização e o contrato
-de dados existente. Implementar a variação de provedor na camada de serviços,
-conforme a #10, sem criar um componente JEV independente sem responsabilidades
-definidas. Registrar limites qualitativos dos scores e separar explicitamente
-validação estrutural de comprovação factual.
+- UI → JEV: contexto, evento, prazo, regra observável de resolução, data de referência,
+  modo de evidências e provedor/modelo.
+- JEV → registro: conjunto fixo e versionado, não uma lista gerada pela LLM.
+- JEV → busca: consultas por evento/país; retorno de material recuperado com fonte,
+  datas e identificadores verificáveis. Documentos locais e busca externa são modos distintos.
+- JEV → estimador/adaptador: subconjunto de países, evidências e contrato estruturado.
+  Capacidade de contexto/schema e término normalizado dependem de cada provedor.
+- JEV → UI: 195 registros reconciliados, status da execução, fontes e metadados completos.
+- Visualização: porcentagem somente para probabilidades estimadas; nulos e países
+  fora do escopo têm identificação própria. Tabela/busca asseguram acesso a microestados.
 
-Esta recomendação é proporcional ao código e aos requisitos conhecidos; não é
-uma decisão aceita sobre a identidade da JEV. Após a definição do responsável:
+Campos e invariantes estão em [JEV_DESIGN.md](../JEV_DESIGN.md), que também define
+cache, retomada, migração e sequência de implementação.
 
-- Se JEV for o nome do produto, registrar isso e confirmar a manutenção do pipeline.
-- Se for uma metodologia, mapear suas etapas/regras para o pipeline e identificar lacunas.
-- Se for um mecanismo específico, documentar suas referências, entradas, saídas e critérios
-  de sucesso antes de decidir sua integração ou extrair um novo componente.
+## Consequências e avaliação
 
-## Plano de avaliação
+Há maior rastreabilidade e controle de cobertura, mas também mais chamadas, fontes
+e estados de execução. Redução de custo/tempo precisa ser demonstrada por benchmark;
+usar lotes ou modelo local não prova otimização por si só.
 
-Reutilizar os cenários e o protocolo da #4, descritos em
-[PROMPT_DESIGN.md](../PROMPT_DESIGN.md), para evitar uma segunda avaliação paralela.
-O significado de JEV determinará se é necessário acrescentar cenários de domínio.
+A primeira versão pode produzir estimativas assistidas por LLM explicitamente não
+calibradas. Alegações de capacidade probabilística exigem eventos resolvidos,
+separação temporal, comparação com baseline, Brier/log loss e curvas de confiabilidade.
+Fontes corretas e JSON válido, isoladamente, não comprovam qualidade preditiva.
 
-| Dimensão | Como avaliar | Critério proposto |
-| --- | --- | --- |
-| Contrato | Fixtures inválidas/válidas e suíte offline | Todos os casos esperados passam; respostas inválidas não chegam ao mapa |
-| Estado e regressões | Reruns, erros, demo, resposta vazia | Nenhuma chamada extra por rerun; resultado anterior preservado em falhas |
-| Semântica | Veículos elétricos com métrica explícita; contextos equivalentes; tema fictício | Revisão humana identifica critério coerente, ausência de contraste inventado e justificativas sustentáveis |
-| Fatos | Revisar justificativas com fontes adequadas, data e revisor registrados | Registrar cada afirmação como sustentada, contradita ou inconclusiva; não declarar qualidade com pendências omitidas |
-| Comparação | Mesmos casos/modelo, baseline e refinado, 3 repetições alternadas | Comparar evidências por caso; dispersão dos scores não define vencedor |
-| Latência | Tempo completo por caso e variante na avaliação real | Registrar medianas e falhas; limites aceitáveis do produto ainda precisam ser definidos |
-| Contribuição específica da JEV | Depende de definir o que ela adiciona ao pipeline | Antes de implementar, definir baseline, cenários e limiares próprios; não atribuir ganhos só ao nome |
+A validade do contrato deve cobrir 100% dos cenários de cobertura/invariantes;
+qualidade, latência e custo terão protocolos e limiares definidos antes do ensaio
+correspondente. Reaproveitar a infraestrutura da #4, mantendo sua avaliação de
+prompts e acrescentando avaliação própria de previsão, sem confundir as duas.
 
-Não há baseline factual de referência nem limiar de qualidade confirmado. As
-categorias acima permitem uma avaliação auditável, mas não substituem a definição
-dos critérios de sucesso específicos da JEV. A #8 pode ser encerrada com um plano
-acordado; a execução empírica e seus resultados permanecem na #4.
+## Evidências e próximos passos
 
-### Evidências disponíveis nesta revisão
+A revisão anterior do mesmo código executável aprovou 29 testes e quatro fixtures
+offline. Nenhuma geração real, teste de pesquisa ou calibração foi executado nesta
+alteração documental. Essas evidências cobrem o MVP, não a arquitetura proposta.
 
-- `.venv/bin/python -m unittest discover -s tests -q`: 29 testes aprovados.
-- `.venv/bin/python evaluate_prompts.py --output artifacts/issue-8-offline-evaluation.json`:
-  quatro fixtures com os resultados esperados; nenhuma chamada à API.
-- [Relatório offline versionado](../evaluations/offline.json): evidência histórica
-  do contrato com dados fictícios; não mede factualidade ou latência da LLM.
-- Não foi executada geração real, nem avaliação factual de novas respostas.
+Implementar em sequência: registro/contratos → adaptadores #10 → evidências e
+orquestração JEV → UI/mapa/exportação → avaliação probabilística e operacional.
+O backlog detalhado acompanha a issue #8 e o desenho técnico.
 
-## Próximas ações e dependências
-
-1. **Prioridade imediata — #8:** confirmar significado, finalidade e casos de uso
-   da JEV; preencher a definição, revisar esta recomendação e registrar a decisão
-   final, seus contratos e critérios de sucesso. Depende do responsável pelo produto.
-2. **Evolução funcional — #10:** implementar runtime local, adaptadores e seleção
-   de provedor/modelo, preservando contrato e identificação do resultado. A issue
-   já existe; esta análise não cria uma duplicata.
-3. **Avaliação empírica — #4:** executar o protocolo real e revisar as justificativas.
-   Qualquer afirmação de melhoria factual ou de velocidade depende dessa evidência.
-4. **Após a definição — #8:** derivar novas issues apenas para lacunas de domínio
-   justificadas. Rastreabilidade completa de exportações e integração de fontes
-   são lacunas candidatas, não entregas aprovadas nesta revisão.
-
-## Condição para encerramento da #8
-
-Confirmar a definição de JEV, concluir esta ADR, registrar o plano de avaliação
-pertinente e disponibilizar a documentação revisada no repositório. Enquanto a
-definição estiver pendente, a análise do código pode avançar, mas o primeiro
-critério de aceite da issue não está atendido e ela deve permanecer aberta.
+O bloqueio anterior por falta de definição funcional foi resolvido. A #8 continua
+aberta para consolidar a proposta/documentação no PR #11 e acompanhar a decomposição
+das entregas. Seu encerramento futuro significará conclusão da análise, não que a
+JEV já esteja operando ou que todos os critérios preditivos tenham sido demonstrados.

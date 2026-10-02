@@ -66,7 +66,9 @@ Execute `.venv/bin/python -m streamlit run src/app.py` e valide:
 - [ ] Confirmar os testes manuais antes do merge sem review na `develop`.
 
 Geração real é opcional neste aceite visual e usa a API configurada. A avaliação
-empírica dos prompts permanece na issue #4. A issue #8 continua dependendo da
-definição do significado e papel da JEV; este redesign não resolve essa decisão.
+empírica dos prompts permanece na issue #4. O papel funcional da JEV foi definido
+posteriormente na #8: pesquisa e previsão por evento/prazo para 195 Estados.
+O [desenho proposto](JEV_DESIGN.md) ainda exige adaptação do mapa; este redesign
+continua usando scores qualitativos e não implementa probabilidades.
 
 A issue #7 permanece aberta até concluir o aceite e registrar as evidências.
