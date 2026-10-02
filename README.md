@@ -2,6 +2,12 @@
 
 Protótipo rápido de pesquisa de amostragem global. O sistema recebe um input textual (tema de pesquisa), processa o contexto via IA e gera um mapa de calor coroplético mundial indicando a relevância/intensidade do tema por país.
 
+“Amostragem” significa aqui o subconjunto de países selecionado pelo modelo, sem
+garantia de representatividade estatística. O significado e o papel de **JEV**
+ainda estão em definição na issue #8; o código atual usa Gemini, validação
+Pydantic e Plotly. Veja a [arquitetura e seus limites](ARCHITECTURE.md) e a
+[análise da JEV](docs/adr/0001-jev-role-and-architecture.md).
+
 ## Stack
 * **UI & App:** Streamlit
 * **Visualização:** Plotly Graph Objects

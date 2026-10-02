@@ -1,5 +1,35 @@
 # Arquitetura e Fluxo de Dados
 
+## Estado desta revisão
+
+Análise da `develop` no commit `bc9360b`, em 02/10/2026. A existência de código
+nessa branch não comprova sua implantação em um ambiente publicado.
+
+**JEV aparece como nome do produto, mas seu significado e papel de domínio ainda
+não estão definidos no repositório.** Não há componente executável independente
+denominado JEV. O mecanismo de geração implementado usa Gemini, instruções de
+prompt e validação local. Isso descreve o código; não confirma que JEV seja apenas
+uma marca, metodologia ou outro mecanismo pretendido pelo responsável.
+
+A [ADR 0001](docs/adr/0001-jev-role-and-architecture.md) registra evidências,
+alternativas e recomendação provisória para a [issue #8](https://github.com/felpzw/jev-global-heatmap/issues/8).
+O encerramento depende da definição de JEV e da conclusão dessa decisão.
+
+```mermaid
+flowchart TD
+    U[Contexto de pesquisa] --> UI[Streamlit: formulário]
+    UI --> C[Serviço de geração]
+    P[Prompt + JSON Schema] --> C
+    C --> G[Gemini: países, scores e justificativas]
+    G --> F[Verificação de término e validação Pydantic]
+    F -->|Resposta válida| S[Resultado na sessão]
+    F -->|Falha| E[Mensagem e preservação do resultado anterior]
+    D[Fixture de demonstração] --> V[Validação Pydantic]
+    V --> S
+    S --> M[Figura Plotly reutilizada]
+    S --> T[Tabela e download JSON]
+```
+
 ## 1. Fluxo Principal
 1. **Input UI:** Usuário insere o contexto/tema no `src/app.py`.
 2. **LLM Service:** `src/services/llm_client.py` envia o prompt + input para a IA solicitando uma saída JSON estruturada.
@@ -42,3 +72,57 @@ anterior, mesmo que o trecho retornado seja JSON válido.
 - `evaluate_prompts.py` separa fixtures offline de comparação real, incluindo
   tempos, distribuição e respostas para revisão humana. Não há busca na web
   nem validação factual automatizada neste MVP.
+
+## 4. Responsabilidades e limites
+
+| Parte | Responsabilidade implementada | Limite |
+| --- | --- | --- |
+| `src/app.py` | Entrada, envio explícito, feedback, estado, tabela e download | Sem histórico persistente; recarregar pode limpar a sessão |
+| `src/services/prompts.py` | Instruir critério comparável, seleção geográfica, scores e justificativas | Instruções não garantem que o modelo conheça ou siga fatos corretos |
+| `src/services/llm_client.py` | Configurar Gemini, enviar contexto/schema, verificar término e tratar erros | Provedor único, timeout de 60 s, uma tentativa; sem pesquisa externa |
+| `src/services/schema.py` | Rejeitar JSON/ISO/tipos/limites/duplicatas inválidos | Não valida a veracidade da justificativa nem a adequação do score |
+| `src/components/map_renderer.py` | Revalidar os dados e renderizar países/cores/tooltips | Não calcula scores, não seleciona a amostra e não mede confiança |
+| `evaluate_prompts.py` | Avaliar contrato/distribuição e comparar prompts quando executado com API real | Não verifica automaticamente fatos; execução offline usa dados fictícios |
+
+A seleção dos países e os scores são produzidos pelo modelo em uma única geração.
+Não existe fórmula de pontuação implementada, distribuição probabilística da
+amostra, margem de erro, ponderação populacional ou garantia de representatividade.
+O termo “amostragem” descreve aqui um subconjunto de países retornado pelo modelo.
+
+O cliente limita a entrada a 4.000 caracteres e a geração a 8.192 tokens. O prompt
+prefere até 40 países, mas o contrato aceita até 249. Esses limites não constituem
+evidência de qualidade ou desempenho medido do modelo.
+
+## 5. Uso e rastreabilidade
+
+O comportamento atual permite exploração inicial de um tema, comparação visual
+de estimativas qualitativas e demonstração do fluxo geográfico. Por exemplo, um
+tema sobre adoção de veículos elétricos pode resultar em países com scores e uma
+justificativa curta; não resulta em percentuais oficiais ou dados atuais coletados.
+Aplicações de domínio atribuídas especificamente à JEV dependem de sua definição.
+
+A sessão guarda contexto, origem (`gemini`/`demo`), resposta e figura. O download
+contém somente `countries`: não inclui contexto, modelo, versão do prompt,
+timestamp ou fontes. Portanto, um JSON exportado isoladamente não permite
+reproduzir todas as condições da geração. O relatório do avaliador real registra
+mais contexto, mas não é um histórico automático das pesquisas feitas na UI.
+
+Não há banco de dados, recuperação de documentos (RAG), busca na web, agente com
+ferramentas ou treinamento de modelo próprio no fluxo atual. O transporte para
+Gemini é externo; geometrias do mapa são carregadas pelo navegador via CDN.
+
+## 6. Evolução prevista, ainda não implementada
+
+A [issue #10](https://github.com/felpzw/jev-global-heatmap/issues/10) prevê runtime
+local em Docker, adaptadores de geração e aba de modelos. O ponto de extensão é
+a camada de serviços: manter contexto/prompt como entrada e `HeatmapResponse`
+como saída validada, isolando configurações, SDKs e motivos de término por provedor.
+Mapa e contrato não devem depender de Docker ou de qual modelo gerou os scores.
+
+Uma geração local também precisará de validação; trocar o provedor não resolve
+precisão factual. Provedor e modelo deverão acompanhar o resultado na sessão,
+como já especificado na #10. Essa capacidade ainda não existe na versão analisada.
+
+A [issue #4](https://github.com/felpzw/jev-global-heatmap/issues/4) continua sendo
+o lugar da avaliação real de prompts. A #8 define o papel de JEV e a decisão
+arquitetural; ela não substitui nem encerra o aceite empírico da #4.
