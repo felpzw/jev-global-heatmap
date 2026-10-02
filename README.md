@@ -4,7 +4,7 @@ Protótipo rápido de pesquisa de amostragem global. O sistema recebe um input t
 
 ## Stack
 * **UI & App:** Streamlit
-* **Visualização:** Plotly Express
+* **Visualização:** Plotly Graph Objects
 * **IA & Dados:** Pydantic (Structured Outputs) + LLM API
 
 ## Como rodar localmente
@@ -38,6 +38,9 @@ recusadas, mesmo quando contêm JSON válido.
 Os scores são estimativas qualitativas produzidas pelo modelo, sem pesquisa em
 tempo real. Países não retornados ficam cinza, sem atribuição artificial de zero.
 O mapa base do Plotly requer acesso do navegador ao CDN de geometrias.
+O mapa tem fundo transparente, legenda horizontal e controles de zoom na barra
+do gráfico; a rolagem da página não aciona zoom. A figura é reutilizada em reruns.
+Veja o [redesign e roteiro de testes manuais](docs/MAP_REDESIGN.md).
 
 ## Validação do pipeline
 
