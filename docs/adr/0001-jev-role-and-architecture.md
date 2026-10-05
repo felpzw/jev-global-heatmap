@@ -1,5 +1,7 @@
 # ADR 0001 — JEV como coordenadora de pesquisa e previsão por país
 
+> Proposta histórica, substituída pela [ADR 0002](0002-jev-without-llm.md) em 05/10/2026. O estado e os próximos passos abaixo descrevem a decisão anterior.
+
 - Data: 02/10/2026.
 - Estado: **requisitos funcionais confirmados; arquitetura proposta para implementação**.
 - Issue: [#8](https://github.com/felpzw/jev-global-heatmap/issues/8).

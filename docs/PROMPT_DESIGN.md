@@ -1,5 +1,6 @@
 # Engenharia de Prompt e Avaliação
 
+> Histórico do MVP Gemini. O backlog ativo da JEV sem LLM está em [JEV_IMPLEMENTATION_PLAN.md](JEV_IMPLEMENTATION_PLAN.md); as pendências antigas não foram declaradas entregues.
 ## Revisão do MVP
 
 A instrução original pedia uma matriz de países sem fixar o envelope JSON. O
