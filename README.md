@@ -2,6 +2,21 @@
 
 Protótipo rápido de pesquisa de amostragem global. O sistema recebe um input textual (tema de pesquisa), processa o contexto via IA e gera um mapa de calor coroplético mundial indicando a relevância/intensidade do tema por país.
 
+## Evolução: JEV sem LLM
+
+A nova arquitetura usa a JEV para coordenar fontes/datasets, normalização e
+estimativas estatísticas por evento e prazo, sem chamadas de LLM. O usuário
+escolhe um evento suportado por domínio; haverá um registro dos 195 Estados e
+status explícitos quando os dados forem insuficientes. Fonte, banco e estimador
+iniciais ainda serão selecionados.
+
+**Essa evolução ainda não está implementada.** O código atual continua usando
+Gemini e scores qualitativos. As instruções de execução abaixo são do MVP.
+
+- [Nova arquitetura](ARCHITECTURE.md) e [ADR 0002](docs/adr/0002-jev-without-llm.md).
+- [Contratos e desenho](docs/JEV_DESIGN.md), [plano e issues](docs/JEV_IMPLEMENTATION_PLAN.md).
+- [MVP executável](docs/MVP_LEGACY.md) e [histórico com LLM](docs/legacy/README.md).
+
 ## Stack
 * **UI & App:** Streamlit
 * **Visualização:** Plotly Graph Objects

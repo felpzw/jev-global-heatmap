@@ -1,44 +1,68 @@
-# Arquitetura e Fluxo de Dados
+# Arquitetura JEV sem LLM
 
-## 1. Fluxo Principal
-1. **Input UI:** Usuário insere o contexto/tema no `src/app.py`.
-2. **LLM Service:** `src/services/llm_client.py` envia o prompt + input para a IA solicitando uma saída JSON estruturada.
-3. **Data Parsing:** A resposta é validada via Pydantic para garantir que contenha a chave do país e o score numérico.
-4. **Map Rendering:** `src/components/map_renderer.py` consome o JSON validado e monta uma figura `plotly.graph_objects.Choropleth`, sem um DataFrame intermediário.
+Decisão de escopo em 05/10/2026. Arquitetura-alvo; ainda não implementada.
+A JEV é um serviço de aplicação que organiza obtenção de dados, normalização,
+estimativa estatística e apresentação para os 195 Estados do escopo.
+O novo fluxo não faz chamadas a LLM e não depende de Gemini, SDKs de geração,
+runtime local ou Docker de modelos.
 
-## 2. Contrato de Dados (Pydantic Schema)
-O modelo DEVE retornar um objeto `HeatmapResponse` com a chave `countries`,
-contendo uma lista de objetos `CountryHeatmap` neste formato:
-- `iso_alpha_3` (string): Código de 3 letras do país (Padrão ISO 3166-1 alpha-3. Ex: "BRA", "USA"). Essencial para o Plotly renderizar.
-- `heat_score` (float): Valor numérico de 0.0 a 100.0 representando a intensidade.
-- `context_summary` (string): Breve justificativa de 1 frase do score atribuído àquele país (usado no tooltip ao passar o mouse no mapa).
+```mermaid
+flowchart TD
+    U[Evento estruturado e prazo] --> J[JEV: validação e plano determinístico]
+    R[Registro versionado dos 195 Estados] --> J
+    J --> D[Conectores ou dataset local]
+    D --> N[Normalização, proveniência e corte temporal]
+    N --> E[Estimador estatístico por domínio]
+    E --> V[Validação e reconciliação dos 195]
+    V --> O[Mapa, tabela e JSON versionado]
+```
 
-O schema rejeita campos extras, países duplicados, códigos inexistentes no catálogo
-`pycountry`, valores não numéricos, infinitos/NaN e justificativas vazias ou maiores
-que 300 caracteres. Uma lista vazia representa contexto insuficiente; países ausentes
-não recebem score zero. O limite é de 249 entradas.
+## Entrada e interpretação
 
-O serviço usa Gemini Structured Outputs e revalida o JSON localmente antes de
-retorná-lo. O timeout HTTP é de 60 segundos, sem repetição automática de chamadas.
-Erros do provedor são convertidos em mensagens sem credenciais ou respostas brutas.
-Antes de validar o JSON, o serviço exige uma resposta concluída (`finish_reason=STOP`).
-Gerações interrompidas, bloqueadas ou sem candidatos não substituem o resultado
-anterior, mesmo que o trecho retornado seja JSON válido.
+O usuário escolhe um domínio/evento suportado e informa indicador, unidade,
+limiar, prazo e critério de resolução. Contexto textual pode acompanhar o pedido,
+mas não escolhe silenciosamente fonte, método ou evento. O catálogo inicial
+será definido na investigação de dados; não se promete previsão para qualquer tema.
 
-## 3. Interface e avaliação
+Distinguir dados observados, score de regras e probabilidade de ocorrência futura.
+Um número importado ou score normalizado não é automaticamente uma probabilidade.
+A definição de previsão permanece P(evento em país até T | dados disponíveis em t0).
 
-- A UI só chama o serviço no envio do formulário; entradas vazias são barradas.
-- `session_state.mapping` guarda resposta, contexto e origem (`gemini`/`demo`).
-  Reruns não disparam consultas. Falhas mantêm o resultado anterior identificado.
-- `plot_heatmap` valida dados, retorna `Figure` e não depende de Streamlit.
-- A figura é construída ao salvar um resultado e reutilizada na própria sessão,
-  sem cache global de contextos. Uma revisão derivada dos dados permite preservar
-  o enquadramento em reruns e reiniciá-lo quando o resultado muda.
-- O mapa usa escala fixa 0–100 e cinza para ausência de dados. A geografia de
-  base é carregada pelo navegador a partir do CDN do Plotly.
-- `src/services/prompts.py` é a fonte executável dos prompts. O refinado pede
-  uma amostra de até 40 países para reduzir geração; isso é uma orientação,
-  não uma garantia de cobertura mundial nem uma otimização medida.
-- `evaluate_prompts.py` separa fixtures offline de comparação real, incluindo
-  tempos, distribuição e respostas para revisão humana. Não há busca na web
-  nem validação factual automatizada neste MVP.
+## Responsabilidades
+
+| Componente previsto | Papel |
+| --- | --- |
+| country_registry | Registro dos 193 membros ONU + Santa Sé/VAT e Palestina/PSE, ISO/M49, versão e fontes |
+| forecast_schema | Pedidos, observações/evidências, previsões e execuções versionadas |
+| data/evidence_service | Leitura local ou consulta externa habilitada, normalização e proveniência |
+| forecast_estimator | Método estatístico/baseline por domínio, com versão e parâmetros |
+| jev_service | Validação, planejamento por regras, limites, progresso, cache, retomada e reconciliação |
+| UI e renderer | Formulário estruturado, mapa/tabela, status e exportação |
+
+São componentes planejados. Fonte e banco não estão escolhidos. Arquivos,
+SQLite e DuckDB são candidatos de armazenamento, não requisitos aprovados.
+
+## Invariantes
+
+- Resposta final representa exatamente os 195 códigos do registro uma vez.
+- estimated requer probabilidade finita em [0,1]; insufficient_evidence,
+  not_applicable e error requerem null e justificativa. Erros técnicos indicam parcial.
+- Ausência de dados não vira zero. Scores antigos não são convertidos em probabilidade.
+- Toda estimativa identifica dados efetivamente usados, método e versões.
+- local_only não usa rede; consulta externa é opção explícita e limitada.
+- Não há fallback para LLM. Explicações são templates com dados/método/fontes.
+- t0/as_of limita dados e snapshots; revisões atuais não provam conhecimento histórico.
+- Cancelamento e retomada não misturam pedidos, datasets ou versões.
+
+## Estado executável e migração
+
+O código atual continua Streamlit → Gemini → HeatmapResponse → Plotly.
+A demonstração funciona sem chave; o mapa atual usa geometrias via CDN.
+Nenhuma remoção de dependências ou migração de execução foi realizada nesta mudança.
+Os 29 testes offline aprovados validam esse MVP, não a nova arquitetura.
+
+A arquitetura do MVP está em [MVP_LEGACY.md](docs/MVP_LEGACY.md).
+As propostas anteriores com LLM estão em [legacy](docs/legacy/README.md).
+A decisão atual está na [ADR 0002](docs/adr/0002-jev-without-llm.md),
+os contratos em [JEV_DESIGN.md](docs/JEV_DESIGN.md) e o backlog em
+[JEV_IMPLEMENTATION_PLAN.md](docs/JEV_IMPLEMENTATION_PLAN.md).

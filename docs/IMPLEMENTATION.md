@@ -1,5 +1,6 @@
 # MVP e sequência de integração
 
+> Histórico do MVP Gemini. O backlog ativo da JEV sem LLM está em [JEV_IMPLEMENTATION_PLAN.md](JEV_IMPLEMENTATION_PLAN.md); as pendências antigas não foram declaradas entregues.
 Cada branch parte da `develop` após o merge anterior. Merges usam `--no-ff`,
 com objetivo, mudanças e validação na mensagem, sem trailers de coautoria.
 
