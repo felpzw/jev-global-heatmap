@@ -1,6 +1,8 @@
 # JEV Global Heatmap
 
-Protótipo rápido de pesquisa de amostragem global. O sistema recebe um input textual (tema de pesquisa), processa o contexto via IA e gera um mapa de calor coroplético mundial indicando a relevância/intensidade do tema por país.
+Projeto de visualização global em transição para a arquitetura JEV sem LLM.
+O executável disponível é o MVP Gemini: recebe um tema textual e apresenta
+scores qualitativos por país em mapa, tabela e JSON.
 
 ## Evolução: JEV sem LLM
 
@@ -17,12 +19,12 @@ Gemini e scores qualitativos. As instruções de execução abaixo são do MVP.
 - [Contratos e desenho](docs/JEV_DESIGN.md), [plano e issues](docs/JEV_IMPLEMENTATION_PLAN.md).
 - [MVP executável](docs/MVP_LEGACY.md) e [histórico com LLM](docs/legacy/README.md).
 
-## Stack
+## Stack do MVP executável
 * **UI & App:** Streamlit
 * **Visualização:** Plotly Graph Objects
 * **IA & Dados:** Pydantic (Structured Outputs) + LLM API
 
-## Como rodar localmente
+## Como rodar o MVP localmente
 
 Requer Python 3.12+ (validado com Python 3.14). Na raiz do projeto:
 
@@ -57,7 +59,7 @@ O mapa tem fundo transparente, legenda horizontal e controles de zoom na barra
 do gráfico; a rolagem da página não aciona zoom. A figura é reutilizada em reruns.
 Veja o [redesign e roteiro de testes manuais](docs/MAP_REDESIGN.md).
 
-## Validação do pipeline
+## Validação do pipeline do MVP
 
 ```sh
 # Testes offline, sem credenciais ou chamadas à API
@@ -66,7 +68,7 @@ python -m unittest discover -s tests -v
 python test_llm.py "Adoção de carros elétricos"
 ```
 
-## Avaliação de prompts
+## Avaliação de prompts do MVP
 
 ```sh
 # Fixtures fictícias, sem API: valida contrato e calcula distribuição de scores

@@ -8,7 +8,7 @@ runtime local ou Docker de modelos.
 
 ```mermaid
 flowchart TD
-    U[Evento estruturado e prazo] --> J[JEV: validação e plano determinístico]
+    U[UI: evento estruturado e prazo] --> J[JEV: validação e plano determinístico]
     R[Registro versionado dos 195 Estados] --> J
     J --> D[Conectores ou dataset local]
     D --> N[Normalização, proveniência e corte temporal]
@@ -42,6 +42,22 @@ A definição de previsão permanece P(evento em país até T | dados disponíve
 São componentes planejados. Fonte e banco não estão escolhidos. Arquivos,
 SQLite e DuckDB são candidatos de armazenamento, não requisitos aprovados.
 
+## Direção das dependências
+
+A UI chama `jev_service` com `ForecastRequest`; não consulta fontes nem calcula
+probabilidades. O serviço depende dos contratos, do registro, das interfaces de
+dados e do estimador. Conectores implementam a interface de dados; estimadores
+consomem observações normalizadas, sem acesso direto à UI ou a SDKs de LLM.
+A reconciliação valida `ForecastResponse` antes da apresentação/exportação.
+O renderer consome resultados validados e não modifica estimativas.
+
+A fundação (#14) pode ser validada offline sem Streamlit, Gemini ou banco.
+A seleção de fontes e método (#13) precede sua integração no motor (#15);
+a UI (#16) depende desse motor. A avaliação (#17) define o protocolo cedo.
+`requirements.txt` ainda pertence ao MVP e inclui `google-genai`; sua presença
+não é uma dependência aprovada da JEV. A migração de dependências acompanha
+as entregas executáveis, sem remoção prematura do cliente atual.
+
 ## Invariantes
 
 - Resposta final representa exatamente os 195 códigos do registro uma vez.
@@ -49,7 +65,9 @@ SQLite e DuckDB são candidatos de armazenamento, não requisitos aprovados.
   not_applicable e error requerem null e justificativa. Erros técnicos indicam parcial.
 - Ausência de dados não vira zero. Scores antigos não são convertidos em probabilidade.
 - Toda estimativa identifica dados efetivamente usados, método e versões.
-- local_only não usa rede; consulta externa é opção explícita e limitada.
+- local_only impede rede na aquisição e estimação; consulta externa é opção
+  explícita e limitada. A UI integralmente offline exige geometrias locais (#16),
+  pois o renderer do MVP ainda depende do CDN.
 - Não há fallback para LLM. Explicações são templates com dados/método/fontes.
 - t0/as_of limita dados e snapshots; revisões atuais não provam conhecimento histórico.
 - Cancelamento e retomada não misturam pedidos, datasets ou versões.

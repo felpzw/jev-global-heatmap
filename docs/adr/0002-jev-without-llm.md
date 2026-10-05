@@ -26,3 +26,13 @@ ensaios ou implementações antigos concluídos.
 A ADR 0001 permanece histórica. Registro dos 195, separação score/probabilidade,
 abstenção, proveniência e avaliação temporal permanecem requisitos. A migração
 executável é posterior; README deve distinguir código atual e objetivo novo.
+
+## Documentos e aceite da consolidação
+
+A [issue #12](https://github.com/felpzw/jev-global-heatmap/issues/12) consolida
+esta decisão e a proposta da [PR #11](https://github.com/felpzw/jev-global-heatmap/pull/11).
+A [arquitetura](../../ARCHITECTURE.md), o [desenho](../JEV_DESIGN.md) e o
+[plano](../JEV_IMPLEMENTATION_PLAN.md) são os documentos ativos.
+O [MVP executável](../MVP_LEGACY.md) e o [histórico](../legacy/README.md)
+continuam separados. O aceite da #12 exige revisão documental, links locais
+válidos e integração à `develop`; não exige execução do novo motor.
