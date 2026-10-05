@@ -41,6 +41,42 @@ completa e ausência de erros técnicos; abstenções podem fazer parte de uma e
 concluída. Chaves extras, tipos indevidos, duplicatas, IDs inexistentes ou dados
 inadequados ao país/evento são rejeitados. Probabilidades não precisam somar 1.
 
+## Catálogo e significado dos valores
+
+O catálogo versionado define `event_id`, domínio, indicador, unidade, operador
+permitido para o limiar, regra de resolução, fontes compatíveis e métodos
+admitidos com seus pré-requisitos. `ForecastRequest` identifica `event_id` e
+`catalog_version`, além dos campos acima. O catálogo nasce da seleção em #13,
+seu contrato é implementado em #14 e sua apresentação em #16. Não há evento
+universal, extração automática de intenção ou seleção silenciosa por texto livre.
+O serviço rejeita incompatibilidades de evento, unidade, fonte, método ou versão
+antes de adquirir dados. Para previsão futura, `deadline` deve ser posterior
+a `as_of`; a regra de resolução precisa definir como o desfecho será observado.
+
+| Tipo | Significado | Uso no resultado |
+| --- | --- | --- |
+| Observação | Valor de um indicador em unidade e período definidos, com proveniência | Entrada rastreável do estimador; não preenche `probability` diretamente |
+| Score por regras | Índice calculado por uma regra e escala explícitas | Identificado separadamente; não convertido em probabilidade por normalização |
+| Probabilidade | P(evento no país até deadline condicionado aos dados disponíveis em as_of) | `probability` em [0,1] somente com método probabilístico identificado |
+
+`calibration_status` distingue ausência de avaliação de evidência de calibração;
+`estimated` apenas indica que houve uma estimativa. Não implica calibração nem
+precisão factual comprovada. O `heat_score` Gemini continua no contrato legado.
+
+## Estado da execução e reconciliação
+
+A resposta final contém exatamente o conjunto do registro, mesmo com abstenções.
+`completed` admite `insufficient_evidence` e `not_applicable`; qualquer `error`
+técnico por país torna a execução `partial`. A justificativa explica cada status,
+e a ausência de dados nunca gera probabilidade zero.
+
+Progresso, falha anterior à estimação e cancelamento são estados de execução,
+não previsões concluídas. Checkpoints podem conter subconjuntos e não são
+exportados como resposta final reconciliada. A UI mantém o resultado anterior
+com seu `run_id` separado. O contrato de execução em #14 e o motor em #15
+formalizam essas transições e os campos de erro; retomada respeita pedido,
+registro, catálogo, snapshots e versões originais.
+
 ## Estimador e planejamento
 
 A JEV seleciona conectores e métodos por configuração/catálogo, organiza consultas,
@@ -79,3 +115,11 @@ incerteza; considerar dependência entre países/eventos. Arquivar previsões
 prospectivas. Estimador permanece não calibrado até evidência fora da amostra.
 Benchmark mede p50/p95, recursos e consultas com/sem cache no mesmo workload.
 JSON válido e extração correta não comprovam desempenho preditivo.
+
+## Rastreabilidade das entregas
+
+A [ADR 0002](adr/0002-jev-without-llm.md) rege este desenho; a
+[arquitetura](../ARCHITECTURE.md) define responsabilidades e dependências.
+O [plano ativo](JEV_IMPLEMENTATION_PLAN.md) liga os contratos às issues
+#13–#17. O [MVP](MVP_LEGACY.md) e os [snapshots com LLM](legacy/README.md)
+descrevem o código e a proposta anteriores, sem atribuir execução à JEV.
