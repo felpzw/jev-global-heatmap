@@ -17,7 +17,7 @@ informa o evento e o prazo**. Não cabe à IA escolher esses parâmetros silenci
 A expansão da sigla não foi fornecida, mas não impede definir seu papel funcional.
 
 O escopo é 193 membros da ONU mais os dois Estados observadores. Referências e
-mapeamento geográfico estão no [desenho detalhado](../JEV_DESIGN.md).
+mapeamento geográfico estão no [desenho detalhado](../legacy/JEV_DESIGN_LLM.md).
 
 No código atual, Gemini seleciona um subconjunto de países, produz intensidade
 qualitativa e justificativa, Pydantic valida estrutura e Plotly apresenta o mapa.
@@ -67,7 +67,7 @@ parcial; a existência de 195 registros não significa 195 inferências bem-suce
 - Visualização: porcentagem somente para probabilidades estimadas; nulos e países
   fora do escopo têm identificação própria. Tabela/busca asseguram acesso a microestados.
 
-Campos e invariantes estão em [JEV_DESIGN.md](../JEV_DESIGN.md), que também define
+Campos e invariantes estão em [JEV_DESIGN_LLM.md](../legacy/JEV_DESIGN_LLM.md), que também define
 cache, retomada, migração e sequência de implementação.
 
 ## Consequências e avaliação

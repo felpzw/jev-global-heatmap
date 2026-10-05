@@ -16,7 +16,9 @@ A nova decisão está na [ADR 0002](adr/0002-jev-without-llm.md).
 
 ## Ordem e dependências
 
-1. #12 consolida a arquitetura e acompanha a integração documental do PR #11.
+1. #12 consolida a arquitetura e incorpora os commits documentais da PR #11
+   na branch `docs/issue-12-architecture-consolidation`, destinada à `develop`.
+   O aceite de integração permanece pendente até o merge dessa branch.
 2. #13 investiga fontes, domínio, dataset e armazenamento. #14 implementa o
    registro dos 195 e contratos offline; podem avançar conjuntamente.
 3. #15 implementa conectores/normalização, baseline/estimador e orquestração,
@@ -42,7 +44,8 @@ Esses testes não precisam de rede, LLM ou Docker.
 
 #4, #8 e #10 são substituídas por mudança de escopo, com motivo not_planned.
 Não registrar como entregues a avaliação real de prompts, o runtime Docker ou a
-integração do PR #11. A integração documental continua acompanhada pela #12.
+integração do PR #11. A integração documental é entregue pela branch da #12 e só é concluída
+após seu merge à `develop`.
 Histórico preservado em [legacy](legacy/README.md) e na ADR 0001.
 
 ## Aceite transversal
