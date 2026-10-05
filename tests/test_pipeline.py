@@ -1,10 +1,9 @@
 import json
 import unittest
-from types import SimpleNamespace
 from unittest.mock import patch
 
 import httpx
-from google.genai import errors
+from google.genai import errors, types
 from pydantic import ValidationError
 
 from src.services.llm_client import (
@@ -14,6 +13,12 @@ from src.services.llm_client import (
 from src.services.schema import CountryHeatmap, HeatmapResponse
 
 VALID = {"iso_alpha_3": "BRA", "heat_score": 70, "context_summary": "Justificativa de teste."}
+
+
+def completed_response(text):
+    return types.GenerateContentResponse(candidates=[types.Candidate(
+        content=types.Content(parts=[types.Part(text=text)]), finish_reason=types.FinishReason.STOP,
+    )])
 
 
 class SchemaTests(unittest.TestCase):
@@ -57,13 +62,13 @@ class ClientTests(unittest.TestCase):
     @patch("src.services.llm_client.genai.Client")
     def test_structured_request_is_validated(self, client_factory, _dotenv):
         client = client_factory.return_value.__enter__.return_value
-        client.models.generate_content.return_value = SimpleNamespace(text=json.dumps({"countries": [VALID]}))
+        client.models.generate_content.return_value = completed_response(json.dumps({"countries": [VALID]}))
         self.assertEqual(len(generate_heatmap("  Teste  ").countries), 1)
         kwargs = client.models.generate_content.call_args.kwargs
         self.assertEqual(kwargs["contents"], "Teste")
         self.assertEqual(kwargs["model"], "test-model")
         self.assertEqual(kwargs["config"].response_json_schema, HeatmapResponse.model_json_schema())
-        client.models.generate_content.return_value = SimpleNamespace(text='{"countries": [{"iso_alpha_3": "ZZZ"}]}')
+        client.models.generate_content.return_value = completed_response('{"countries": [{"iso_alpha_3": "ZZZ"}]}')
         with self.assertRaises(InvalidResponseError):
             generate_heatmap("Teste")
 
