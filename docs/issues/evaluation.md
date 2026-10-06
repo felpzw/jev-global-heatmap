@@ -1,15 +1,26 @@
-# Avaliação JEV: baseline, qualidade probabilística e desempenho reproduzível
+# Avaliação JEV: seleção, ranking, justificativas e custo
 
 Issue: [17](https://github.com/felpzw/jev-global-heatmap/issues/17).
-## Objetivo e entregas
 
-Validar previsões e operação sem confundir cobertura/JSON/scores com qualidade preditiva. Novo escopo de avaliação substitui tuning #4, sem declarar ensaios antigos realizados.
+## Objetivo e dependências
 
-- [ ] Definir domínio/evento, baseline, desfechos observáveis, amostra e protocolo/limiares antes do teste.
-- [ ] Separação temporal desenvolvimento/calibração/teste, snapshots disponíveis em as_of e previsões prospectivas arquivadas.
-- [ ] Brier/log loss/curvas de confiabilidade com política para extremos, cobertura/abstenção/erros e incerteza das métricas.
-- [ ] Considerar dependência entre países/eventos, sem presumir 195 observações independentes.
-- [ ] Revisar fontes/normalização; benchmark p50/p95, recursos, consultas e custo aplicável, com/sem cache no mesmo workload.
-- [ ] Publicar scripts, ambiente, versões de dataset/estimador e relatório reproduzível.
+Avaliar afinidade e redução do contexto enviado à LLM, conforme ADR 0003.
+Definir protocolo desde o início; ensaio depende dos dados #13 e motor #15.
+Substitui métricas de previsão probabilística, sem declarar ensaios anteriores feitos.
 
-Aceite: relatório contra baseline com limitações e limiares pré-definidos. Manter não calibrado até evidência fora da amostra. Fixtures não substituem ensaio real. Depende de dados/domínio e estimador definidos.
+## Entregas
+
+- [ ] Consultas anotadas e critérios de relevância: praia, idioma, combinações, negações, ambiguidades, nenhum resultado e dados ausentes; revisão humana dos relevantes conhecidos.
+- [ ] Separar ajuste/teste e definir baselines, K, limiar de seleção, pesos e metas antes do ensaio; testar hipótese de 20 candidatos/10 justificativas.
+- [ ] Recall dos candidatos, precision@K e NDCG@K, requisitos violados, cobertura por país/critério e falsos descartes; métricas agregadas e por tipo de consulta.
+- [ ] Comparar ranking simples por regras e fluxo amplo Gemini, com mesmo workload/provedor/modelo; registrar diferenças de evidências acessíveis aos baselines.
+- [ ] Revisar fundamentação das justificativas e referências, fatos não suportados, consistência com fatores/scores e preservação da ordem; schema válido não comprova veracidade.
+- [ ] Medir chamadas, tokens, custo quando disponível e latência p50/p95, com/sem cache, incluindo aquisição e explicação; verificar que países não selecionados não consomem explicação LLM.
+- [ ] Testar ranking sem chave, local_only, falha/truncamento/retorno inválido LLM e retomada; relatório de limitações do dataset e agregação nacional.
+- [ ] Publicar scripts, versões, consultas, rótulos, ambiente e relatório reproduzível; fixtures não substituem medição real de custo/qualidade.
+
+## Aceite
+
+Relatório contra baselines e metas pré-definidas, com limites e lacunas. Não
+alegar economia, precisão universal ou qualidade de ranking sem evidência.
+Brier/log loss/calibração de probabilidades deixam este escopo.

@@ -1,67 +1,66 @@
-# Plano de implementação JEV sem LLM
+# Plano de implementação — heatmap de afinidade com JEV
 
 Atualizado em 05/10/2026. Arquitetura-alvo, sem mudança executável nesta entrega.
-A nova decisão está na [ADR 0002](adr/0002-jev-without-llm.md).
+Decisão ativa: [ADR 0003](adr/0003-affinity-ranking.md).
 
 ## Backlog ativo
 
-| Issue | Entrega |
-| --- | --- |
-| [12](https://github.com/felpzw/jev-global-heatmap/issues/12) | Arquitetura: consolidar JEV sem LLM e separar documentação do MVP |
-| [13](https://github.com/felpzw/jev-global-heatmap/issues/13) | Dados: avaliar Wikipedia/Wikidata, APIs e datasets locais para a JEV |
-| [14](https://github.com/felpzw/jev-global-heatmap/issues/14) | Fundação JEV: registro dos 195 Estados e contratos versionados |
-| [15](https://github.com/felpzw/jev-global-heatmap/issues/15) | Motor JEV: integrar dados e estimador estatístico sem chamadas de LLM |
-| [16](https://github.com/felpzw/jev-global-heatmap/issues/16) | Interface JEV: eventos estruturados, mapa, status e exportação rastreável |
-| [17](https://github.com/felpzw/jev-global-heatmap/issues/17) | Avaliação JEV: baseline, qualidade probabilística e desempenho reproduzível |
+| Issue | Entrega | Dependências |
+| --- | --- | --- |
+| [20](https://github.com/felpzw/jev-global-heatmap/issues/20) | Consolidação documental do ranking de afinidade | Decisão do responsável |
+| [13](https://github.com/felpzw/jev-global-heatmap/issues/13) | Catálogo de critérios e dataset de afinidade por país | ADR 0003; pode avançar com #14 |
+| [14](https://github.com/felpzw/jev-global-heatmap/issues/14) | Registro, critérios e contratos de afinidade | ADR 0003; fixtures offline |
+| [15](https://github.com/felpzw/jev-global-heatmap/issues/15) | Filtros, ranking e justificativas LLM limitadas | #13 + #14 |
+| [16](https://github.com/felpzw/jev-global-heatmap/issues/16) | Heatmap, ranking, revisão do pedido e justificativas | #14 + #15 |
+| [17](https://github.com/felpzw/jev-global-heatmap/issues/17) | Seleção, ranking, fundamentação e custo/latência | Protocolo cedo; ensaio após #13 + #15 |
 
-## Ordem e dependências
+Os requisitos locais espelham as issues: [dados](issues/data.md),
+[fundação](issues/foundation.md), [motor](issues/engine.md),
+[interface](issues/ui.md) e [avaliação](issues/evaluation.md).
+A [consolidação](issues/affinity-architecture.md) acompanha a #20.
 
-1. #12 consolida a arquitetura e incorpora os commits documentais da PR #11
-   na branch `docs/issue-12-architecture-consolidation`, destinada à `develop`.
-   O aceite de integração permanece pendente até o merge dessa branch.
-2. #13 investiga fontes, domínio, dataset e armazenamento. #14 implementa o
-   registro dos 195 e contratos offline; podem avançar conjuntamente.
-3. #15 implementa conectores/normalização, baseline/estimador e orquestração,
-   após contratos e decisão de dados.
-4. #16 integra formulário estruturado, status, mapa e JSON ao motor.
-5. #17 define protocolo cedo e executa avaliação após dados/estimador estarem
-   disponíveis. Não esperar a interface para definir baseline ou corte temporal.
+## Ordem e primeiro MVP
 
-## Primeira atividade
+1. Integrar a decisão/documentação #20 à develop, preservando o histórico.
+2. Iniciar #13 com praia e idioma: definir atributos realmente mensuráveis,
+   fontes licenciadas e dataset local versionado, sem selecionar banco servidor.
+   Em paralelo, #14 implementa registro e contratos com fixtures identificadas.
+3. #17 define consultas anotadas, baseline e limiares antes de ajustar regras.
+4. #15 implementa parser por regras/sinônimos, filtros e score determinístico,
+   seleção limitada e Gemini para justificativas apoiadas nas evidências.
+5. #16 integra revisão de critérios, heatmap, ranking, tabela e JSON ao motor.
+6. #17 executa e publica avaliação reproduzível, com custo e latência reais quando
+   autorizado o ensaio. Fixtures não comprovam economia ou fundamentação real.
 
-Iniciar #13 com matriz Wikipedia/Wikidata, APIs oficiais e dataset local.
-Escolher domínio/evento mensurável e verificar cobertura/histórico antes de
-selecionar banco ou estimador. API é meio de consulta; banco é armazenamento;
-nenhum deles gera por si só uma probabilidade.
-
-Em #14, implementar registro versionado dos 193 membros ONU + dois observadores,
-M49 string com zeros preservados, validação de conjunto exato e contratos com
-probabilidade/status/proveniência. Testar casos errados mesmo com 195 registros,
-duplicatas/extras, referências incompatíveis, finitude/tipos/datas e round-trip.
-Esses testes não precisam de rede, LLM ou Docker.
-
-## Encerramento do backlog anterior
-
-#4, #8 e #10 são substituídas por mudança de escopo, com motivo not_planned.
-Não registrar como entregues a avaliação real de prompts, o runtime Docker ou a
-integração do PR #11. A integração documental é entregue pela branch da #12 e só é concluída
-após seu merge à `develop`.
-Histórico preservado em [legacy](legacy/README.md) e na ADR 0001.
+Hipótese inicial: até 20 candidatos e 10 justificativas, com limiar a definir
+no protocolo. Não exige preencher os limites quando houver poucos relevantes.
+Score por média ponderada dos critérios normalizados, sem reordenação LLM.
+Catálogo/parser inicial não interpreta qualquer tema; entradas desconhecidas ou
+ambíguas exigem esclarecimento. Ranking funciona sem chave com templates.
 
 ## Aceite transversal
 
-- Todos os 195 representados uma vez, mesmo quando não há estimativa defensável.
-- Dados observados/score/probabilidade distintos; null para insuficiência,
-  inaplicabilidade e erro, com justificativa. Erro técnico indica parcial.
-- Dataset, fontes/revisões, corte temporal, transformações, método e versões
-  rastreáveis no resultado; nenhum valor inventado para preencher o mapa.
-- Nenhuma chamada LLM; local_only também não faz consulta externa.
-- Reruns/cancelamento/falhas não misturam execuções; limites e cache explícitos.
-- Baseline e protocolo temporal pré-definidos; não alegar calibração sem evidência.
+- Requisitos e preferências separados, interpretação visível e confirmada.
+- Exatamente 195 registros finais; score 0–100 para ranked, null para exclusão,
+  dados insuficientes ou erro. Nenhuma conversão de score em probabilidade.
+- Fatores, pesos, normalização, dados/fontes e versões reproduzem o resultado.
+- LLM recebe apenas selecionados; códigos/evidências validados, score/ordem imutáveis.
+- Dados ausentes não recebem zero; top K vazio não chama Gemini.
+- local_only não usa rede e força templates; geometrias locais são necessárias
+  para oferecer UI integralmente offline, pois o MVP usa CDN.
+- Falha de justificativa preserva ranking e registra fallback; reruns, cache e
+  retomada respeitam identidade da execução e versões.
+- Avaliação cobre falsos descartes, precision/recall/NDCG, requisitos,
+  fundamentação e tokens/custo/latência, com limiares definidos antes do ensaio.
 
-## Evidência desta revisão
+## Histórico e estado executável
 
-A suíte de 29 testes offline do MVP foi aprovada em 05/10/2026. Esta mudança
-altera documentação e acompanhamento; não demonstra execução da JEV, consulta
-Wikipedia, banco pronto ou qualidade probabilística. O código Gemini permanece
-identificado como MVP até a migração planejada.
+#12 foi concluída pela integração das PRs #11 e #18 à develop; seu escopo era
+consolidar previsão sem LLM. Ela permanece encerrada. ADR 0002 e documentos são
+[snapshots históricos](legacy/README.md), sem apagar a decisão anterior.
+#4, #8 e #10 continuam substituídas por mudança de escopo; não reabrir tuning,
+previsão ou Docker. As #13–#17 mantêm números e recebem requisitos revisados.
+
+O código atual é o [MVP Gemini](MVP_LEGACY.md), no qual o modelo gera os scores.
+Esta revisão não implementa parser, dataset ou ranking da JEV nem demonstra
+economia, qualidade de busca ou fundamentação das justificativas.

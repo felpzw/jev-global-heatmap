@@ -1,18 +1,25 @@
-# Interface JEV: eventos estruturados, mapa, status e exportação rastreável
+# Interface JEV: heatmap de afinidade, ranking e justificativas
 
 Issue: [16](https://github.com/felpzw/jev-global-heatmap/issues/16).
-## Objetivo e entregas
 
-Disponibilizar JEV sem LLM no Streamlit, identificada separadamente do MVP qualitativo durante a migração.
+## Objetivo e dependências
 
-Dependências: contratos e motor JEV.
+Integrar ranking de afinidade ao Streamlit, separado do MVP Gemini durante
+migração. Depende de #14 e #15; conforme ADR 0003.
 
-- [ ] Catálogo de domínios/eventos suportados, indicador/unidade/limiar/prazo e resolução explícitos.
-- [ ] Contexto livre opcional não seleciona silenciosamente evento/método. Fonte/dataset e local_only/consulta externa selecionáveis.
-- [ ] Progresso/cancelamento/parcial e preservação do resultado anterior com sua identidade.
-- [ ] Probabilidade (%) apenas estimated; nulos/status explícitos e fora do escopo distinto.
-- [ ] Tabela/busca para os 195 e microestados; revisão de geometria sem atribuir valores a vizinhos.
-- [ ] JSON com pedido/as_of, fontes/revisões, dataset, método/parâmetros, versões e falhas.
-- [ ] Reruns não repetem consultas; testes de sessão e regressões do MVP.
+## Entregas
 
-Aceite: fluxo integrado com dados fictícios identificados e sem chave LLM. Nenhuma aba de modelos necessária. Offline integral exige geometrias locais; registrar a limitação do CDN atual.
+- [ ] Pedido textual com interpretação visível: confirmar requisitos/preferências/pesos, corrigir ambiguidades e informar critérios não suportados antes de executar.
+- [ ] Seleção de dataset/modo e limites; comunicar que dados locais + Gemini ainda usam rede, enquanto local_only força templates.
+- [ ] Heatmap de affinity_score 0–100 para todos os ranked; não exibir porcentagem/probabilidade; scores de pedidos distintos não são diretamente comparáveis.
+- [ ] Distinguir baixa afinidade/zero válido, exclusão, dados insuficientes, erro e fora do registro; destacar selecionados e origem da justificativa.
+- [ ] Ranking, fatores, pesos e evidências; tabela/busca para os 195 e microestados sem inventar geometrias/atribuir valores a vizinhos.
+- [ ] Progresso, cancelamento, parcial e fallback após falha da LLM; resultado anterior preservado com identidade própria, sem repetir consultas em reruns.
+- [ ] JSON versionado com pedido confirmado, dados, catálogo, ranker, seleção, contribuições, justificativas/modelo/prompt e métricas/falhas.
+- [ ] Demonstração fictícia identificada, fluxo sem chave e regressões de sessão/MVP; documentar CDN atual e fornecer geometrias locais se oferecer UI integralmente offline.
+
+## Aceite
+
+Fluxo completo em fixtures identificadas, revisão dos critérios, mapa/tabela/JSON
+coerentes e testes de sessão. País fora do top K pode ter score e fatores, sem
+justificativa LLM. Ausência/falha de credenciais não impede o ranking.
