@@ -68,7 +68,10 @@ Execute `.venv/bin/python -m streamlit run src/app.py` e valide:
 Geração real é opcional neste aceite visual e usa a API configurada. A avaliação
 empírica dos prompts permanece na issue #4. O papel funcional da JEV foi definido
 posteriormente na #8: pesquisa e previsão por evento/prazo para 195 Estados.
-O [desenho proposto](JEV_DESIGN.md) ainda exige adaptação do mapa; este redesign
+O [desenho histórico](legacy/JEV_DESIGN_LLM.md) ainda exige adaptação do mapa; este redesign
 continua usando scores qualitativos e não implementa probabilidades.
 
 A issue #7 permanece aberta até concluir o aceite e registrar as evidências.
+
+A direção ativa é o [heatmap de afinidade](adr/0003-affinity-ranking.md), ainda
+não implementado. A evolução visual será acompanhada pela #16.

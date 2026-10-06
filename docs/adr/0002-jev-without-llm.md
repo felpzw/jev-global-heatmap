@@ -1,7 +1,7 @@
 # ADR 0002 — JEV com dados e estimador independente de LLM
 
 - Data: 05/10/2026.
-- Estado: decisão de escopo; execução ainda não implementada.
+- Estado: histórica, substituída pela [ADR 0003](0003-affinity-ranking.md) em 05/10/2026; não implementada.
 - Substitui: ADR 0001 e backlog associado a LLM.
 
 ## Decisão
@@ -31,8 +31,9 @@ executável é posterior; README deve distinguir código atual e objetivo novo.
 
 A [issue #12](https://github.com/felpzw/jev-global-heatmap/issues/12) consolida
 esta decisão e a proposta da [PR #11](https://github.com/felpzw/jev-global-heatmap/pull/11).
-A [arquitetura](../../ARCHITECTURE.md), o [desenho](../JEV_DESIGN.md) e o
-[plano](../JEV_IMPLEMENTATION_PLAN.md) são os documentos ativos.
+A [arquitetura](../legacy/ARCHITECTURE_NO_LLM.md), o
+[desenho](../legacy/JEV_DESIGN_NO_LLM.md) e o
+[plano](../legacy/JEV_IMPLEMENTATION_PLAN_NO_LLM.md) preservam essa decisão histórica.
 O [MVP executável](../MVP_LEGACY.md) e o [histórico](../legacy/README.md)
 continuam separados. O aceite da #12 exige revisão documental, links locais
 válidos e integração à `develop`; não exige execução do novo motor.

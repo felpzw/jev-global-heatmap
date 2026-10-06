@@ -16,4 +16,5 @@ em 05/10/2026, sem demonstrar qualidade factual nem a arquitetura nova.
 
 Instalação e execução atuais permanecem no README. Histórico do MVP em
 [IMPLEMENTATION.md](IMPLEMENTATION.md) e prompts em [PROMPT_DESIGN.md](PROMPT_DESIGN.md).
-A proposta anterior de JEV com LLM foi [arquivada](legacy/README.md).
+As propostas anteriores foram [arquivadas](legacy/README.md). A direção atual
+é [ranking de afinidade](adr/0003-affinity-ranking.md), ainda não implementado.

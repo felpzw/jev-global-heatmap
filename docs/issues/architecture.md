@@ -1,6 +1,10 @@
 # Arquitetura: consolidar JEV sem LLM e separar documentação do MVP
 
 Issue: [12](https://github.com/felpzw/jev-global-heatmap/issues/12).
+> Registro histórico da #12, concluída pelas PRs #11 e #18. Estados abaixo
+> refletem a preparação daquela entrega. A direção ativa é [ADR 0003](../adr/0003-affinity-ranking.md),
+> acompanhada pela [#20](affinity-architecture.md).
+
 ## Objetivo e entregas
 
 Consolidar a nova arquitetura JEV sem chamadas a LLM e integrar a documentação revisada do PR #11 à develop. Substitui #8 por mudança de escopo; não declara que a implementação foi entregue.
@@ -22,10 +26,10 @@ só pode ser marcada integralmente após o merge à `develop`.
 
 | Critério | Evidência documental |
 | --- | --- |
-| Fluxo e direção de dependências | [ARCHITECTURE.md](../../ARCHITECTURE.md) |
-| Catálogo, observações, scores, probabilidades e estados | [JEV_DESIGN.md](../JEV_DESIGN.md) |
+| Fluxo e direção de dependências | [ARCHITECTURE.md](../legacy/ARCHITECTURE_NO_LLM.md) |
+| Catálogo, observações, scores, probabilidades e estados | [JEV_DESIGN.md](../legacy/JEV_DESIGN_NO_LLM.md) |
 | Decisão sem LLM/Docker de modelos | [ADR 0002](../adr/0002-jev-without-llm.md) |
-| Dependências e backlog #13–#17 | [Plano ativo](../JEV_IMPLEMENTATION_PLAN.md) |
+| Dependências e backlog #13–#17 | [Plano ativo](../legacy/JEV_IMPLEMENTATION_PLAN_NO_LLM.md) |
 | Código Gemini identificado separadamente | [MVP executável](../MVP_LEGACY.md) e [README](../../README.md) |
 | Proposta anterior e ADR histórica | [Índice histórico](../legacy/README.md) |
 
