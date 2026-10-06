@@ -1,23 +1,24 @@
 # JEV Global Heatmap
 
-Projeto de visualização global em transição para a arquitetura JEV sem LLM.
-O executável disponível é o MVP Gemini: recebe um tema textual e apresenta
-scores qualitativos por país em mapa, tabela e JSON.
+Projeto de heatmap de **ranking de afinidade com o pedido**. A arquitetura-alvo
+usa a JEV para interpretar critérios suportados, filtrar países e calcular scores
+0–100 com dados e regras; Gemini justifica somente os melhores selecionados.
 
-## Evolução: JEV sem LLM
+## Evolução: ranking de afinidade com JEV
 
-A nova arquitetura usa a JEV para coordenar fontes/datasets, normalização e
-estimativas estatísticas por evento e prazo, sem chamadas de LLM. O usuário
-escolhe um evento suportado por domínio; haverá um registro dos 195 Estados e
-status explícitos quando os dados forem insuficientes. Fonte, banco e estimador
-iniciais ainda serão selecionados.
+O usuário confirma requisitos obrigatórios, preferências e pesos. A JEV usa um
+catálogo pequeno e dataset local versionado; dados insuficientes e exclusões
+ficam explícitos. O score representa afinidade, sem interpretação probabilística.
+A LLM recebe somente países selecionados e evidências, sem alterar scores ou ordem.
+Sem chave ou em `local_only`, a explicação usa templates e o ranking funciona.
 
-**Essa evolução ainda não está implementada.** O código atual continua usando
-Gemini e scores qualitativos. As instruções de execução abaixo são do MVP.
+**Essa evolução ainda não está implementada.** O executável disponível continua
+sendo o MVP Gemini, que recebe texto e gera países/scores qualitativos diretamente.
+As instruções abaixo pertencem a esse MVP.
 
-- [Nova arquitetura](ARCHITECTURE.md) e [ADR 0002](docs/adr/0002-jev-without-llm.md).
+- [Arquitetura](ARCHITECTURE.md) e [ADR 0003](docs/adr/0003-affinity-ranking.md).
 - [Contratos e desenho](docs/JEV_DESIGN.md), [plano e issues](docs/JEV_IMPLEMENTATION_PLAN.md).
-- [MVP executável](docs/MVP_LEGACY.md) e [histórico com LLM](docs/legacy/README.md).
+- [MVP executável](docs/MVP_LEGACY.md) e [propostas históricas](docs/legacy/README.md).
 
 ## Stack do MVP executável
 * **UI & App:** Streamlit

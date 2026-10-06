@@ -1,6 +1,6 @@
 # Engenharia de Prompt e Avaliação
 
-> Histórico do MVP Gemini. O backlog ativo da JEV sem LLM está em [JEV_IMPLEMENTATION_PLAN.md](JEV_IMPLEMENTATION_PLAN.md); as pendências antigas não foram declaradas entregues.
+> Histórico do MVP Gemini. O backlog ativo de ranking de afinidade com JEV está em [JEV_IMPLEMENTATION_PLAN.md](JEV_IMPLEMENTATION_PLAN.md); as pendências antigas não foram declaradas entregues.
 ## Revisão do MVP
 
 A instrução original pedia uma matriz de países sem fixar o envelope JSON. O
@@ -106,14 +106,18 @@ usuário de prosseguir sem credenciais. Portanto, o aceite empírico da issue #4
 
 ## Referências de implementação
 
-### Evolução JEV: contrato novo, ainda não implementado
+### Proposta histórica de previsão JEV
 
 O prompt descrito neste documento é o do MVP qualitativo. A proposta da #8 usa
 evento e prazo fornecidos pelo usuário, registro obrigatório dos 195 Estados,
 evidências e probabilidades com status explícito. Isso exige novos prompts e
-contratos por etapa/lote, conforme [JEV_DESIGN.md](JEV_DESIGN.md); não basta mudar
+contratos por etapa/lote, conforme [desenho histórico](legacy/JEV_DESIGN_LLM.md); não basta mudar
 a instrução de “até 40” para “195”, nem tratar `heat_score` como probabilidade.
 A avaliação atual de distribuição/ISO não mede calibração probabilística.
+
+A direção atual é [ranking de afinidade](adr/0003-affinity-ranking.md): a JEV
+calcula scores e Gemini justifica somente os selecionados. Os prompts e o
+avaliador deste MVP ainda não implementam esse fluxo.
 
 ### Fontes do MVP
 

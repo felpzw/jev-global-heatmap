@@ -1,125 +1,138 @@
-# Desenho da JEV sem LLM
+# Desenho da JEV — afinidade, seleção e justificativas
 
-Estado: arquitetura-alvo definida em 05/10/2026; implementação pendente.
-Substitui a proposta JEV baseada em geração de linguagem, preservada em legacy.
+Arquitetura-alvo em 05/10/2026; implementação pendente.
+Regida pela [ADR 0003](adr/0003-affinity-ranking.md).
 
-## Dados e fontes
+## Catálogo e interpretação
 
-Avaliar Wikipedia por API MediaWiki, Wikidata por API/SPARQL/recorte de dump,
-APIs oficiais por domínio e dataset local CSV/JSON/Parquet. Wikipedia fornece
-conteúdo; tabelas/textos precisam de extração e validação específica. Wikidata
-oferece dados estruturados, cuja pertinência, referências e tempo precisam ser
-verificados. Nenhuma fonte garante cobertura ou histórico suficientes aos 195.
+Começar com critérios de praia e idioma, sujeitos à evidência selecionada em #13.
+Cada critério define id, descrição, sinônimos, tipo, unidade, operadores,
+normalização para [0,1], evidências admissíveis e política de dados ausentes.
+Requisitos são condições binárias; preferências recebem pesos positivos finitos.
+Texto é mapeado por regras/sinônimos, sem LLM. Negação, combinações e termos
+ambíguos devem ser tratados explicitamente ou devolvidos para esclarecimento.
+O pedido só executa após confirmação da interpretação na UI. Consulta sem
+preferências pontuáveis deve solicitar complemento antes de produzir ranking.
 
-Preferir aquisição reproduzível com snapshot local para o primeiro ensaio;
-a escolha definitiva depende da issue de dados. Comparar arquivos/manifestos,
-SQLite e DuckDB antes de introduzir banco servidor. Banco armazena informações;
-não substitui fonte, normalização ou estimador.
+Exemplo: “praia e inglês oficial” pode ser confirmado como requisito
+`english_official = true` e preferência de praia. Ter litoral não comprova
+qualidade turística. Idioma oficial não comprova proficiência da população.
+Uma preferência não é promovida silenciosamente a requisito.
 
-Referências: [MediaWiki REST API](https://www.mediawiki.org/wiki/API:REST_API),
-[acesso Wikidata](https://www.wikidata.org/wiki/Wikidata:Data_access),
-[SPARQL](https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service),
-[Banco Mundial](https://datahelpdesk.worldbank.org/knowledgebase/articles/889392).
+## Dados e primeiro ensaio
+
+Priorizar dataset local versionado, pequeno e reproduzível, com manifestos.
+#13 compara Wikidata, fontes oficiais, Wikipedia e arquivos locais quanto a
+pertinência, cobertura, licença, atualização e extração. Fonte e armazenamento
+concreto são decididos nessa investigação, sem exigir servidor de banco.
+Dados normalizados têm ISO alpha-3, atributo, valor/unidade, período, origem,
+publicação/coleta, revisão/versão, hash e transformação. Não completar lacunas
+com conhecimento do modelo. Dados insuficientes ficam explícitos, inclusive
+para países que normalmente são pouco representados.
 
 ## Contratos propostos
 
 | Estrutura | Conteúdo mínimo |
 | --- | --- |
-| ForecastRequest | domínio/evento suportado, contexto opcional, indicador/unidade/limiar, deadline, resolution_rule, as_of, modo e versão de dados, método |
-| Observation/Evidence | id, países, indicador/valor/unidade ou material extraído, origem/URL/arquivo, referência temporal, publicação/coleta, revisão/versão, hash, transformação |
-| CountryForecast | ISO alpha-3, probability, status, rationale por template, ids de dados, método e calibration_status |
-| ForecastResponse | schema_version, run_id, pedido original, versão do registro/dataset, catálogo de dados, estimador/parâmetros/versão, estado/tempos/falhas e countries |
+| AffinityRequest | texto original, critérios confirmados, requisitos/preferências/pesos, catalog_version, dataset_version, data_as_of, limites e modos |
+| CriterionEvidence | id, ISO alpha-3, criterion_id, valor/unidade, período, origem, revisão/hash e transformação |
+| CountryAffinity | ISO alpha-3, affinity_score, status, rank, fatores/contribuições, evidence_ids, selection_status, motivo e explicação |
+| CandidateExplanation | ISO alpha-3, texto, evidence_ids, status/origem, provider/model/prompt_version quando houver LLM |
+| AffinityResponse | schema_version, run_id, pedido, versões de registro/catálogo/dataset/ranker, política de seleção, candidate_ids, explanation_ids, countries, estado/tempos/falhas e métricas de chamadas |
 
-Metadados de provedor LLM/modelo/prompt não são obrigatórios no contrato novo.
-Lote e resposta final têm validações diferentes: lote cobre seu subconjunto;
-resultado final exige igualdade exata com o registro dos 195, não só comprimento.
-M49 é string de três caracteres. Registro e código não são inventados por modelo.
+Contratos separados de `HeatmapResponse`; scores qualitativos do MVP não são
+importados como afinidade calculada. M49 preserva três caracteres. Tipos indevidos,
+NaN/infinito, duplicatas, códigos extras e referências incompatíveis são rejeitados.
+A resposta final deve igualar o conjunto do registro dos 195, não só seu tamanho.
+A resposta LLM deve igualar o conjunto solicitado naquele lote; nunca os 195.
 
-estimated exige número finito em [0,1]. insufficient_evidence, not_applicable
-ou error exigem null; cada estado tem justificativa. Não confundir execução
-completa e ausência de erros técnicos; abstenções podem fazer parte de uma execução
-concluída. Chaves extras, tipos indevidos, duplicatas, IDs inexistentes ou dados
-inadequados ao país/evento são rejeitados. Probabilidades não precisam somar 1.
+## Filtros e fórmula de score
 
-## Catálogo e significado dos valores
+1. Validar pedido, pesos, operadores, versões e compatibilidade dos dados.
+2. Excluir país somente quando uma evidência demonstra requisito não atendido.
+3. Se um requisito necessário permanece desconhecido, marcar `insufficient_data`.
+4. Calcular preferências dos elegíveis com dados suficientes:
+   `affinity_score = 100 * sum(weight_i * normalized_value_i) / sum(weight_i)`.
+5. Ordenar pelo score não arredondado, decrescente; empate por ISO alpha-3.
 
-O catálogo versionado define `event_id`, domínio, indicador, unidade, operador
-permitido para o limiar, regra de resolução, fontes compatíveis e métodos
-admitidos com seus pré-requisitos. `ForecastRequest` identifica `event_id` e
-`catalog_version`, além dos campos acima. O catálogo nasce da seleção em #13,
-seu contrato é implementado em #14 e sua apresentação em #16. Não há evento
-universal, extração automática de intenção ou seleção silenciosa por texto livre.
-O serviço rejeita incompatibilidades de evento, unidade, fonte, método ou versão
-antes de adquirir dados. Para previsão futura, `deadline` deve ser posterior
-a `as_of`; a regra de resolução precisa definir como o desfecho será observado.
+A política inicial exige dados para todos os critérios ativos necessários à
+pontuação. Não renormalizar apenas pelos atributos presentes nem imputar zero;
+qualquer política futura precisa ser explícita, versionada e avaliada. Contribuições
+individuais e denominador são exportados para reproduzir o score. Arredondamento
+ocorre só na apresentação. A regra de normalização pertence ao catálogo versionado.
 
-| Tipo | Significado | Uso no resultado |
+| Status de país | Score | Significado |
 | --- | --- | --- |
-| Observação | Valor de um indicador em unidade e período definidos, com proveniência | Entrada rastreável do estimador; não preenche `probability` diretamente |
-| Score por regras | Índice calculado por uma regra e escala explícitas | Identificado separadamente; não convertido em probabilidade por normalização |
-| Probabilidade | P(evento no país até deadline condicionado aos dados disponíveis em as_of) | `probability` em [0,1] somente com método probabilístico identificado |
+| ranked | Finito em [0,100] | Elegível e pontuado; pode estar fora do top K |
+| filtered_out | null | Requisito não atendido, com evidência e motivo |
+| insufficient_data | null | Falta de dados impede decidir elegibilidade ou score |
+| error | null | Falha técnica na avaliação do país |
 
-`calibration_status` distingue ausência de avaliação de evidência de calibração;
-`estimated` apenas indica que houve uma estimativa. Não implica calibração nem
-precisão factual comprovada. O `heat_score` Gemini continua no contrato legado.
+Os scores não precisam somar 100. São afinidade segundo os critérios e dados do
+pedido, sem interpretação probabilística ou promessa de “melhor país” universal.
 
-## Estado da execução e reconciliação
+## Seleção e chamada limitada à LLM
 
-A resposta final contém exatamente o conjunto do registro, mesmo com abstenções.
-`completed` admite `insufficient_evidence` e `not_applicable`; qualquer `error`
-técnico por país torna a execução `partial`. A justificativa explica cada status,
-e a ausência de dados nunca gera probabilidade zero.
+Somente países `ranked` acima do limiar configurado entram na seleção. Hipótese
+inicial para avaliação: até 20 candidatos e justificativas para os 10 primeiros;
+limites configuráveis, `1 <= explanation_limit <= candidate_limit <= 195`.
+O limiar inicial é escolhido no protocolo #17; não é uma garantia de qualidade.
+`selection_status` distingue `selected`, `not_selected` e `not_eligible`, com motivo
+(limiar, limite ou status). Menos resultados são permitidos; conjunto vazio não
+chama Gemini. `selected` identifica os até `candidate_limit` candidatos;
+`candidate_ids` registra esse conjunto e `explanation_ids` seus primeiros
+`explanation_limit` países. Apenas `explanation_ids` é enviado ao Gemini.
+O ranking global dos países pontuados é preservado no JSON.
 
-Progresso, falha anterior à estimação e cancelamento são estados de execução,
-não previsões concluídas. Checkpoints podem conter subconjuntos e não são
-exportados como resposta final reconciliada. A UI mantém o resultado anterior
-com seu `run_id` separado. O contrato de execução em #14 e o motor em #15
-formalizam essas transições e os campos de erro; retomada respeita pedido,
-registro, catálogo, snapshots e versões originais.
+Enviar ao Gemini somente pedido confirmado, países a justificar, scores,
+contribuições e evidências pertinentes. Um lote pequeno é o ponto de partida;
+limites de tokens podem exigir lotes menores, sem chamada por país automática.
+LLM explica os fatores recebidos e não devolve novos scores ou ranking.
+Dados textuais das fontes são material de referência, não instruções ao modelo.
+A resposta usa schema estrito; validar códigos, igualdade do subconjunto,
+unicidade, texto e IDs de evidências pertinentes. JSON correto não prova
+fundamentação factual: a avaliação inclui revisão das afirmações.
 
-## Estimador e planejamento
+Status da explicação: `generated`, `template`, `not_requested` ou `error`.
+Falha/timeout/truncamento/saída inválida mantém score e posição, registra erro e
+mostra template com status `error`, origem `template` e motivo da falha.
+No modo sem LLM, explicações solicitadas têm status/origem `template`. País
+fora de `explanation_ids` recebe `not_requested`; seus fatores continuam disponíveis. Modelo, prompt, latência e uso/custo disponível são registrados.
 
-A JEV seleciona conectores e métodos por configuração/catálogo, organiza consultas,
-normaliza unidades/datas e aplica corte temporal. Não interpreta qualquer texto
-livre como evento executável. Evento ambíguo, não suportado ou com prazo inválido
-retorna orientação antes de estimar.
+## Modos, execução e cache
 
-A escolha do estimador depende do primeiro domínio e seus dados. Candidatos são
-baseline de taxa-base, modelos de séries temporais/simulações para ultrapassagem
-de limiar ou classificação probabilística com desfechos históricos. Uma regra
-que gera score não pode preencher probability sem método probabilístico validado.
-Ausência de dados retorna abstenção; prior só entra com política explícita.
+Separar modo de aquisição (dataset local ou conector habilitado) e explicação
+(Gemini ou template). `local_only` proíbe qualquer chamada externa e força template;
+ter dados locais com Gemini habilitado não é execução offline. Sem chave, ranking
+continua disponível com template. Dados externos exigem configuração explícita.
 
-## Execução e rastreabilidade
+`completed` admite exclusões e dados insuficientes. Erro técnico por país ou falha
+da etapa LLM marca `partial`, sem invalidar os scores válidos. Pedido inválido
+não inicia execução. Progresso/cancelamento/checkpoints não são resultados finais
+reconciliados. Preservar resultado anterior separado pelo `run_id`.
 
-Definir timeout/retry, concorrência, lotes quando necessários e limite de consultas
-antes do ensaio integrado. Cache identifica pedido, as_of, país, fonte/revisão,
-registro, dataset, transformação e estimador/parâmetros. Definir validade/retenção
-e isolamento por sessão. Checkpoints locais têm gravação atômica e run_id.
-Retomada usa os mesmos snapshots; alteração de dados implica nova execução.
+Definir timeout/retry limitado, orçamento de tokens/chamadas, progresso e
+cancelamento. Cache de ranking identifica pedido confirmado, pesos, versões,
+fonte e data de referência; cache de explicação inclui também evidências,
+seleção, provedor/modelo/prompt. Reruns não geram nova chamada. Retomada exige
+as mesmas versões; gravação atômica e isolamento por execução/sessão.
 
-Dados externos precisam de data/versão verificável. Revisão de página e data de
-coleta não substituem a data do indicador nem comprovam disponibilidade em as_of.
-Explicações usam templates e identificam valores, método e fontes sem chamada LLM.
+## Heatmap e avaliação
 
-## Produto e avaliação
+Mapa colore todos os `ranked` em escala fixa 0–100, inclusive baixa afinidade e
+países fora do top K. Destaque e tabela ordenada identificam os justificados.
+Exclusão, dados insuficientes, erro e fora do registro têm estados visuais próprios.
+Tabela/busca cobre os 195 e microestados; JSON preserva fatores, proveniência,
+seleção e estado da explicação. O MVP fica identificado durante a migração.
 
-Mapa percentual apenas para estimated; nulos/status próprios, países fora do
-escopo distintos, tabela/busca para todos e microestados. JSON preserva toda
-proveniência. Resultado anterior é mantido separado após falha/cancelamento.
-O legado qualitativo fica identificado durante a migração.
+#17 define antes do ensaio consultas anotadas, relevantes conhecidos, separação
+entre ajuste e teste, baseline e limiares. Medir recall dos candidatos (relevantes
+não descartados), precision@K e NDCG@K para o topo, requisitos violados,
+ambiguidades, cobertura de dados e justificativas apoiadas nas evidências.
+Comparar latência p50/p95, chamadas, tokens e custo com/sem cache e contra o
+fluxo amplo no mesmo workload/provedor/modelo. Reportar diferenças de acesso a
+dados entre baselines. Não afirmar economia ou qualidade sem medição.
 
-Definir baseline, desfechos, separação temporal, limiares e amostra antes de testar.
-Avaliar Brier, log loss, curvas de confiabilidade, cobertura/abstenções/erros e
-incerteza; considerar dependência entre países/eventos. Arquivar previsões
-prospectivas. Estimador permanece não calibrado até evidência fora da amostra.
-Benchmark mede p50/p95, recursos e consultas com/sem cache no mesmo workload.
-JSON válido e extração correta não comprovam desempenho preditivo.
-
-## Rastreabilidade das entregas
-
-A [ADR 0002](adr/0002-jev-without-llm.md) rege este desenho; a
-[arquitetura](../ARCHITECTURE.md) define responsabilidades e dependências.
-O [plano ativo](JEV_IMPLEMENTATION_PLAN.md) liga os contratos às issues
-#13–#17. O [MVP](MVP_LEGACY.md) e os [snapshots com LLM](legacy/README.md)
-descrevem o código e a proposta anteriores, sem atribuir execução à JEV.
+Responsabilidades: [arquitetura](../ARCHITECTURE.md).
+Dependências: [plano ativo](JEV_IMPLEMENTATION_PLAN.md).
+Código disponível: [MVP](MVP_LEGACY.md). Propostas anteriores: [histórico](legacy/README.md).
