@@ -24,3 +24,14 @@ Catálogo, dataset/amostra e matriz de fontes reproduzíveis, com licença,
 proveniência e lacunas. Não exige dados válidos para todos os países, previsão
 ou LLM. Dados de país não garantem condições de cada cidade/região. Integração
 com #15 depende dos contratos de #14.
+
+## Investigação iniciada em 05/10/2026
+
+[Pesquisa de dados](../DATA_RESEARCH.md): comparação de JSON/JSONL, CSV,
+SQLite e Parquet/DuckDB; matriz de fontes, modelo lógico, aquisição limitada,
+manutenção, retenção e roteiro do primeiro piloto.
+
+[ADR 0004](../adr/0004-local-affinity-data.md) registra a recomendação provisória
+de snapshots JSON/JSONL. A decisão depende do piloto e do alinhamento com #14.
+Nenhum dataset foi adquirido, nenhuma cobertura foi medida e os critérios de
+aceite acima permanecem pendentes.

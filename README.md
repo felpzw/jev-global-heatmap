@@ -18,6 +18,7 @@ As instruções abaixo pertencem a esse MVP.
 
 - [Arquitetura](ARCHITECTURE.md) e [ADR 0003](docs/adr/0003-affinity-ranking.md).
 - [Contratos e desenho](docs/JEV_DESIGN.md), [plano e issues](docs/JEV_IMPLEMENTATION_PLAN.md).
+- [Pesquisa de dados locais e fontes (#13)](docs/DATA_RESEARCH.md) e [ADR proposta de dados](docs/adr/0004-local-affinity-data.md).
 - [MVP executável](docs/MVP_LEGACY.md) e [propostas históricas](docs/legacy/README.md).
 
 ## Stack do MVP executável
