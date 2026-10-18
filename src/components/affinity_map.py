@@ -8,8 +8,8 @@ from plotly.graph_objects import Choropleth, Figure
 from src.services.affinity_schema import AffinityResponse
 
 STATE_COLORS = {"filtered_out": "#334155", "insufficient_data": "#94a3b8", "error": "#be185d"}
-STATE_LABELS = {"filtered_out": "Excluído por requisito", "insufficient_data": "Dados insuficientes",
-                "error": "Erro técnico"}
+STATE_LABELS = {"filtered_out": "Excluded by requirement", "insufficient_data": "Insufficient data",
+                "error": "Technical error"}
 
 
 def plot_affinity_heatmap(response: AffinityResponse) -> Figure:
@@ -30,10 +30,10 @@ def plot_affinity_heatmap(response: AffinityResponse) -> Figure:
         figure.add_trace(Choropleth(
             locations=[c.iso_alpha_3 for c in ranked], locationmode="ISO-3",
             z=[c.affinity_score for c in ranked], coloraxis="coloraxis",
-            customdata=[[escape(c.name), c.rank, "Selecionado" if c.selection == "selected" else "Fora do top K"]
+            customdata=[[escape(c.name), c.rank, "Selected" if c.selection == "selected" else "Outside top K"]
                         for c in ranked],
-            hovertemplate=("<b>%{customdata[0]} · %{location}</b><br>Afinidade: %{z:.1f} / 100"
-                           "<br>Posição: %{customdata[1]} · %{customdata[2]}<extra></extra>"),
+            hovertemplate=("<b>%{customdata[0]} · %{location}</b><br>Affinity: %{z:.1f} / 100"
+                           "<br>Rank: %{customdata[1]} · %{customdata[2]}<extra></extra>"),
             marker_line_color="#0f172a", marker_line_width=0.5,
         ))
     if response.candidate_ids:
@@ -56,7 +56,7 @@ def plot_affinity_heatmap(response: AffinityResponse) -> Figure:
         coloraxis={"cmin": 0, "cmax": 100,
                    "colorscale": [[0, "#164e63"], [0.25, "#0891b2"], [0.5, "#2dd4bf"],
                                   [0.75, "#a3e635"], [1, "#fde047"]],
-                   "colorbar": {"title": {"text": "Afinidade com o pedido · 0–100", "side": "top"},
+                   "colorbar": {"title": {"text": "Affinity with your request · 0–100", "side": "top"},
                                 "orientation": "h", "x": 0.5, "xanchor": "center", "y": -0.02,
                                 "len": 0.8, "thickness": 10, "outlinewidth": 0,
                                 "tickvals": [0, 25, 50, 75, 100]}},

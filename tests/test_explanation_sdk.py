@@ -57,6 +57,7 @@ class ExplanationSDKTests(unittest.TestCase):
         config = body["generationConfig"]
         self.assertEqual(config["maxOutputTokens"], 4096)
         self.assertEqual(config["responseMimeType"], "application/json")
+        self.assertIn("Explain in English", body["systemInstruction"]["parts"][0]["text"])
         payload = json.loads(body["contents"][0]["parts"][0]["text"])
         self.assertEqual([c["iso_alpha_3"] for c in payload["countries"]], ["CAN", "KEN"])
         self.assertNotIn("text", payload)
