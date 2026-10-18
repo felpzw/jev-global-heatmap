@@ -1,69 +1,37 @@
-# Plano de implementação — heatmap de afinidade com JEV
+# JEV implementation plan and current scope
 
-Atualizado em 18/10/2026. Fundação, dados, motor e interface implementados.
-Estado e evidências por issue: [DELIVERY.md](DELIVERY.md). A avaliação externa
-da #17 permanece no [repasse manual](HANDOFF.md). A sequência abaixo registra o plano seguido.
-Decisão ativa: [ADR 0003](adr/0003-affinity-ranking.md).
+The foundation, starter dataset, engine and interface were integrated into
+`develop` through [PR #22](https://github.com/felpzw/jev-global-heatmap/pull/22).
+The next iteration makes the public experience and publication kit English-first.
 
-## Backlog ativo
-
-| Issue | Entrega | Dependências |
+| Issue | Scope | Status |
 | --- | --- | --- |
-| [20](https://github.com/felpzw/jev-global-heatmap/issues/20) | Consolidação documental do ranking de afinidade | Decisão do responsável |
-| [13](https://github.com/felpzw/jev-global-heatmap/issues/13) | Catálogo de critérios e dataset de afinidade por país | ADR 0003; pode avançar com #14 |
-| [14](https://github.com/felpzw/jev-global-heatmap/issues/14) | Registro, critérios e contratos de afinidade | ADR 0003; fixtures offline |
-| [15](https://github.com/felpzw/jev-global-heatmap/issues/15) | Filtros, ranking e justificativas LLM limitadas | #13 + #14 |
-| [16](https://github.com/felpzw/jev-global-heatmap/issues/16) | Heatmap, ranking, revisão do pedido e justificativas | #14 + #15 |
-| [17](https://github.com/felpzw/jev-global-heatmap/issues/17) | Seleção, ranking, fundamentação e custo/latência | Protocolo cedo; ensaio após #13 + #15 |
+| #13 | Criteria and local country evidence | Completed for the historical starter snapshot |
+| #14 | 195-state registry and strict contracts | Completed |
+| #15 | Parsing, filtering, scoring, selection and bounded explanations | Completed |
+| #16 | Criteria review, world map, ranking, provenance and export | Completed |
+| #17 | Functional evaluation, external relevance, grounding and cost | Offline portion complete; live and human evaluation pending |
 
-Os requisitos locais espelham as issues: [dados](issues/data.md),
-[fundação](issues/foundation.md), [motor](issues/engine.md),
-[interface](issues/ui.md) e [avaliação](issues/evaluation.md).
-A [consolidação](issues/affinity-architecture.md) acompanha a #20.
+## Delivered sequence
 
-## Ordem e primeiro MVP
+1. Preserve the existing data research as a separate commit.
+2. Implement the registry, contracts, local snapshot and integrity verification.
+3. Implement conservative catalog parsing and deterministic ranking.
+4. Limit Gemini to selected explanations, with templates, budget, cache and checkpoints.
+5. Integrate reviewable criteria, map, status, source inspection and export.
+6. Publish the synthetic protocol, results, CI, portfolio kit and manual handoff.
+7. Adapt the UI, natural English requests, country names, explanation output and
+   public documentation for an international audience. Preserve source-data hashes
+   and supported Portuguese requests.
 
-1. Integrar a decisão/documentação #20 à develop, preservando o histórico.
-2. Iniciar #13 com praia e idioma: definir atributos realmente mensuráveis,
-   fontes licenciadas e dataset local versionado, sem selecionar banco servidor.
-   Em paralelo, #14 implementa registro e contratos com fixtures identificadas.
-3. #17 define consultas anotadas, baseline e limiares antes de ajustar regras.
-4. #15 implementa parser por regras/sinônimos, filtros e score determinístico,
-   seleção limitada e Gemini para justificativas apoiadas nas evidências.
-5. #16 integra revisão de critérios, heatmap, ranking, tabela e JSON ao motor.
-6. #17 executa e publica avaliação reproduzível, com custo e latência reais quando
-   autorizado o ensaio. Fixtures não comprovam economia ou fundamentação real.
+## Remaining acceptance work
 
-Hipótese inicial: até 20 candidatos e 10 justificativas, com limiar a definir
-no protocolo. Não exige preencher os limites quando houver poucos relevantes.
-Score por média ponderada dos critérios normalizados, sem reordenação LLM.
-Catálogo/parser inicial não interpreta qualquer tema; entradas desconhecidas ou
-ambíguas exigem esclarecimento. Ranking funciona sem chave com templates.
+Issue #17 remains open until live model comparison and human evidence/relevance
+review are recorded. The [handoff](HANDOFF.md) gives the commands and review steps.
+Synthetic results verify behavior; they do not establish API savings or relevance
+for arbitrary real-world requests.
 
-## Aceite transversal
-
-- Requisitos e preferências separados, interpretação visível e confirmada.
-- Exatamente 195 registros finais; score 0–100 para ranked, null para exclusão,
-  dados insuficientes ou erro. Nenhuma conversão de score em probabilidade.
-- Fatores, pesos, normalização, dados/fontes e versões reproduzem o resultado.
-- LLM recebe apenas selecionados; códigos/evidências validados, score/ordem imutáveis.
-- Dados ausentes não recebem zero; top K vazio não chama Gemini.
-- local_only não usa rede e força templates; geometrias locais são necessárias
-  para oferecer UI integralmente offline, pois o MVP usa CDN.
-- Falha de justificativa preserva ranking e registra fallback; reruns, cache e
-  retomada respeitam identidade da execução e versões.
-- Avaliação cobre falsos descartes, precision/recall/NDCG, requisitos,
-  fundamentação e tokens/custo/latência, com limiares definidos antes do ensaio.
-
-## Histórico e estado executável
-
-#12 foi concluída pela integração das PRs #11 e #18 à develop; seu escopo era
-consolidar previsão sem LLM. Ela permanece encerrada. ADR 0002 e documentos são
-[snapshots históricos](legacy/README.md), sem apagar a decisão anterior.
-#4, #8 e #10 continuam substituídas por mudança de escopo; não reabrir tuning,
-previsão ou Docker. As #13–#17 mantêm números e recebem requisitos revisados.
-
-O código principal agora executa o ranking JEV. O [MVP Gemini](MVP_LEGACY.md)
-foi preservado separadamente. A avaliação funcional está publicada e não demonstra
-economia monetária nem qualidade de busca em consultas reais. A #17 só deve ser
-encerrada após as medições reais e revisão humana do repasse.
+The small catalog remains intentional. New concepts need measurable definitions,
+licensed evidence and evaluation; see [the extension guide](EXTENDING_JEV.md).
+Earlier probability-prediction and LLM-only proposals are preserved in
+[the historical documentation](legacy/README.md).

@@ -1,4 +1,4 @@
-"""Verifica reconstrução byte a byte, hashes e cobertura sem alterar o checkout."""
+"""Verify byte-identical reconstruction, hashes and coverage without changing the checkout."""
 
 import json
 
@@ -15,12 +15,12 @@ def verify():
         build()
         changed = [str(p.relative_to(ROOT)) for p in paths if p.read_bytes() != before[p]]
         if changed:
-            raise ValueError("Reconstrução divergiu: " + ", ".join(changed))
+            raise ValueError("Reconstruction differs: " + ", ".join(changed))
         load_registry()
         data = load_dataset()
-        print(f"Reconstrução idêntica: {len(data.evidence)} evidências; {data.fingerprint}")
+        print(f"Identical reconstruction: {len(data.evidence)} evidence records; {data.fingerprint}")
     finally:
-        # Uma verificação nunca publica uma versão diferente do snapshot.
+        # Verification never publishes a different snapshot version.
         for p, content in before.items():
             if p.read_bytes() != content:
                 p.write_bytes(content)

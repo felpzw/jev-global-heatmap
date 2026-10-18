@@ -1,29 +1,30 @@
-# Como estender a JEV
+# Extending JEV
 
-A versatilidade demonstrada está na separação entre conceito, dados, regra,
-seleção e explicação. A JEV deste repositório é o motor local de afinidade;
-não é uma biblioteca externa instalada ou um modelo treinado. Um novo conceito
-precisa de uma definição mensurável, com confirmação do usuário.
+The demonstrated flexibility comes from separating concepts, evidence, rules,
+selection and explanation. JEV in this repository is a local affinity engine.
+Each new concept needs a measurable definition that the user can confirm.
 
-1. Defina atributo, escopo, unidade, evidências admissíveis e limites. “Praia boa”
-   não pode ser implementada apenas renomeando “litoral”. Registre uma ADR se a
-   semântica de score ou dados mudar.
-2. Publique catálogo e dataset com versões novas, licença, fontes, lacunas e
-   transformação reproduzível. Amplie `Attribute` e limites dos contratos quando
-   adicionar critérios; a release atual admite somente dois booleanos.
-3. Adicione sinônimos e ambiguidades em `input_parser.py`, e a revisão na UI.
-   Termos desconhecidos devem continuar visíveis, sem interpretação silenciosa.
-4. Critérios booleanos reutilizam o comparador e a média ponderada. Indicadores
-   numéricos exigem novos tipos de evidência e uma normalização fixa, com direção,
-   unidade e limites definidos; não aplicar min-max do resultado da consulta.
-5. Adicione casos anotados separados entre ajuste/teste, inclusive negativas,
-   missing, contradição e filtros. Avalie cobertura, falsos descartes e desempates.
-6. O adaptador de explicação continua recebendo apenas os selecionados. Amplie
-   o payload tipado e templates, sem dar à LLM poder de alterar scores ou ranking.
+1. Define the attribute, scope, units, admissible evidence and limits. “Good
+   beaches” requires its own data and definition; coastline alone is insufficient.
+   Record an ADR when changing scoring or evidence semantics.
+2. Publish new catalog and dataset versions with licenses, sources, gaps and a
+   reproducible transformation. Extend `Attribute` and contract limits when
+   adding criteria; the current release supports two booleans.
+3. Add English synonyms and ambiguity handling in `input_parser.py`, plus the
+   review controls in the UI. Preserve supported Portuguese phrases. Unknown
+   terms must remain visible rather than disappearing during parsing.
+4. Boolean criteria reuse the comparator and weighted average. Numerical
+   indicators require typed evidence and fixed normalization with units,
+   direction and limits. Do not derive normalization from the current result set.
+5. Add annotated cases split between tuning and testing, including negation,
+   missing data, contradictions and requirements. Measure coverage, false
+   discards and stable tie-breaking.
+6. Keep the explanation adapter restricted to selected results. Extend its
+   typed payload and English templates without letting the LLM alter scores or
+   ranking. Version changes to presentation and prompts to invalidate stale cache.
 
-Exemplos de novas linhas de investigação: critérios climáticos sazonais com
-resolução regional, indicadores econômicos com período explícito, ou infraestrutura
-digital com evidência comparável. São extensões propostas, sem dados ou capacidades
-implementadas nesta entrega. O registro e o mapa podem ser substituídos para usar
-a mesma arquitetura com cidades, produtos ou documentos; essa generalização exige
-contratos e avaliação próprios.
+Possible research directions include seasonal climate at regional resolution,
+economic indicators with explicit periods and comparable digital-infrastructure
+evidence. These are future extensions, with no implemented dataset or claims in
+this release. Applying the same architecture to cities, products or documents
+would require a different registry, contracts and evaluation.

@@ -1,0 +1,143 @@
+{
+  "version": "synthetic-affinity-cases-en-v2",
+  "label_origin": "Synthetic functional expectations, translated without changing criteria, grades or splits; human relevance review remains pending.",
+  "k": 3,
+  "cases": [
+    {
+      "id": "coast-tune",
+      "split": "tune",
+      "type": "coast",
+      "text": "I prefer countries with a coastline",
+      "criteria": [
+        {
+          "attribute_id": "has_maritime_coast"
+        }
+      ],
+      "grades": {
+        "BRA": 3,
+        "CAN": 3,
+        "KEN": 3,
+        "MEX": 3,
+        "PSE": 3
+      }
+    },
+    {
+      "id": "combination-test",
+      "split": "test",
+      "type": "combination",
+      "text": "I prefer countries with a coastline and English as an official language",
+      "criteria": [
+        {
+          "attribute_id": "has_maritime_coast",
+          "weight": 3.0
+        },
+        {
+          "attribute_id": "english_official"
+        }
+      ],
+      "grades": {
+        "CAN": 3,
+        "KEN": 3,
+        "BRA": 1,
+        "MEX": 1
+      }
+    },
+    {
+      "id": "requirement-test",
+      "split": "test",
+      "type": "requirement",
+      "text": "I require a coastline and prefer English as an official language",
+      "criteria": [
+        {
+          "attribute_id": "has_maritime_coast",
+          "role": "requirement"
+        },
+        {
+          "attribute_id": "english_official"
+        }
+      ],
+      "grades": {
+        "CAN": 3,
+        "KEN": 3
+      }
+    },
+    {
+      "id": "negation-test",
+      "split": "test",
+      "type": "negation",
+      "text": "I prefer landlocked countries",
+      "criteria": [
+        {
+          "attribute_id": "has_maritime_coast",
+          "expected": false
+        }
+      ],
+      "grades": {
+        "CHE": 3,
+        "KAZ": 3,
+        "VAT": 3
+      }
+    },
+    {
+      "id": "language-test",
+      "split": "test",
+      "type": "language",
+      "text": "I prefer English as an official language",
+      "criteria": [
+        {
+          "attribute_id": "english_official"
+        }
+      ],
+      "grades": {
+        "CAN": 3,
+        "KEN": 3
+      }
+    },
+    {
+      "id": "empty-test",
+      "split": "test",
+      "type": "empty",
+      "text": "I require English as an official language and prefer landlocked countries",
+      "threshold": 1.0,
+      "criteria": [
+        {
+          "attribute_id": "has_maritime_coast",
+          "expected": false
+        },
+        {
+          "attribute_id": "english_official",
+          "role": "requirement"
+        }
+      ],
+      "grades": {}
+    },
+    {
+      "id": "missing-test",
+      "split": "test",
+      "type": "missing",
+      "text": "A coastline and English as an official language",
+      "criteria": [
+        {
+          "attribute_id": "has_maritime_coast"
+        },
+        {
+          "attribute_id": "english_official"
+        }
+      ],
+      "grades": {
+        "CAN": 3,
+        "KEN": 3,
+        "BRA": 1,
+        "MEX": 1
+      },
+      "expected_status": {
+        "PSE": "insufficient_data",
+        "VAT": "insufficient_data"
+      }
+    }
+  ],
+  "clarifications": [
+    "I want beaches and English",
+    "I prefer a coastline and safety"
+  ]
+}

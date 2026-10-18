@@ -1,52 +1,42 @@
-# ADR 0004 — snapshots locais para dados de afinidade
+# ADR 0004 — Local affinity-data snapshots
 
-- Data da proposta: 05/10/2026; decisão confirmada em 18/10/2026.
-- Estado: aceita para a release de demonstração.
-- Issue: [#13](https://github.com/felpzw/jev-global-heatmap/issues/13).
-- Depende de [ADR 0003](0003-affinity-ranking.md) e contratos da #14.
-- Investigação original preservada em [DATA_RESEARCH.md](../DATA_RESEARCH.md).
+- Proposed October 5, 2026; accepted October 18, 2026 for the demonstration release.
+- Data issue: [#13](https://github.com/felpzw/jev-global-heatmap/issues/13).
+- Depends on [ADR 0003](0003-affinity-ranking.md) and #14 contracts.
+- Original investigation: [DATA_RESEARCH.md](../DATA_RESEARCH.md), preserved in Portuguese.
 
-## Contexto
+## Decision
 
-O ranking precisa de atributos rastreáveis, com ausência explícita e versões
-que reproduzam o resultado. O catálogo inicial contém dois booleanos para
-195 Estados. Não foi demonstrada necessidade de banco servidor ou consulta
-online durante o ranking.
+Use JSON for the catalog, registry, extracts and manifest, and JSONL for evidence.
+Keep small permitted artifacts in Git as complete, immutable published snapshots.
+Ranking verifies hashes and loads an index by country and attribute. Acquisition
+is an explicit command outside ranking. This volume does not require a server
+database or online queries.
 
-## Decisão
+Release `factbook-archive-v1` uses public Factbook fields from revision
+`144d6977b2b01ac1cbd220de754c0a005616760b`, with preserved extracts, pinned URLs,
+original profile hashes and a transformation-code hash. The investigated full
+country-code table is not redistributed. Profile routing is checked against
+the profiles' Internet country code field. PSE combines Gaza and the West Bank.
 
-JSON para catálogo, registro, extratos e manifesto; JSONL para evidências.
-Arquivos pequenos e permitidos ficam no Git como snapshots completos e
-imutáveis após publicação. O motor valida os hashes e carrega um índice por
-país/atributo. A aquisição é um comando explícito separado da execução.
+The Factbook ended in 2026; the release is historical, without a guarantee of
+current validity. Inconclusive, de facto or missing official-language status
+stays missing. Beach quality and proficiency are outside the implemented catalog.
+Sources, licenses and territorial policy are in [SOURCES.md](../../data/SOURCES.md).
 
-A release `factbook-archive-v1` usa campos do arquivo público Factbook na revisão
-`144d6977b2b01ac1cbd220de754c0a005616760b`, com extratos preservados, URLs fixadas,
-hashes dos perfis e código de transformação identificado. A tabela de códigos
-inicialmente investigada não é redistribuída; os perfis são validados pelo
-próprio campo Internet country code. Gaza e Cisjordânia são agregadas em PSE.
+## Pilot evidence and alternatives
 
-O Factbook foi encerrado em 2026. A release é histórica, sem garantia de vigência
-atual. Idioma de facto, status inconclusivo e ausência permanecem missing;
-proficiência e qualidade de praia não foram habilitadas. Fontes, licenças,
-regras e política territorial estão em [SOURCES.md](../../data/SOURCES.md).
+There are 390 country/criterion positions: 195/195 coastline values and 133/195
+admissible official-English values, with 62 explicit language gaps. Offline
+byte-for-byte reconstruction passes `scripts.verify_dataset`. Extraction
+coverage does not establish factual accuracy or current validity.
 
-## Evidências do piloto
+CSV is an export format. SQLite could be a derived store if history or queries
+justify it. Parquet/DuckDB remain candidates for larger analytical workloads.
+JSON/JSONL supports review but requires explicit validation of relationships
+and release-wide integrity.
 
-- 390 posições país/critério: litoral 195/195 e inglês oficial 133/195.
-- 62 lacunas de idioma explícitas, sem inferência por LLM ou imputação.
-- Reconstrução offline byte a byte aprovada por `scripts.verify_dataset`.
-- Nenhuma consulta SQL ou volume observado justificou acrescentar banco.
-- Cobertura de extração não comprova precisão ou vigência dos fatos.
-
-## Alternativas e consequências
-
-CSV é exportação; SQLite pode ser uma derivação para histórico/consultas se
-necessário. Parquet/DuckDB ficam para volume analítico maior. Banco servidor
-permanece adiado. JSON/JSONL facilita revisão, mas integridade relacional e
-publicação do conjunto dependem do validador e do manifesto.
-
-Preservar extratos necessários para reprodução. Mudanças de fonte, valor,
-catálogo ou transformação exigem nova release e hashes; rollback usa a versão
-anterior e invalida o cache por identidade. Expansões de escala, concorrência,
-critérios ou exigência de dados atuais podem revisar esta decisão.
+Changes to sources, values, catalog or transformation require a new release and
+hashes. Retain the extracts needed for reproduction. Rollback uses a previous
+version and invalidates caches by identity. English presentation is applied at
+runtime and does not rewrite published source files.

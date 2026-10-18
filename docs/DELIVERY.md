@@ -1,50 +1,46 @@
-# Entrega e avaliação das issues — 18/10/2026
+# Delivery and issue evaluation record
 
-Destino da integração: `develop`. A `main` permanece a versão anterior até uma
-promoção própria. Nenhum stash foi encontrado no início; nenhum foi criado ou
-descartado. A pesquisa de dados que já estava no diretório foi preservada no
-commit `62bf4db`, antes da implementação.
+The original JEV implementation was integrated into `develop` through
+[PR #22](https://github.com/felpzw/jev-global-heatmap/pull/22) on October 18, 2026.
+The initial uncommitted research was preserved in commit `62bf4db`; no stashes
+were present or discarded. Commits were grouped by data/foundation, engine,
+interface and evaluation/documentation.
 
-| Issue | Resultado técnico | Evidências / limite |
+| Issue | Technical outcome | Evidence and limit |
 | --- | --- | --- |
-| #13 · Dados | Implementada para o catálogo inicial | Snapshot com 390 posições, 195/195 litoral e 133/195 idioma; extratos, hashes, cobertura e reconstrução offline; fontes históricas, sem auditoria factual completa |
-| #14 · Fundação | Implementada | Registro ONU 195; contratos estritos; score/estado/seleção/explicação independentes; finitude, duplicatas e round-trip testados |
-| #15 · Motor | Implementada | Parser conservador, revisão obrigatória, filtros e score ponderado, desempate ISO, seleção 20/10, adaptador restrito e fallback; cache/checkpoints/cancelamento cooperativo |
-| #16 · Interface | Implementada | Mapa, estados, ranking, critérios, fontes, busca por 195, fixture fictícia, JSON e regressões de sessão; base cartográfica usa CDN |
-| #17 · Avaliação | Parte offline implementada; aceite externo pendente | Protocolo, casos tune/test, baseline simples, métricas e latências; comparação Gemini real e revisão humana no repasse |
+| #13 — Data | Completed for the starter catalog | 390 positions; coastline 195/195 and official English 133/195; extracts, hashes and offline reconstruction; historical sources without a complete human factual audit |
+| #14 — Foundation | Completed | Exact 195-state scope, strict contracts, independent score/status/selection/explanation, finite values and JSON round-trip |
+| #15 — Engine | Completed | Conservative parser, confirmed criteria, requirements, weighted score, stable ISO ties, bounded explanations, templates, session cache, checkpoints and cooperative cancellation |
+| #16 — Interface | Completed | Map, ranking, evidence, source inspection, 195-state search, synthetic fixture and JSON; browser basemap uses CDN |
+| #17 — Evaluation | Offline portion complete; external acceptance pending | Fixed synthetic cases, baseline and ranking/latency metrics; live Gemini comparison and human review remain in the handoff |
 
-## Verificações
+## English adaptation
 
-- 61 testes offline aprovados, incluindo MVP preservado, contratos JEV, motor, mapa, interface,
-  métricas e integração do SDK real sobre HTTP simulado.
-- `python -m scripts.verify_dataset`: reconstrução idêntica dos artefatos e
-  verificação de integridade, sem rede.
-- `python evaluate_affinity.py`: metas funcionais aprovadas nas fixtures anotadas.
-- `python -m pip check`: dependências consistentes.
-- Workflow GitHub Actions: instalação, integridade, testes e avaliação sem chaves.
-- Execução local no Safari: revisão/confirmacão, resultado, mapa e ranking visíveis.
+The interface, map, country names, explanations, errors, runtime evidence notes,
+showcase exports and public documentation now use English. Natural English
+queries support requirements, preferences, coastline/landlocked synonyms and
+negation, with existing Portuguese input compatibility. Presentation and prompt
+versions prevent reuse of older explanations. Published source hashes are unchanged.
 
-No teste sintético: recall de candidatos 1,0; precision@3 0,722 (inclui caso sem
-resultados no agregado); NDCG@3 1,0 nos casos com relevância definida. Zero requisito
-violado e zero falso descarte anotado. Paridade com baseline simples nesses casos;
-nenhuma superioridade do ranker foi demonstrada. Latência e ambiente estão no JSON,
-sem generalização para produção. O arquivo real mede cobertura, sem notas de
-relevância humana ou verificação de vigência nacional.
+The [English experience notes](ENGLISH_EXPERIENCE.md) describe the scope and tests.
+The [English evaluation](evaluations/affinity_english.json) keeps the original
+labels and splits: candidate recall 1.0, precision@3 0.722 and NDCG@3 1.0 on the
+synthetic test set. The precision aggregate includes the empty-result case.
+There were no annotated false discards or requirement violations. Parity with
+the simple baseline does not establish superiority or real-query relevance.
 
-## Organização do histórico
+## Verification
 
-1. Preservar pesquisa inicial em commit documental próprio.
-2. Implementar fundação e dados versionados.
-3. Implementar motor, seleção e resiliência com testes.
-4. Integrar interface e manter o MVP em `src/legacy_app.py`.
-5. Publicar avaliação, CI, documentação, repasse e kit de portfólio.
-6. Abrir PR para `develop`, conferir verificações e integrar por merge commit,
-   preservando os commits temáticos e as branches existentes.
+- The original delivery passed 61 offline tests and GitHub Actions.
+- The English iteration passes 69 tests, including natural English parsing,
+  country search, export language, SDK instructions, presentation-cache
+  invalidation, preserved source values and Portuguese query compatibility.
+- `scripts.verify_dataset` confirms byte-identical source-data reconstruction.
+- `pip check` verifies installed dependency consistency; Markdown links and
+  `git diff --check` are checked before integration.
+- GitHub Actions runs integrity checks, tests and evaluation without API keys.
+  Remote integration and check status are recorded in the delivery PR.
 
-A situação efetiva do merge e das verificações remotas consta na PR. Os commits
-locais não reescrevem história publicada. Credenciais, checkpoints e relatórios
-de sessão permanecem fora do Git.
-
-Pendência manual necessária: [HANDOFF.md](HANDOFF.md). Material de publicação:
-[PORTFOLIO.md](PORTFOLIO.md). O encerramento da #17 depende das evidências reais
-e da revisão humana descritas no repasse, não apenas da passagem dos testes.
+Manual acceptance work is in [HANDOFF.md](HANDOFF.md). Publication material,
+video script and demonstration exports are in [PORTFOLIO.md](PORTFOLIO.md).
+Issue #17 stays open until the live measurements and human review are available.

@@ -1,52 +1,56 @@
-# Protocolo de avaliação de afinidade — v1
+# Affinity evaluation protocol — English v2
 
-Definido em 18/10/2026 antes da execução de `evaluate_affinity.py`.
+English adaptation of the protocol defined on October 18, 2026. The English
+queries are fixed before running the localized evaluation. Criteria, weights,
+labels, splits and acceptance targets match the original protocol.
 
-O ensaio offline verifica a implementação em fixtures sintéticas, com rótulos
-explícitos independentes da execução. Não mede relevância percebida por usuários,
-veracidade das fontes, ganho sobre busca semântica universal ou economia monetária.
+The offline experiment checks functional behavior with synthetic fixtures and
+explicit expected labels. It does not measure user-perceived relevance, source
+truth, universal semantic search or monetary savings.
 
-- Dataset: `synthetic-demo-v1`, oito países com valores definidos; demais posições
-  permanecem ausentes. Registro de 195; catálogo `coast-language-v1`.
-- Separação: um caso `tune` documenta configuração; seis casos `test` ficam fixos.
-  Dois pedidos adicionais verificam esclarecimento, sem execução automática.
-- K de relatório: 3; seleção: limiar 50, até 20 candidatos/10 justificativas.
-  Caso vazio usa limiar 1 e pesos/atributos descritos no arquivo de casos.
-- Relevância: grau 3 para combinação completa, 1 para compatibilidade parcial
-  explicitamente relevante, 0 para não relevante. Rótulo ausente não é fato negativo
-  sobre um país; neste ensaio sintético significa fora do conjunto relevante anotado.
-- Métricas: recall dos candidatos, precision@3 (denominador 3 mesmo com menos
-  resultados), NDCG@3 com ganho `2**grau-1`, falsos descartes e requisitos violados.
-  Conjunto relevante vazio: recall/NDCG nulos, seleção deve ser vazia.
-- Metas funcionais: zero requisito violado; zero falso descarte dos relevantes
-  anotados nestas fixtures; zero chamadas no modo local; esclarecimento de todos
-  os casos ambíguos; paridade de ordenação com baseline simples de contagem de
-  correspondências nos casos anotados. Paridade não demonstra superioridade.
-- Baseline offline: regra independente, sem pesos, sobre os mesmos booleanos,
-  requisitos e política de dados completos. Publicar diferenças quando houver.
-- Latência: cinco repetições por consulta, ranking sem cache e recuperação do
-  cache de sessão; percentis por interpolação linear. Aquisição é etapa separada,
-  não medida pelo tempo de ranking. Ambiente e versões constam no relatório.
+- Dataset: `synthetic-demo-v1`; eight states have defined fixture values and the
+  other registry positions remain missing. Registry size: 195; catalog:
+  `coast-language-v1`.
+- Cases: `data/affinity_evaluation_cases_en.json`, version
+  `synthetic-affinity-cases-en-v2`. One tuning case, six test cases and two
+  clarification requests. The Portuguese cases remain available for comparison.
+- Report K: 3. Selection: threshold 50, at most 20 candidates and 10 explanations.
+  The empty case uses threshold 1 and its explicitly declared criteria.
+- Relevance: grade 3 for a complete match, 1 for an explicitly relevant partial
+  match, and 0 for a non-relevant fixture entry. An absent label is not a negative
+  factual statement about a real country.
+- Metrics: candidate recall, precision@3 with a fixed denominator of 3, NDCG@3
+  with gain `2**grade - 1`, false discards and requirement violations. Recall and
+  NDCG are null for an empty relevant set; selection should be empty.
+- Functional targets: zero requirement violations, zero annotated false discards,
+  zero local-mode API calls, clarification for every ambiguity case and ranking
+  parity with the independent simple baseline on the annotated cases. Parity
+  does not demonstrate superiority.
+- Baseline: an unweighted match-count rule using the same boolean evidence,
+  requirements and complete-data policy. Report differences when present.
+- Latency: five repetitions per query, without cache and with session cache;
+  linearly interpolated percentiles. Acquisition, network and UI time are
+  excluded from the local ranking measurement. Record environment and versions.
 
-`--live --repeats 3` adiciona comparação alternada entre JEV com explicações
-restritas e Gemini amplo usando o mesmo modelo, critérios e evidências sintéticas.
-O baseline amplo recebe os 195 registros (inclusive lacunas), calcula seleção e
-justificativas; JEV envia somente os selecionados e já calcula os scores localmente.
-O limite de saída é 4096 tokens e o timeout é 30 s, uma tentativa por chamada.
-Truncamento do baseline deve ser registrado como falha, sem medir como economia.
+`--live --repeats 3` adds an alternating comparison of JEV with restricted
+explanations versus broad Gemini, using the same model, confirmed criteria and
+synthetic evidence. Broad Gemini sees all 195 positions, including gaps, and
+calculates selection and explanations. JEV calculates scores locally and sends
+only the selected explanation subset. Both variants request English output,
+with 4,096 output tokens, a 30-second timeout and one attempt per call.
 
-Esse ensaio é diferente de comparar os scores livres do MVP em temas arbitrários.
-O acesso às evidências é igual, mas a tarefa solicitada ao modelo é diferente:
-esse é justamente o contraste arquitetural; não isola só o efeito de tamanho do
-prompt. As chamadas reais retornam tokens quando disponíveis, latência e texto
-para revisão. Custo permanece null sem uma tarifa verificada; preços não são
-inferidos de tokens. A execução pode gerar cobrança no provedor.
+The variants ask the model to do different work; this evaluates an architectural
+choice rather than isolating prompt length alone. Record truncation as failure,
+not as savings. Record actual tokens when available, latency and output for
+review. Cost stays null without a verified tariff. Live execution can incur
+provider charges.
 
-A revisão humana deve marcar cada afirmação como sustentada, não sustentada ou
-inconclusiva, conferir evidence_ids, ordem e requisitos e registrar revisor/data.
-Rótulos sintéticos não substituem julgamento de consultas reais. Antes de alegar
-qualidade externa, revisar vigência do snapshot e anotar um conjunto independente
-de pedidos reais, sem ajustar o parser sobre o teste.
+A human reviewer should classify every claim as supported, unsupported or
+inconclusive; check evidence IDs, ranking and requirements; and record reviewer
+and date. Synthetic labels do not replace judgments on independent real queries.
+Review the historical snapshot's current validity before making external quality
+claims. Live cost and human review remain pending without credentials and a reviewer.
 
-Resultados reais de custo e revisão humana permanecem pendentes quando não há
-credenciais/revisor. O relatório publica esses campos como não executados.
+The [original report](evaluations/affinity_offline.json) belongs to the earlier
+Portuguese run. The [English report](evaluations/affinity_english.json) records
+its own protocol, evaluator and case hashes; source-data hashes stay unchanged.
