@@ -10,7 +10,7 @@ from src.services.schema import HeatmapResponse
 from src.components.map_renderer import plot_heatmap
 from tests.test_pipeline import VALID, completed_response
 
-APP = Path(__file__).resolve().parents[1] / "src/app.py"
+APP = Path(__file__).resolve().parents[1] / "src/legacy_app.py"
 
 
 class AppTests(unittest.TestCase):
