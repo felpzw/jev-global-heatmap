@@ -1,0 +1,20 @@
+{
+  "dataset_version": "factbook-archive-v1",
+  "catalog_version": "coast-language-v1",
+  "registry_version": "un-195-v1",
+  "transform_version": "factbook-extract-v1",
+  "transform_sha256": "037f3703e1332055aad204eb1cf20a354cbfe4f6f13fe740f871c2bbee31eee5",
+  "collected_at": "2026-10-18T17:05:06.383350+00:00",
+  "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+  "historical": true,
+  "synthetic": false,
+  "warning": "Snapshot histórico do Factbook encerrado em 2026. Verificar vigência antes de usos reais. Litoral não mede praia; idioma oficial não mede proficiência.",
+  "files": {
+    "data/affinity/v1/evidence.jsonl": "8b4d0d4e41e1673e748e622faacefe4a37a569ad899a0479f6b4fa3c7b91bd67",
+    "data/affinity/v1/coverage.json": "99649c0dd74d1ac3ab8a6e801c62e8e4cf3947178c293a8397e24fe7a21eec7f",
+    "data/country_registry.json": "a03a1cdb81ea4a461c6480302529746a738e4243477974b4ebdaa86bc6c0889c",
+    "data/criteria_catalog.json": "16728335645798feb3fae3e09343ddc2fb6aaec9857c19af0fe3c7fff59f777d",
+    "data/sources/factbook_extract.json": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+    "data/sources/factbook_routes.json": "d744fe2954ad4a70ae725090ca4895790f1fc812d3fca99bc70769f338fa688f"
+  }
+}

@@ -1,0 +1,1377 @@
+{
+  "version": "un-195-v1",
+  "reviewed_at": "2026-10-18",
+  "sources": [
+    "https://www.un.org/en/about-us/member-states",
+    "https://research.un.org/en/unmembers/observers",
+    "https://unstats.un.org/unsd/methodology/m49/overview/"
+  ],
+  "code_source": "pycountry 26.2.16",
+  "countries": [
+    {
+      "iso_alpha_3": "AFG",
+      "m49": "004",
+      "name": "Afeganistão",
+      "name_en": "Afghanistan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "AGO",
+      "m49": "024",
+      "name": "Angola",
+      "name_en": "Angola",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ALB",
+      "m49": "008",
+      "name": "Albânia",
+      "name_en": "Albania",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "AND",
+      "m49": "020",
+      "name": "Andorra",
+      "name_en": "Andorra",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ARE",
+      "m49": "784",
+      "name": "Emirados Árabes Unidos",
+      "name_en": "United Arab Emirates",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ARG",
+      "m49": "032",
+      "name": "Argentina",
+      "name_en": "Argentina",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ARM",
+      "m49": "051",
+      "name": "Arménia",
+      "name_en": "Armenia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ATG",
+      "m49": "028",
+      "name": "Antígua e Barbuda",
+      "name_en": "Antigua and Barbuda",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "AUS",
+      "m49": "036",
+      "name": "Austrália",
+      "name_en": "Australia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "AUT",
+      "m49": "040",
+      "name": "Áustria",
+      "name_en": "Austria",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "AZE",
+      "m49": "031",
+      "name": "Azerbaijão",
+      "name_en": "Azerbaijan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BDI",
+      "m49": "108",
+      "name": "Burundi",
+      "name_en": "Burundi",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BEL",
+      "m49": "056",
+      "name": "Bélgica",
+      "name_en": "Belgium",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BEN",
+      "m49": "204",
+      "name": "Benim",
+      "name_en": "Benin",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BFA",
+      "m49": "854",
+      "name": "Burkina Faso",
+      "name_en": "Burkina Faso",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BGD",
+      "m49": "050",
+      "name": "Bangladeche",
+      "name_en": "Bangladesh",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BGR",
+      "m49": "100",
+      "name": "Bulgária",
+      "name_en": "Bulgaria",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BHR",
+      "m49": "048",
+      "name": "Barém",
+      "name_en": "Bahrain",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BHS",
+      "m49": "044",
+      "name": "Bahamas",
+      "name_en": "Bahamas",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BIH",
+      "m49": "070",
+      "name": "Bósnia e Herzegovina",
+      "name_en": "Bosnia and Herzegovina",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BLR",
+      "m49": "112",
+      "name": "Bielorússia",
+      "name_en": "Belarus",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BLZ",
+      "m49": "084",
+      "name": "Belize",
+      "name_en": "Belize",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BOL",
+      "m49": "068",
+      "name": "Bolívia, Estado Plurinacional da",
+      "name_en": "Bolivia, Plurinational State of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BRA",
+      "m49": "076",
+      "name": "Brasil",
+      "name_en": "Brazil",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BRB",
+      "m49": "052",
+      "name": "Barbados",
+      "name_en": "Barbados",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BRN",
+      "m49": "096",
+      "name": "Brunei",
+      "name_en": "Brunei Darussalam",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BTN",
+      "m49": "064",
+      "name": "Butão",
+      "name_en": "Bhutan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "BWA",
+      "m49": "072",
+      "name": "Botsuana",
+      "name_en": "Botswana",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CAF",
+      "m49": "140",
+      "name": "República Centro-Africana",
+      "name_en": "Central African Republic",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CAN",
+      "m49": "124",
+      "name": "Canadá",
+      "name_en": "Canada",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CHE",
+      "m49": "756",
+      "name": "Suíça",
+      "name_en": "Switzerland",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CHL",
+      "m49": "152",
+      "name": "Chile",
+      "name_en": "Chile",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CHN",
+      "m49": "156",
+      "name": "China",
+      "name_en": "China",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CIV",
+      "m49": "384",
+      "name": "Costa do Marfim",
+      "name_en": "Côte d'Ivoire",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CMR",
+      "m49": "120",
+      "name": "Camarões",
+      "name_en": "Cameroon",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "COD",
+      "m49": "180",
+      "name": "Congo, República Democrática do",
+      "name_en": "Congo, The Democratic Republic of the",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "COG",
+      "m49": "178",
+      "name": "Congo",
+      "name_en": "Congo",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "COL",
+      "m49": "170",
+      "name": "Colômbia",
+      "name_en": "Colombia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "COM",
+      "m49": "174",
+      "name": "Comores",
+      "name_en": "Comoros",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CPV",
+      "m49": "132",
+      "name": "Cabo Verde",
+      "name_en": "Cabo Verde",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CRI",
+      "m49": "188",
+      "name": "Costa Rica",
+      "name_en": "Costa Rica",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CUB",
+      "m49": "192",
+      "name": "Cuba",
+      "name_en": "Cuba",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CYP",
+      "m49": "196",
+      "name": "Chipre",
+      "name_en": "Cyprus",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "CZE",
+      "m49": "203",
+      "name": "Chéquia",
+      "name_en": "Czechia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "DEU",
+      "m49": "276",
+      "name": "Alemanha",
+      "name_en": "Germany",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "DJI",
+      "m49": "262",
+      "name": "Djibouti",
+      "name_en": "Djibouti",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "DMA",
+      "m49": "212",
+      "name": "Dominica",
+      "name_en": "Dominica",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "DNK",
+      "m49": "208",
+      "name": "Dinamarca",
+      "name_en": "Denmark",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "DOM",
+      "m49": "214",
+      "name": "República Dominicana",
+      "name_en": "Dominican Republic",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "DZA",
+      "m49": "012",
+      "name": "Argélia",
+      "name_en": "Algeria",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ECU",
+      "m49": "218",
+      "name": "Equador",
+      "name_en": "Ecuador",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "EGY",
+      "m49": "818",
+      "name": "Egito",
+      "name_en": "Egypt",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ERI",
+      "m49": "232",
+      "name": "Eritreia",
+      "name_en": "Eritrea",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ESP",
+      "m49": "724",
+      "name": "Espanha",
+      "name_en": "Spain",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "EST",
+      "m49": "233",
+      "name": "Estónia",
+      "name_en": "Estonia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ETH",
+      "m49": "231",
+      "name": "Etiópia",
+      "name_en": "Ethiopia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "FIN",
+      "m49": "246",
+      "name": "Finlândia",
+      "name_en": "Finland",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "FJI",
+      "m49": "242",
+      "name": "Fiji",
+      "name_en": "Fiji",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "FRA",
+      "m49": "250",
+      "name": "França",
+      "name_en": "France",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "FSM",
+      "m49": "583",
+      "name": "Micronésia, Estados Federados da",
+      "name_en": "Micronesia, Federated States of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GAB",
+      "m49": "266",
+      "name": "Gabão",
+      "name_en": "Gabon",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GBR",
+      "m49": "826",
+      "name": "Reino Unido",
+      "name_en": "United Kingdom",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GEO",
+      "m49": "268",
+      "name": "Geórgia",
+      "name_en": "Georgia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GHA",
+      "m49": "288",
+      "name": "Gana",
+      "name_en": "Ghana",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GIN",
+      "m49": "324",
+      "name": "Guiné",
+      "name_en": "Guinea",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GMB",
+      "m49": "270",
+      "name": "Gâmbia",
+      "name_en": "Gambia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GNB",
+      "m49": "624",
+      "name": "Guiné-Bissáu",
+      "name_en": "Guinea-Bissau",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GNQ",
+      "m49": "226",
+      "name": "Guiné Equatorial",
+      "name_en": "Equatorial Guinea",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GRC",
+      "m49": "300",
+      "name": "Grécia",
+      "name_en": "Greece",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GRD",
+      "m49": "308",
+      "name": "Granada",
+      "name_en": "Grenada",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GTM",
+      "m49": "320",
+      "name": "Guatemala",
+      "name_en": "Guatemala",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "GUY",
+      "m49": "328",
+      "name": "Guiana",
+      "name_en": "Guyana",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "HND",
+      "m49": "340",
+      "name": "Honduras",
+      "name_en": "Honduras",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "HRV",
+      "m49": "191",
+      "name": "Croácia",
+      "name_en": "Croatia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "HTI",
+      "m49": "332",
+      "name": "Haiti",
+      "name_en": "Haiti",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "HUN",
+      "m49": "348",
+      "name": "Hungria",
+      "name_en": "Hungary",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "IDN",
+      "m49": "360",
+      "name": "Indonésia",
+      "name_en": "Indonesia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "IND",
+      "m49": "356",
+      "name": "Índia",
+      "name_en": "India",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "IRL",
+      "m49": "372",
+      "name": "Irlanda",
+      "name_en": "Ireland",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "IRN",
+      "m49": "364",
+      "name": "Irão, República Islâmica do",
+      "name_en": "Iran, Islamic Republic of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "IRQ",
+      "m49": "368",
+      "name": "Iraque",
+      "name_en": "Iraq",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ISL",
+      "m49": "352",
+      "name": "Islândia",
+      "name_en": "Iceland",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ISR",
+      "m49": "376",
+      "name": "Israel",
+      "name_en": "Israel",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ITA",
+      "m49": "380",
+      "name": "Itália",
+      "name_en": "Italy",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "JAM",
+      "m49": "388",
+      "name": "Jamaica",
+      "name_en": "Jamaica",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "JOR",
+      "m49": "400",
+      "name": "Jordânia",
+      "name_en": "Jordan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "JPN",
+      "m49": "392",
+      "name": "Japão",
+      "name_en": "Japan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KAZ",
+      "m49": "398",
+      "name": "Cazaquistão",
+      "name_en": "Kazakhstan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KEN",
+      "m49": "404",
+      "name": "Quénia",
+      "name_en": "Kenya",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KGZ",
+      "m49": "417",
+      "name": "Quirguistão",
+      "name_en": "Kyrgyzstan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KHM",
+      "m49": "116",
+      "name": "Camboja",
+      "name_en": "Cambodia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KIR",
+      "m49": "296",
+      "name": "Kiribati",
+      "name_en": "Kiribati",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KNA",
+      "m49": "659",
+      "name": "São Cristóvão e Nevis",
+      "name_en": "Saint Kitts and Nevis",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KOR",
+      "m49": "410",
+      "name": "Coreia, República da",
+      "name_en": "Korea, Republic of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "KWT",
+      "m49": "414",
+      "name": "Kuwait",
+      "name_en": "Kuwait",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LAO",
+      "m49": "418",
+      "name": "República Democrática Popular do Laos",
+      "name_en": "Lao People's Democratic Republic",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LBN",
+      "m49": "422",
+      "name": "Líbano",
+      "name_en": "Lebanon",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LBR",
+      "m49": "430",
+      "name": "Libéria",
+      "name_en": "Liberia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LBY",
+      "m49": "434",
+      "name": "Líbia",
+      "name_en": "Libya",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LCA",
+      "m49": "662",
+      "name": "Santa Lúcia",
+      "name_en": "Saint Lucia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LIE",
+      "m49": "438",
+      "name": "Liechtenstein",
+      "name_en": "Liechtenstein",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LKA",
+      "m49": "144",
+      "name": "Sri Lanka",
+      "name_en": "Sri Lanka",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LSO",
+      "m49": "426",
+      "name": "Lesoto",
+      "name_en": "Lesotho",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LTU",
+      "m49": "440",
+      "name": "Lituânia",
+      "name_en": "Lithuania",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LUX",
+      "m49": "442",
+      "name": "Luxemburgo",
+      "name_en": "Luxembourg",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "LVA",
+      "m49": "428",
+      "name": "Letónia",
+      "name_en": "Latvia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MAR",
+      "m49": "504",
+      "name": "Marrocos",
+      "name_en": "Morocco",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MCO",
+      "m49": "492",
+      "name": "Mónaco",
+      "name_en": "Monaco",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MDA",
+      "m49": "498",
+      "name": "Moldávia, República da",
+      "name_en": "Moldova, Republic of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MDG",
+      "m49": "450",
+      "name": "Madagáscar",
+      "name_en": "Madagascar",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MDV",
+      "m49": "462",
+      "name": "Maldivas",
+      "name_en": "Maldives",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MEX",
+      "m49": "484",
+      "name": "México",
+      "name_en": "Mexico",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MHL",
+      "m49": "584",
+      "name": "Ilhas Marshall",
+      "name_en": "Marshall Islands",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MKD",
+      "m49": "807",
+      "name": "Macedónia do Norte",
+      "name_en": "North Macedonia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MLI",
+      "m49": "466",
+      "name": "Mali",
+      "name_en": "Mali",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MLT",
+      "m49": "470",
+      "name": "Malta",
+      "name_en": "Malta",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MMR",
+      "m49": "104",
+      "name": "Birmânia",
+      "name_en": "Myanmar",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MNE",
+      "m49": "499",
+      "name": "Montenegro",
+      "name_en": "Montenegro",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MNG",
+      "m49": "496",
+      "name": "Mongólia",
+      "name_en": "Mongolia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MOZ",
+      "m49": "508",
+      "name": "Moçambique",
+      "name_en": "Mozambique",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MRT",
+      "m49": "478",
+      "name": "Mauritânia",
+      "name_en": "Mauritania",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MUS",
+      "m49": "480",
+      "name": "Maurícia",
+      "name_en": "Mauritius",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MWI",
+      "m49": "454",
+      "name": "Malawi",
+      "name_en": "Malawi",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "MYS",
+      "m49": "458",
+      "name": "Malásia",
+      "name_en": "Malaysia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NAM",
+      "m49": "516",
+      "name": "Namíbia",
+      "name_en": "Namibia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NER",
+      "m49": "562",
+      "name": "Níger",
+      "name_en": "Niger",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NGA",
+      "m49": "566",
+      "name": "Nigéria",
+      "name_en": "Nigeria",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NIC",
+      "m49": "558",
+      "name": "Nicarágua",
+      "name_en": "Nicaragua",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NLD",
+      "m49": "528",
+      "name": "Países Baixos",
+      "name_en": "Netherlands",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NOR",
+      "m49": "578",
+      "name": "Noruega",
+      "name_en": "Norway",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NPL",
+      "m49": "524",
+      "name": "Nepal",
+      "name_en": "Nepal",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NRU",
+      "m49": "520",
+      "name": "Nauru",
+      "name_en": "Nauru",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "NZL",
+      "m49": "554",
+      "name": "Nova Zelândia",
+      "name_en": "New Zealand",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "OMN",
+      "m49": "512",
+      "name": "Omã",
+      "name_en": "Oman",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PAK",
+      "m49": "586",
+      "name": "Paquistão",
+      "name_en": "Pakistan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PAN",
+      "m49": "591",
+      "name": "Panamá",
+      "name_en": "Panama",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PER",
+      "m49": "604",
+      "name": "Peru",
+      "name_en": "Peru",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PHL",
+      "m49": "608",
+      "name": "Filipinas",
+      "name_en": "Philippines",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PLW",
+      "m49": "585",
+      "name": "Palau",
+      "name_en": "Palau",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PNG",
+      "m49": "598",
+      "name": "Papua Nova Guiné",
+      "name_en": "Papua New Guinea",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "POL",
+      "m49": "616",
+      "name": "Polónia",
+      "name_en": "Poland",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PRK",
+      "m49": "408",
+      "name": "Coreia, República Popular Democrática da",
+      "name_en": "Korea, Democratic People's Republic of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PRT",
+      "m49": "620",
+      "name": "Portugal",
+      "name_en": "Portugal",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PRY",
+      "m49": "600",
+      "name": "Paraguai",
+      "name_en": "Paraguay",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "PSE",
+      "m49": "275",
+      "name": "Palestina, Estado da",
+      "name_en": "Palestine, State of",
+      "un_status": "observer"
+    },
+    {
+      "iso_alpha_3": "QAT",
+      "m49": "634",
+      "name": "Catar",
+      "name_en": "Qatar",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ROU",
+      "m49": "642",
+      "name": "Roménia",
+      "name_en": "Romania",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "RUS",
+      "m49": "643",
+      "name": "Federação Russa",
+      "name_en": "Russian Federation",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "RWA",
+      "m49": "646",
+      "name": "Ruanda",
+      "name_en": "Rwanda",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SAU",
+      "m49": "682",
+      "name": "Arábia Saudita",
+      "name_en": "Saudi Arabia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SDN",
+      "m49": "729",
+      "name": "Sudão",
+      "name_en": "Sudan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SEN",
+      "m49": "686",
+      "name": "Senegal",
+      "name_en": "Senegal",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SGP",
+      "m49": "702",
+      "name": "Singapura",
+      "name_en": "Singapore",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SLB",
+      "m49": "090",
+      "name": "Ilhas Salomão",
+      "name_en": "Solomon Islands",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SLE",
+      "m49": "694",
+      "name": "Serra Leoa",
+      "name_en": "Sierra Leone",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SLV",
+      "m49": "222",
+      "name": "El Salvador",
+      "name_en": "El Salvador",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SMR",
+      "m49": "674",
+      "name": "San Marino",
+      "name_en": "San Marino",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SOM",
+      "m49": "706",
+      "name": "Somália",
+      "name_en": "Somalia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SRB",
+      "m49": "688",
+      "name": "Sérvia",
+      "name_en": "Serbia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SSD",
+      "m49": "728",
+      "name": "Sudão do Sul",
+      "name_en": "South Sudan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "STP",
+      "m49": "678",
+      "name": "São Tomé e Príncipe",
+      "name_en": "Sao Tome and Principe",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SUR",
+      "m49": "740",
+      "name": "Suriname",
+      "name_en": "Suriname",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SVK",
+      "m49": "703",
+      "name": "Eslováquia",
+      "name_en": "Slovakia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SVN",
+      "m49": "705",
+      "name": "Eslovénia",
+      "name_en": "Slovenia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SWE",
+      "m49": "752",
+      "name": "Suécia",
+      "name_en": "Sweden",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SWZ",
+      "m49": "748",
+      "name": "Suazilândia",
+      "name_en": "Eswatini",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SYC",
+      "m49": "690",
+      "name": "Seychelles",
+      "name_en": "Seychelles",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "SYR",
+      "m49": "760",
+      "name": "República Árabe Síria",
+      "name_en": "Syrian Arab Republic",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TCD",
+      "m49": "148",
+      "name": "Chade",
+      "name_en": "Chad",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TGO",
+      "m49": "768",
+      "name": "Togo",
+      "name_en": "Togo",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "THA",
+      "m49": "764",
+      "name": "Tailândia",
+      "name_en": "Thailand",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TJK",
+      "m49": "762",
+      "name": "Tajiquistão",
+      "name_en": "Tajikistan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TKM",
+      "m49": "795",
+      "name": "Turquemenistão",
+      "name_en": "Turkmenistan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TLS",
+      "m49": "626",
+      "name": "Timor-Leste",
+      "name_en": "Timor-Leste",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TON",
+      "m49": "776",
+      "name": "Tonga",
+      "name_en": "Tonga",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TTO",
+      "m49": "780",
+      "name": "Trindade e Tobago",
+      "name_en": "Trinidad and Tobago",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TUN",
+      "m49": "788",
+      "name": "Tunísia",
+      "name_en": "Tunisia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TUR",
+      "m49": "792",
+      "name": "Turquia",
+      "name_en": "Türkiye",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TUV",
+      "m49": "798",
+      "name": "Tuvalu",
+      "name_en": "Tuvalu",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "TZA",
+      "m49": "834",
+      "name": "Tanzânia, República Unida da",
+      "name_en": "Tanzania, United Republic of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "UGA",
+      "m49": "800",
+      "name": "Uganda",
+      "name_en": "Uganda",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "UKR",
+      "m49": "804",
+      "name": "Ucrânia",
+      "name_en": "Ukraine",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "URY",
+      "m49": "858",
+      "name": "Uruguai",
+      "name_en": "Uruguay",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "USA",
+      "m49": "840",
+      "name": "Estados Unidos",
+      "name_en": "United States",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "UZB",
+      "m49": "860",
+      "name": "Uzbequistão",
+      "name_en": "Uzbekistan",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "VAT",
+      "m49": "336",
+      "name": "Santa Sé (Estado da Cidade do Vaticano)",
+      "name_en": "Holy See (Vatican City State)",
+      "un_status": "observer"
+    },
+    {
+      "iso_alpha_3": "VCT",
+      "m49": "670",
+      "name": "São Vicente e Granadinas",
+      "name_en": "Saint Vincent and the Grenadines",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "VEN",
+      "m49": "862",
+      "name": "Venezuela, República Bolivariana da",
+      "name_en": "Venezuela, Bolivarian Republic of",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "VNM",
+      "m49": "704",
+      "name": "Vietname",
+      "name_en": "Viet Nam",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "VUT",
+      "m49": "548",
+      "name": "Vanuatu",
+      "name_en": "Vanuatu",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "WSM",
+      "m49": "882",
+      "name": "Samoa",
+      "name_en": "Samoa",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "YEM",
+      "m49": "887",
+      "name": "Iémen",
+      "name_en": "Yemen",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ZAF",
+      "m49": "710",
+      "name": "África do Sul",
+      "name_en": "South Africa",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ZMB",
+      "m49": "894",
+      "name": "Zâmbia",
+      "name_en": "Zambia",
+      "un_status": "member"
+    },
+    {
+      "iso_alpha_3": "ZWE",
+      "m49": "716",
+      "name": "Zimbábue",
+      "name_en": "Zimbabwe",
+      "un_status": "member"
+    }
+  ]
+}

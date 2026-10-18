@@ -1,0 +1,588 @@
+{
+  "AFG": [
+    "south-asia/af.json"
+  ],
+  "AGO": [
+    "africa/ao.json"
+  ],
+  "ALB": [
+    "europe/al.json"
+  ],
+  "AND": [
+    "europe/an.json"
+  ],
+  "ARE": [
+    "middle-east/ae.json"
+  ],
+  "ARG": [
+    "south-america/ar.json"
+  ],
+  "ARM": [
+    "central-asia/am.json"
+  ],
+  "ATG": [
+    "central-america-n-caribbean/ac.json"
+  ],
+  "AUS": [
+    "australia-oceania/as.json"
+  ],
+  "AUT": [
+    "europe/au.json"
+  ],
+  "AZE": [
+    "central-asia/aj.json"
+  ],
+  "BDI": [
+    "africa/by.json"
+  ],
+  "BEL": [
+    "europe/be.json"
+  ],
+  "BEN": [
+    "africa/bn.json"
+  ],
+  "BFA": [
+    "africa/uv.json"
+  ],
+  "BGD": [
+    "south-asia/bg.json"
+  ],
+  "BGR": [
+    "europe/bu.json"
+  ],
+  "BHR": [
+    "middle-east/ba.json"
+  ],
+  "BHS": [
+    "central-america-n-caribbean/bf.json"
+  ],
+  "BIH": [
+    "europe/bk.json"
+  ],
+  "BLR": [
+    "europe/bo.json"
+  ],
+  "BLZ": [
+    "central-america-n-caribbean/bh.json"
+  ],
+  "BOL": [
+    "south-america/bl.json"
+  ],
+  "BRA": [
+    "south-america/br.json"
+  ],
+  "BRB": [
+    "central-america-n-caribbean/bb.json"
+  ],
+  "BRN": [
+    "east-n-southeast-asia/bx.json"
+  ],
+  "BTN": [
+    "south-asia/bt.json"
+  ],
+  "BWA": [
+    "africa/bc.json"
+  ],
+  "CAF": [
+    "africa/ct.json"
+  ],
+  "CAN": [
+    "north-america/ca.json"
+  ],
+  "CHE": [
+    "europe/sz.json"
+  ],
+  "CHL": [
+    "south-america/ci.json"
+  ],
+  "CHN": [
+    "east-n-southeast-asia/ch.json"
+  ],
+  "CIV": [
+    "africa/iv.json"
+  ],
+  "CMR": [
+    "africa/cm.json"
+  ],
+  "COD": [
+    "africa/cg.json"
+  ],
+  "COG": [
+    "africa/cf.json"
+  ],
+  "COL": [
+    "south-america/co.json"
+  ],
+  "COM": [
+    "africa/cn.json"
+  ],
+  "CPV": [
+    "africa/cv.json"
+  ],
+  "CRI": [
+    "central-america-n-caribbean/cs.json"
+  ],
+  "CUB": [
+    "central-america-n-caribbean/cu.json"
+  ],
+  "CYP": [
+    "europe/cy.json"
+  ],
+  "CZE": [
+    "europe/ez.json"
+  ],
+  "DEU": [
+    "europe/gm.json"
+  ],
+  "DJI": [
+    "africa/dj.json"
+  ],
+  "DMA": [
+    "central-america-n-caribbean/do.json"
+  ],
+  "DNK": [
+    "europe/da.json"
+  ],
+  "DOM": [
+    "central-america-n-caribbean/dr.json"
+  ],
+  "DZA": [
+    "africa/ag.json"
+  ],
+  "ECU": [
+    "south-america/ec.json"
+  ],
+  "EGY": [
+    "africa/eg.json"
+  ],
+  "ERI": [
+    "africa/er.json"
+  ],
+  "ESP": [
+    "europe/sp.json"
+  ],
+  "EST": [
+    "europe/en.json"
+  ],
+  "ETH": [
+    "africa/et.json"
+  ],
+  "FIN": [
+    "europe/fi.json"
+  ],
+  "FJI": [
+    "australia-oceania/fj.json"
+  ],
+  "FRA": [
+    "europe/fr.json"
+  ],
+  "FSM": [
+    "australia-oceania/fm.json"
+  ],
+  "GAB": [
+    "africa/gb.json"
+  ],
+  "GBR": [
+    "europe/uk.json"
+  ],
+  "GEO": [
+    "central-asia/gg.json"
+  ],
+  "GHA": [
+    "africa/gh.json"
+  ],
+  "GIN": [
+    "africa/gv.json"
+  ],
+  "GMB": [
+    "africa/ga.json"
+  ],
+  "GNB": [
+    "africa/pu.json"
+  ],
+  "GNQ": [
+    "africa/ek.json"
+  ],
+  "GRC": [
+    "europe/gr.json"
+  ],
+  "GRD": [
+    "central-america-n-caribbean/gj.json"
+  ],
+  "GTM": [
+    "central-america-n-caribbean/gt.json"
+  ],
+  "GUY": [
+    "south-america/gy.json"
+  ],
+  "HND": [
+    "central-america-n-caribbean/ho.json"
+  ],
+  "HRV": [
+    "europe/hr.json"
+  ],
+  "HTI": [
+    "central-america-n-caribbean/ha.json"
+  ],
+  "HUN": [
+    "europe/hu.json"
+  ],
+  "IDN": [
+    "east-n-southeast-asia/id.json"
+  ],
+  "IND": [
+    "south-asia/in.json"
+  ],
+  "IRL": [
+    "europe/ei.json"
+  ],
+  "IRN": [
+    "middle-east/ir.json"
+  ],
+  "IRQ": [
+    "middle-east/iz.json"
+  ],
+  "ISL": [
+    "europe/ic.json"
+  ],
+  "ISR": [
+    "middle-east/is.json"
+  ],
+  "ITA": [
+    "europe/it.json"
+  ],
+  "JAM": [
+    "central-america-n-caribbean/jm.json"
+  ],
+  "JOR": [
+    "middle-east/jo.json"
+  ],
+  "JPN": [
+    "east-n-southeast-asia/ja.json"
+  ],
+  "KAZ": [
+    "central-asia/kz.json"
+  ],
+  "KEN": [
+    "africa/ke.json"
+  ],
+  "KGZ": [
+    "central-asia/kg.json"
+  ],
+  "KHM": [
+    "east-n-southeast-asia/cb.json"
+  ],
+  "KIR": [
+    "australia-oceania/kr.json"
+  ],
+  "KNA": [
+    "central-america-n-caribbean/sc.json"
+  ],
+  "KOR": [
+    "east-n-southeast-asia/ks.json"
+  ],
+  "KWT": [
+    "middle-east/ku.json"
+  ],
+  "LAO": [
+    "east-n-southeast-asia/la.json"
+  ],
+  "LBN": [
+    "middle-east/le.json"
+  ],
+  "LBR": [
+    "africa/li.json"
+  ],
+  "LBY": [
+    "africa/ly.json"
+  ],
+  "LCA": [
+    "central-america-n-caribbean/st.json"
+  ],
+  "LIE": [
+    "europe/ls.json"
+  ],
+  "LKA": [
+    "south-asia/ce.json"
+  ],
+  "LSO": [
+    "africa/lt.json"
+  ],
+  "LTU": [
+    "europe/lh.json"
+  ],
+  "LUX": [
+    "europe/lu.json"
+  ],
+  "LVA": [
+    "europe/lg.json"
+  ],
+  "MAR": [
+    "africa/mo.json"
+  ],
+  "MCO": [
+    "europe/mn.json"
+  ],
+  "MDA": [
+    "europe/md.json"
+  ],
+  "MDG": [
+    "africa/ma.json"
+  ],
+  "MDV": [
+    "south-asia/mv.json"
+  ],
+  "MEX": [
+    "north-america/mx.json"
+  ],
+  "MHL": [
+    "australia-oceania/rm.json"
+  ],
+  "MKD": [
+    "europe/mk.json"
+  ],
+  "MLI": [
+    "africa/ml.json"
+  ],
+  "MLT": [
+    "europe/mt.json"
+  ],
+  "MMR": [
+    "east-n-southeast-asia/bm.json"
+  ],
+  "MNE": [
+    "europe/mj.json"
+  ],
+  "MNG": [
+    "east-n-southeast-asia/mg.json"
+  ],
+  "MOZ": [
+    "africa/mz.json"
+  ],
+  "MRT": [
+    "africa/mr.json"
+  ],
+  "MUS": [
+    "africa/mp.json"
+  ],
+  "MWI": [
+    "africa/mi.json"
+  ],
+  "MYS": [
+    "east-n-southeast-asia/my.json"
+  ],
+  "NAM": [
+    "africa/wa.json"
+  ],
+  "NER": [
+    "africa/ng.json"
+  ],
+  "NGA": [
+    "africa/ni.json"
+  ],
+  "NIC": [
+    "central-america-n-caribbean/nu.json"
+  ],
+  "NLD": [
+    "europe/nl.json"
+  ],
+  "NOR": [
+    "europe/no.json"
+  ],
+  "NPL": [
+    "south-asia/np.json"
+  ],
+  "NRU": [
+    "australia-oceania/nr.json"
+  ],
+  "NZL": [
+    "australia-oceania/nz.json"
+  ],
+  "OMN": [
+    "middle-east/mu.json"
+  ],
+  "PAK": [
+    "south-asia/pk.json"
+  ],
+  "PAN": [
+    "central-america-n-caribbean/pm.json"
+  ],
+  "PER": [
+    "south-america/pe.json"
+  ],
+  "PHL": [
+    "east-n-southeast-asia/rp.json"
+  ],
+  "PLW": [
+    "australia-oceania/ps.json"
+  ],
+  "PNG": [
+    "east-n-southeast-asia/pp.json"
+  ],
+  "POL": [
+    "europe/pl.json"
+  ],
+  "PRK": [
+    "east-n-southeast-asia/kn.json"
+  ],
+  "PRT": [
+    "europe/po.json"
+  ],
+  "PRY": [
+    "south-america/pa.json"
+  ],
+  "PSE": [
+    "middle-east/gz.json",
+    "middle-east/we.json"
+  ],
+  "QAT": [
+    "middle-east/qa.json"
+  ],
+  "ROU": [
+    "europe/ro.json"
+  ],
+  "RUS": [
+    "central-asia/rs.json"
+  ],
+  "RWA": [
+    "africa/rw.json"
+  ],
+  "SAU": [
+    "middle-east/sa.json"
+  ],
+  "SDN": [
+    "africa/su.json"
+  ],
+  "SEN": [
+    "africa/sg.json"
+  ],
+  "SGP": [
+    "east-n-southeast-asia/sn.json"
+  ],
+  "SLB": [
+    "australia-oceania/bp.json"
+  ],
+  "SLE": [
+    "africa/sl.json"
+  ],
+  "SLV": [
+    "central-america-n-caribbean/es.json"
+  ],
+  "SMR": [
+    "europe/sm.json"
+  ],
+  "SOM": [
+    "africa/so.json"
+  ],
+  "SRB": [
+    "europe/ri.json"
+  ],
+  "SSD": [
+    "africa/od.json"
+  ],
+  "STP": [
+    "africa/tp.json"
+  ],
+  "SUR": [
+    "south-america/ns.json"
+  ],
+  "SVK": [
+    "europe/lo.json"
+  ],
+  "SVN": [
+    "europe/si.json"
+  ],
+  "SWE": [
+    "europe/sw.json"
+  ],
+  "SWZ": [
+    "africa/wz.json"
+  ],
+  "SYC": [
+    "africa/se.json"
+  ],
+  "SYR": [
+    "middle-east/sy.json"
+  ],
+  "TCD": [
+    "africa/cd.json"
+  ],
+  "TGO": [
+    "africa/to.json"
+  ],
+  "THA": [
+    "east-n-southeast-asia/th.json"
+  ],
+  "TJK": [
+    "central-asia/ti.json"
+  ],
+  "TKM": [
+    "central-asia/tx.json"
+  ],
+  "TLS": [
+    "east-n-southeast-asia/tt.json"
+  ],
+  "TON": [
+    "australia-oceania/tn.json"
+  ],
+  "TTO": [
+    "central-america-n-caribbean/td.json"
+  ],
+  "TUN": [
+    "africa/ts.json"
+  ],
+  "TUR": [
+    "middle-east/tu.json"
+  ],
+  "TUV": [
+    "australia-oceania/tv.json"
+  ],
+  "TZA": [
+    "africa/tz.json"
+  ],
+  "UGA": [
+    "africa/ug.json"
+  ],
+  "UKR": [
+    "europe/up.json"
+  ],
+  "URY": [
+    "south-america/uy.json"
+  ],
+  "USA": [
+    "north-america/us.json"
+  ],
+  "UZB": [
+    "central-asia/uz.json"
+  ],
+  "VAT": [
+    "europe/vt.json"
+  ],
+  "VCT": [
+    "central-america-n-caribbean/vc.json"
+  ],
+  "VEN": [
+    "south-america/ve.json"
+  ],
+  "VNM": [
+    "east-n-southeast-asia/vm.json"
+  ],
+  "VUT": [
+    "australia-oceania/nh.json"
+  ],
+  "WSM": [
+    "australia-oceania/ws.json"
+  ],
+  "YEM": [
+    "middle-east/ym.json"
+  ],
+  "ZAF": [
+    "africa/sf.json"
+  ],
+  "ZMB": [
+    "africa/za.json"
+  ],
+  "ZWE": [
+    "africa/zi.json"
+  ]
+}
