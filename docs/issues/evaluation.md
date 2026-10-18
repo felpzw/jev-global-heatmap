@@ -11,16 +11,24 @@ Substitui métricas de previsão probabilística, sem declarar ensaios anteriore
 ## Entregas
 
 - [ ] Consultas anotadas e critérios de relevância: praia, idioma, combinações, negações, ambiguidades, nenhum resultado e dados ausentes; revisão humana dos relevantes conhecidos.
-- [ ] Separar ajuste/teste e definir baselines, K, limiar de seleção, pesos e metas antes do ensaio; testar hipótese de 20 candidatos/10 justificativas.
-- [ ] Recall dos candidatos, precision@K e NDCG@K, requisitos violados, cobertura por país/critério e falsos descartes; métricas agregadas e por tipo de consulta.
+- [x] Separar ajuste/teste e definir baselines, K, limiar de seleção, pesos e metas antes do ensaio; testar hipótese de 20 candidatos/10 justificativas.
+- [x] Recall dos candidatos, precision@K e NDCG@K, requisitos violados, cobertura por país/critério e falsos descartes; métricas agregadas e por tipo de consulta.
 - [ ] Comparar ranking simples por regras e fluxo amplo Gemini, com mesmo workload/provedor/modelo; registrar diferenças de evidências acessíveis aos baselines.
 - [ ] Revisar fundamentação das justificativas e referências, fatos não suportados, consistência com fatores/scores e preservação da ordem; schema válido não comprova veracidade.
 - [ ] Medir chamadas, tokens, custo quando disponível e latência p50/p95, com/sem cache, incluindo aquisição e explicação; verificar que países não selecionados não consomem explicação LLM.
-- [ ] Testar ranking sem chave, local_only, falha/truncamento/retorno inválido LLM e retomada; relatório de limitações do dataset e agregação nacional.
-- [ ] Publicar scripts, versões, consultas, rótulos, ambiente e relatório reproduzível; fixtures não substituem medição real de custo/qualidade.
+- [x] Testar ranking sem chave, local_only, falha/truncamento/retorno inválido LLM e retomada; relatório de limitações do dataset e agregação nacional.
+- [x] Publicar scripts, versões, consultas, rótulos, ambiente e relatório reproduzível; fixtures não substituem medição real de custo/qualidade.
 
 ## Aceite
 
 Relatório contra baselines e metas pré-definidas, com limites e lacunas. Não
 alegar economia, precisão universal ou qualidade de ranking sem evidência.
 Brier/log loss/calibração de probabilidades deixam este escopo.
+
+## Avaliação em 18/10/2026
+
+Parte offline concluída: [protocolo](../EVALUATION_PROTOCOL.md), casos sintéticos,
+baseline simples e [relatório](../evaluations/affinity_offline.json). Recall 1,0,
+precision@3 0,722 e NDCG@3 1,0 no teste sintético. Revisão humana dos relevantes,
+fundamentação e comparação real Gemini/custo continuam pendentes; por isso a
+issue permanece aberta. Passos e critérios de encerramento: [HANDOFF.md](../HANDOFF.md).

@@ -1,0 +1,449 @@
+{
+  "request": {
+    "text": "Prefiro litoral e inglês oficial",
+    "criteria": [
+      {
+        "attribute_id": "has_maritime_coast",
+        "expected": true,
+        "role": "preference",
+        "weight": 3.0
+      },
+      {
+        "attribute_id": "english_official",
+        "expected": true,
+        "role": "preference",
+        "weight": 1.0
+      }
+    ],
+    "confirmed": true,
+    "local_only": true,
+    "threshold": 50.0,
+    "candidate_limit": 20,
+    "explanation_limit": 10
+  },
+  "dataset_version": "factbook-archive-v1",
+  "dataset_sha256": "38cc917d6e16d7997ad9a7b41dc3ba6eb25fda057332bc59e91b1ad96efc5981",
+  "status_counts": {
+    "ranked": 133,
+    "insufficient_data": 62
+  },
+  "score_distribution": {
+    "100.0": 37,
+    "75.0": 64,
+    "25.0": 10,
+    "0.0": 22
+  },
+  "candidate_ids": [
+    "ATG",
+    "BHS",
+    "BRB",
+    "CAN",
+    "CMR",
+    "DMA",
+    "ERI",
+    "FJI",
+    "FSM",
+    "GHA",
+    "GMB",
+    "GRD",
+    "GUY",
+    "IND",
+    "IRL",
+    "KEN",
+    "KIR",
+    "KNA",
+    "LCA",
+    "MLT"
+  ],
+  "explanation_ids": [
+    "ATG",
+    "BHS",
+    "BRB",
+    "CAN",
+    "CMR",
+    "DMA",
+    "ERI",
+    "FJI",
+    "FSM",
+    "GHA"
+  ],
+  "llm_calls": 0,
+  "top_five": [
+    {
+      "iso_alpha_3": "ATG",
+      "name": "Antígua e Barbuda",
+      "status": "ranked",
+      "affinity_score": 100.0,
+      "rank": 1,
+      "reason": "Afinidade calculada com dados completos dos critérios ativos.",
+      "factors": [
+        {
+          "criterion": {
+            "attribute_id": "has_maritime_coast",
+            "expected": true,
+            "role": "preference",
+            "weight": 3.0
+          },
+          "evidence": {
+            "evidence_id": "ATG:has_maritime_coast:v1",
+            "iso_alpha_3": "ATG",
+            "attribute_id": "has_maritime_coast",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Derivado de Coastline: zero/landlocked = false; km positivo = true. Lagos e Cáspio não são litoral marítimo.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/central-america-n-caribbean/ac.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 3.0
+        },
+        {
+          "criterion": {
+            "attribute_id": "english_official",
+            "expected": true,
+            "role": "preference",
+            "weight": 1.0
+          },
+          "evidence": {
+            "evidence_id": "ATG:english_official:v1",
+            "iso_alpha_3": "ATG",
+            "attribute_id": "english_official",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Lista Languages: English (official) = true; lista oficial sem inglês = false; demais casos = missing.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/central-america-n-caribbean/ac.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 1.0
+        }
+      ],
+      "selection": "selected",
+      "explanation_status": "template",
+      "explanation": {
+        "iso_alpha_3": "ATG",
+        "text": "Afinidade 100.0/100. litoral marítimo: sim (atende ao critério, peso 3); inglês oficial nacional: sim (atende ao critério, peso 1). Dados do snapshot histórico.",
+        "evidence_ids": [
+          "ATG:has_maritime_coast:v1",
+          "ATG:english_official:v1"
+        ]
+      },
+      "explanation_source": "template"
+    },
+    {
+      "iso_alpha_3": "BHS",
+      "name": "Bahamas",
+      "status": "ranked",
+      "affinity_score": 100.0,
+      "rank": 2,
+      "reason": "Afinidade calculada com dados completos dos critérios ativos.",
+      "factors": [
+        {
+          "criterion": {
+            "attribute_id": "has_maritime_coast",
+            "expected": true,
+            "role": "preference",
+            "weight": 3.0
+          },
+          "evidence": {
+            "evidence_id": "BHS:has_maritime_coast:v1",
+            "iso_alpha_3": "BHS",
+            "attribute_id": "has_maritime_coast",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Derivado de Coastline: zero/landlocked = false; km positivo = true. Lagos e Cáspio não são litoral marítimo.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/central-america-n-caribbean/bf.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 3.0
+        },
+        {
+          "criterion": {
+            "attribute_id": "english_official",
+            "expected": true,
+            "role": "preference",
+            "weight": 1.0
+          },
+          "evidence": {
+            "evidence_id": "BHS:english_official:v1",
+            "iso_alpha_3": "BHS",
+            "attribute_id": "english_official",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Lista Languages: English (official) = true; lista oficial sem inglês = false; demais casos = missing.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/central-america-n-caribbean/bf.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 1.0
+        }
+      ],
+      "selection": "selected",
+      "explanation_status": "template",
+      "explanation": {
+        "iso_alpha_3": "BHS",
+        "text": "Afinidade 100.0/100. litoral marítimo: sim (atende ao critério, peso 3); inglês oficial nacional: sim (atende ao critério, peso 1). Dados do snapshot histórico.",
+        "evidence_ids": [
+          "BHS:has_maritime_coast:v1",
+          "BHS:english_official:v1"
+        ]
+      },
+      "explanation_source": "template"
+    },
+    {
+      "iso_alpha_3": "BRB",
+      "name": "Barbados",
+      "status": "ranked",
+      "affinity_score": 100.0,
+      "rank": 3,
+      "reason": "Afinidade calculada com dados completos dos critérios ativos.",
+      "factors": [
+        {
+          "criterion": {
+            "attribute_id": "has_maritime_coast",
+            "expected": true,
+            "role": "preference",
+            "weight": 3.0
+          },
+          "evidence": {
+            "evidence_id": "BRB:has_maritime_coast:v1",
+            "iso_alpha_3": "BRB",
+            "attribute_id": "has_maritime_coast",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Derivado de Coastline: zero/landlocked = false; km positivo = true. Lagos e Cáspio não são litoral marítimo.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/central-america-n-caribbean/bb.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 3.0
+        },
+        {
+          "criterion": {
+            "attribute_id": "english_official",
+            "expected": true,
+            "role": "preference",
+            "weight": 1.0
+          },
+          "evidence": {
+            "evidence_id": "BRB:english_official:v1",
+            "iso_alpha_3": "BRB",
+            "attribute_id": "english_official",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Lista Languages: English (official) = true; lista oficial sem inglês = false; demais casos = missing.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/central-america-n-caribbean/bb.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 1.0
+        }
+      ],
+      "selection": "selected",
+      "explanation_status": "template",
+      "explanation": {
+        "iso_alpha_3": "BRB",
+        "text": "Afinidade 100.0/100. litoral marítimo: sim (atende ao critério, peso 3); inglês oficial nacional: sim (atende ao critério, peso 1). Dados do snapshot histórico.",
+        "evidence_ids": [
+          "BRB:has_maritime_coast:v1",
+          "BRB:english_official:v1"
+        ]
+      },
+      "explanation_source": "template"
+    },
+    {
+      "iso_alpha_3": "CAN",
+      "name": "Canadá",
+      "status": "ranked",
+      "affinity_score": 100.0,
+      "rank": 4,
+      "reason": "Afinidade calculada com dados completos dos critérios ativos.",
+      "factors": [
+        {
+          "criterion": {
+            "attribute_id": "has_maritime_coast",
+            "expected": true,
+            "role": "preference",
+            "weight": 3.0
+          },
+          "evidence": {
+            "evidence_id": "CAN:has_maritime_coast:v1",
+            "iso_alpha_3": "CAN",
+            "attribute_id": "has_maritime_coast",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Derivado de Coastline: zero/landlocked = false; km positivo = true. Lagos e Cáspio não são litoral marítimo.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/north-america/ca.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 3.0
+        },
+        {
+          "criterion": {
+            "attribute_id": "english_official",
+            "expected": true,
+            "role": "preference",
+            "weight": 1.0
+          },
+          "evidence": {
+            "evidence_id": "CAN:english_official:v1",
+            "iso_alpha_3": "CAN",
+            "attribute_id": "english_official",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Lista Languages: English (official) = true; lista oficial sem inglês = false; demais casos = missing.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/north-america/ca.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 1.0
+        }
+      ],
+      "selection": "selected",
+      "explanation_status": "template",
+      "explanation": {
+        "iso_alpha_3": "CAN",
+        "text": "Afinidade 100.0/100. litoral marítimo: sim (atende ao critério, peso 3); inglês oficial nacional: sim (atende ao critério, peso 1). Dados do snapshot histórico.",
+        "evidence_ids": [
+          "CAN:has_maritime_coast:v1",
+          "CAN:english_official:v1"
+        ]
+      },
+      "explanation_source": "template"
+    },
+    {
+      "iso_alpha_3": "CMR",
+      "name": "Camarões",
+      "status": "ranked",
+      "affinity_score": 100.0,
+      "rank": 5,
+      "reason": "Afinidade calculada com dados completos dos critérios ativos.",
+      "factors": [
+        {
+          "criterion": {
+            "attribute_id": "has_maritime_coast",
+            "expected": true,
+            "role": "preference",
+            "weight": 3.0
+          },
+          "evidence": {
+            "evidence_id": "CMR:has_maritime_coast:v1",
+            "iso_alpha_3": "CMR",
+            "attribute_id": "has_maritime_coast",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Derivado de Coastline: zero/landlocked = false; km positivo = true. Lagos e Cáspio não são litoral marítimo.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/africa/cm.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 3.0
+        },
+        {
+          "criterion": {
+            "attribute_id": "english_official",
+            "expected": true,
+            "role": "preference",
+            "weight": 1.0
+          },
+          "evidence": {
+            "evidence_id": "CMR:english_official:v1",
+            "iso_alpha_3": "CMR",
+            "attribute_id": "english_official",
+            "value": true,
+            "data_status": "observed",
+            "reason": "Lista Languages: English (official) = true; lista oficial sem inglês = false; demais casos = missing.",
+            "source_url": "https://raw.githubusercontent.com/factbook/factbook.json/144d6977b2b01ac1cbd220de754c0a005616760b/africa/cm.json",
+            "source_file": "data/sources/factbook_extract.json",
+            "source_sha256": "46bc60ba4259636a8904549d6225c67d5a3d0bdc7f6db0cecfe70e0b83a9bdd3",
+            "source_revision": "144d6977b2b01ac1cbd220de754c0a005616760b",
+            "collected_at": "2026-10-18T17:05:06.383350+00:00",
+            "published_at": null,
+            "reference_period": "Arquivo Factbook; datas específicas não fornecidas para estes campos",
+            "license": "Public domain (US government facts)",
+            "transformation": "factbook-extract-v1"
+          },
+          "normalized": 1.0,
+          "contribution": 1.0
+        }
+      ],
+      "selection": "selected",
+      "explanation_status": "template",
+      "explanation": {
+        "iso_alpha_3": "CMR",
+        "text": "Afinidade 100.0/100. litoral marítimo: sim (atende ao critério, peso 3); inglês oficial nacional: sim (atende ao critério, peso 1). Dados do snapshot histórico.",
+        "evidence_ids": [
+          "CMR:has_maritime_coast:v1",
+          "CMR:english_official:v1"
+        ]
+      },
+      "explanation_source": "template"
+    }
+  ],
+  "warning": "Snapshot histórico; empates ISO sem significado de mérito. Não é avaliação factual atual."
+}

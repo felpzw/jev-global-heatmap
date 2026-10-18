@@ -1,0 +1,10 @@
+{
+  "version": "synthetic-demo-v1",
+  "synthetic": true,
+  "warning": "Todos os valores abaixo são fictícios e servem somente para demonstrar estados e pesos.",
+  "countries": {
+    "BRA": [true, false], "CAN": [true, true], "CHE": [false, false],
+    "KAZ": [false, false], "KEN": [true, true], "MEX": [true, false],
+    "VAT": [false, null], "PSE": [true, null]
+  }
+}

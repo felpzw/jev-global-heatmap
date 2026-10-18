@@ -1,86 +1,79 @@
 # JEV Global Heatmap
 
-Projeto de heatmap de **ranking de afinidade com o pedido**. A arquitetura-alvo
-usa a JEV para interpretar critérios suportados, filtrar países e calcular scores
-0–100 com dados e regras; Gemini justifica somente os melhores selecionados.
+Uma ideia se transforma em critérios revisáveis e em um **mapa mundial de
+afinidade**. A JEV filtra e calcula o ranking com dados locais e regras; o Gemini,
+quando habilitado, explica somente os selecionados. O projeto demonstra busca
+conceitual explicável com um catálogo inicial de litoral marítimo e inglês oficial
+nacional. Não interpreta qualquer assunto e não usa embeddings.
 
-## Evolução: ranking de afinidade com JEV
+## Experimente
 
-O usuário confirma requisitos obrigatórios, preferências e pesos. A JEV usa um
-catálogo pequeno e dataset local versionado; dados insuficientes e exclusões
-ficam explícitos. O score representa afinidade, sem interpretação probabilística.
-A LLM recebe somente países selecionados e evidências, sem alterar scores ou ordem.
-Sem chave ou em `local_only`, a explicação usa templates e o ranking funciona.
-
-**Essa evolução ainda não está implementada.** O executável disponível continua
-sendo o MVP Gemini, que recebe texto e gera países/scores qualitativos diretamente.
-As instruções abaixo pertencem a esse MVP.
-
-- [Arquitetura](ARCHITECTURE.md) e [ADR 0003](docs/adr/0003-affinity-ranking.md).
-- [Contratos e desenho](docs/JEV_DESIGN.md), [plano e issues](docs/JEV_IMPLEMENTATION_PLAN.md).
-- [MVP executável](docs/MVP_LEGACY.md) e [propostas históricas](docs/legacy/README.md).
-
-## Stack do MVP executável
-* **UI & App:** Streamlit
-* **Visualização:** Plotly Graph Objects
-* **IA & Dados:** Pydantic (Structured Outputs) + LLM API
-
-## Como rodar o MVP localmente
-
-Requer Python 3.12+ (validado com Python 3.14). Na raiz do projeto:
+Python 3.12+; validado localmente com Python 3.14. Na raiz:
 
 ```sh
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-cp .env.example .env
-```
-
-Preencha `GEMINI_API_KEY` no `.env`. `GOOGLE_API_KEY` também é aceito como fallback
-quando a primeira estiver ausente, vazia ou contiver apenas espaços.
-`GEMINI_MODEL` permite escolher um modelo com Structured Outputs; o padrão é
-`gemini-3.5-flash-lite`. Nunca versione o `.env`.
-
-```sh
 python -m streamlit run src/app.py
 ```
 
-Sem chave, use **Carregar demonstração** na barra lateral. Os dados são fictícios.
-Com a chave configurada, descreva um tema e clique em **Gerar Mapeamento**.
-O mapa, a tabela de justificativas e o download JSON permanecem disponíveis
-entre reruns da mesma sessão. Uma falha preserva o resultado anterior, identificado
-pelo contexto original; recarregar a página ou abrir outra sessão pode limpar o estado.
-Respostas interrompidas pelo limite de geração ou bloqueadas pelo provedor são
-recusadas, mesmo quando contêm JSON válido.
+**Nenhuma chave é necessária.** Escolha um exemplo, revise requisitos,
+preferências e pesos, confirme e clique em **Calcular afinidade global**.
 
-Os scores são estimativas qualitativas produzidas pelo modelo, sem pesquisa em
-tempo real. Países não retornados ficam cinza, sem atribuição artificial de zero.
-O mapa base do Plotly requer acesso do navegador ao CDN de geometrias.
-O mapa tem fundo transparente, legenda horizontal e controles de zoom na barra
-do gráfico; a rolagem da página não aciona zoom. A figura é reutilizada em reruns.
-Veja o [redesign e roteiro de testes manuais](docs/MAP_REDESIGN.md).
+| Pedido | O que demonstra |
+| --- | --- |
+| Prefiro litoral e inglês oficial | Combinação de conceitos e pesos |
+| Exijo litoral e prefiro inglês oficial | Filtro obrigatório antes do ranking |
+| Prefiro países sem litoral | Negação explícita |
+| Quero praia e inglês | Esclarecimento: praia ≠ litoral; proficiência ≠ idioma oficial |
 
-## Validação do pipeline do MVP
+O mapa colore todos os países com score, destaca os candidatos e distingue
+exclusões e lacunas. Tabela pesquisável, fatores, evidências e JSON cobrem os
+195 Estados do registro, inclusive microestados sem geometria representativa.
+Scores de 0 a 100 representam afinidade, sem interpretação probabilística.
+
+## Dados e explicações
+
+O snapshot histórico do Factbook possui 195/195 valores de litoral e 133/195 de
+inglês oficial. Os 62 casos inconclusivos de idioma permanecem ausentes; não
+viram zero. São 390 posições país/critério com proveniência, hashes e transformação
+reproduzível. O Factbook foi encerrado em 2026; o arquivo não garante vigência
+atual. Litoral não mede qualidade de praia e idioma oficial não mede proficiência.
+Veja [fontes, licenças e políticas](data/SOURCES.md).
+
+A opção **Demonstração fictícia** usa uma fixture separada, sempre identificada.
+O modo `local_only` não usa rede no motor nem nas explicações. O navegador
+precisa acessar o CDN de geometrias do Plotly para desenhar o mapa base.
+
+Para explicações Gemini, copie `.env.example` para `.env`, configure
+`GEMINI_API_KEY` (ou `GOOGLE_API_KEY`) e `GEMINI_MODEL`, e desative **Somente motor
+local**. O modelo padrão continua configurável em `.env.example`; o ensaio real
+precisa verificar sua disponibilidade na conta. Máximo de 20 candidatos, 10
+justificativas, uma chamada, 4096 tokens de saída e 30 s. Falhas usam templates
+e preservam scores. Cancelamento é cooperativo; a chamada já enviada pode terminar
+no provedor. Reruns e cache são isolados por sessão. Nunca versione credenciais.
+
+## Validação e avaliação
 
 ```sh
-# Testes offline, sem credenciais ou chamadas à API
 python -m unittest discover -s tests -v
-# Smoke test real; utiliza a API configurada
-python test_llm.py "Adoção de carros elétricos"
+python -m scripts.verify_dataset
+python -m pip check
+python evaluate_affinity.py --output artifacts/affinity-evaluation.json
+# Opcional: 6 consultas × 2 variantes × 3 repetições; pode gerar cobrança
+python evaluate_affinity.py --live --repeats 3 --output artifacts/affinity-live.json
 ```
 
-## Avaliação de prompts do MVP
+[Protocolo](docs/EVALUATION_PROTOCOL.md) e [relatório offline](docs/evaluations/affinity_offline.json):
+metas funcionais aprovadas; recall de candidatos 1,0, precision@3 0,722 e NDCG@3
+1,0 no conjunto sintético de teste. Esses números não comprovam relevância em
+pedidos reais, qualidade factual ou economia de tokens/custo. Revisão humana e
+comparação Gemini real estão no [repasse manual](docs/HANDOFF.md).
 
-```sh
-# Fixtures fictícias, sem API: valida contrato e calcula distribuição de scores
-python evaluate_prompts.py
-# Comparação real baseline/refinado: 3 cenários × 2 prompts × 3 repetições = 18 chamadas
-python evaluate_prompts.py --live --repeats 3
-```
+## Projeto e portfólio
 
-O relatório padrão fica em `artifacts/prompt_evaluation.json` (ignorado pelo Git).
-A execução real pode gerar custos. As justificativas precisam de revisão manual;
-validez do JSON e dos códigos ISO não prova precisão factual dos scores.
-Veja [o protocolo e as limitações](docs/PROMPT_DESIGN.md),
-[o relatório offline](docs/evaluations/offline.json) e
-[a sequência de branches e merges](docs/IMPLEMENTATION.md).
+- [Arquitetura](ARCHITECTURE.md), [contratos](docs/JEV_DESIGN.md) e [ADR de dados](docs/adr/0004-local-affinity-data.md).
+- [Situação das issues e evidências](docs/DELIVERY.md), [plano](docs/JEV_IMPLEMENTATION_PLAN.md) e [como estender a JEV](docs/EXTENDING_JEV.md).
+- [Kit para LinkedIn e portfólio](docs/PORTFOLIO.md): narrativa, roteiro de demonstração, números verificáveis e limites.
+- [MVP Gemini preservado](docs/MVP_LEGACY.md): `python -m streamlit run src/legacy_app.py`.
+- [Pesquisa original de dados](docs/DATA_RESEARCH.md) e [propostas anteriores](docs/legacy/README.md).

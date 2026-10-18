@@ -1,0 +1,15 @@
+{
+  "version": "synthetic-affinity-cases-v1",
+  "label_origin": "Expectativas funcionais sintéticas, escritas antes do ensaio; revisão humana de relevância real pendente.",
+  "k": 3,
+  "cases": [
+    {"id": "coast-tune", "split": "tune", "type": "coast", "text": "Prefiro litoral", "criteria": [{"attribute_id": "has_maritime_coast"}], "grades": {"BRA": 3, "CAN": 3, "KEN": 3, "MEX": 3, "PSE": 3}},
+    {"id": "combination-test", "split": "test", "type": "combination", "text": "Prefiro litoral e inglês oficial", "criteria": [{"attribute_id": "has_maritime_coast", "weight": 3.0}, {"attribute_id": "english_official"}], "grades": {"CAN": 3, "KEN": 3, "BRA": 1, "MEX": 1}},
+    {"id": "requirement-test", "split": "test", "type": "requirement", "text": "Exijo litoral e prefiro inglês oficial", "criteria": [{"attribute_id": "has_maritime_coast", "role": "requirement"}, {"attribute_id": "english_official"}], "grades": {"CAN": 3, "KEN": 3}},
+    {"id": "negation-test", "split": "test", "type": "negation", "text": "Prefiro países sem litoral", "criteria": [{"attribute_id": "has_maritime_coast", "expected": false}], "grades": {"CHE": 3, "KAZ": 3, "VAT": 3}},
+    {"id": "language-test", "split": "test", "type": "language", "text": "Prefiro inglês oficial", "criteria": [{"attribute_id": "english_official"}], "grades": {"CAN": 3, "KEN": 3}},
+    {"id": "empty-test", "split": "test", "type": "empty", "text": "Exijo inglês oficial e prefiro países sem litoral", "threshold": 1.0, "criteria": [{"attribute_id": "has_maritime_coast", "expected": false}, {"attribute_id": "english_official", "role": "requirement"}], "grades": {}},
+    {"id": "missing-test", "split": "test", "type": "missing", "text": "Litoral e inglês oficial", "criteria": [{"attribute_id": "has_maritime_coast"}, {"attribute_id": "english_official"}], "grades": {"CAN": 3, "KEN": 3, "BRA": 1, "MEX": 1}, "expected_status": {"PSE": "insufficient_data", "VAT": "insufficient_data"}}
+  ],
+  "clarifications": ["Quero praia e inglês", "Prefiro litoral e segurança"]
+}

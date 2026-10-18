@@ -1,0 +1,89 @@
+{
+  "denominator": 195,
+  "coverage": {
+    "has_maritime_coast": {
+      "observed": 195
+    },
+    "english_official": {
+      "missing": 62,
+      "observed": 133
+    }
+  },
+  "gaps": {
+    "has_maritime_coast": [],
+    "english_official": [
+      "AFG",
+      "AND",
+      "ARE",
+      "ARG",
+      "ARM",
+      "AUS",
+      "AZE",
+      "BHR",
+      "BLZ",
+      "BRA",
+      "BRN",
+      "CHE",
+      "CHL",
+      "CRI",
+      "CYP",
+      "DNK",
+      "ECU",
+      "EGY",
+      "ETH",
+      "GBR",
+      "GRC",
+      "HUN",
+      "IDN",
+      "ISL",
+      "ISR",
+      "JAM",
+      "JOR",
+      "JPN",
+      "KAZ",
+      "KOR",
+      "KWT",
+      "LAO",
+      "LBN",
+      "LBR",
+      "LBY",
+      "LKA",
+      "LUX",
+      "MCO",
+      "MDG",
+      "MDV",
+      "MEX",
+      "MUS",
+      "MYS",
+      "NRU",
+      "NZL",
+      "OMN",
+      "PAK",
+      "PAN",
+      "PRK",
+      "PSE",
+      "QAT",
+      "SMR",
+      "SOM",
+      "STP",
+      "SUR",
+      "SYR",
+      "THA",
+      "TLS",
+      "TON",
+      "VAT",
+      "VCT",
+      "VNM"
+    ]
+  },
+  "values": {
+    "has_maritime_coast": {
+      "true": 151,
+      "false": 44
+    },
+    "english_official": {
+      "true": 47,
+      "false": 86
+    }
+  }
+}

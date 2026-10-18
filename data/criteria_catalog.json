@@ -1,0 +1,26 @@
+{
+  "version": "coast-language-v1",
+  "missing_policy": "complete_active_criteria",
+  "normalization": "1 se booleano observado igual ao desejado, 0 se diferente; null se não observado",
+  "score": "100 * sum(weight * normalized) / sum(weight), somente preferências",
+  "criteria": [
+    {
+      "attribute_id": "has_maritime_coast",
+      "label": "Litoral marítimo",
+      "definition": "Presença de costa marítima na unidade territorial do perfil Factbook. Lagos e Cáspio não contam; territórios dependentes não são agregados à metrópole.",
+      "synonyms": ["litoral", "costa marítima", "coast", "coastline"],
+      "type": "boolean", "unit": null, "operator": "eq",
+      "ambiguities": ["praia", "beach", "praia turística", "clima"],
+      "limitations": "Não mede praia, turismo, acesso, segurança ou estação do ano. Agregação nacional não descreve toda cidade."
+    },
+    {
+      "attribute_id": "english_official",
+      "label": "Inglês oficial nacional",
+      "definition": "Inglês explicitamente listado como idioma oficial no perfil nacional arquivado; status apenas regional, uso de facto ou texto inconclusivo permanecem desconhecidos.",
+      "synonyms": ["inglês oficial", "idioma oficial inglês", "english official", "official english"],
+      "type": "boolean", "unit": null, "operator": "eq",
+      "ambiguities": ["inglês", "fala inglês", "proficiência", "english"],
+      "limitations": "Não mede proficiência, facilidade de comunicação nem vigência legal atual. Listas arquivadas requerem revisão humana."
+    }
+  ]
+}
