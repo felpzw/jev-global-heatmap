@@ -1,6 +1,6 @@
 # Arquitetura JEV — ranking de afinidade com o pedido
 
-Decisão de escopo em 05/10/2026. Arquitetura-alvo; implementação pendente.
+Decisão de escopo em 05/10/2026; implementação do catálogo inicial em 18/10/2026.
 O produto apresenta afinidade dos países com os critérios do pedido em um
 heatmap de score 0–100. O score é calculado pela JEV com dados e regras
 versionados. Gemini explica somente os melhores candidatos, a partir das
@@ -36,12 +36,12 @@ Dados de país não garantem condições de toda cidade ou região.
 
 ## Responsabilidades e dependências
 
-| Componente planejado | Papel |
+| Componente implementado | Papel |
 | --- | --- |
 | country_registry | 193 membros ONU + Santa Sé/VAT e Palestina/PSE, ISO/M49 e versões |
 | affinity_schema | Pedido, critérios, evidências, score, seleção, justificativa e execução |
 | criteria_catalog / input_parser | Critérios suportados, sinônimos, unidades, operadores, pesos e ambiguidades |
-| data/evidence_service | Dataset local, proveniência e normalização; conectores só se aprovados em #13 |
+| data/evidence_service | Dataset local, proveniência e normalização; aquisição explícita fora do ranking |
 | affinity_ranker | Requisitos, score determinístico, cobertura dos dados e desempate estável |
 | jev_service | Orquestração, seleção, limites, cache, progresso e reconciliação |
 | explanation_client | Gemini restrito aos selecionados, com evidências e resposta estruturada |
@@ -72,13 +72,15 @@ Não há necessidade aprovada de microserviço, banco servidor, embeddings ou Do
 
 ## Estado executável e migração
 
-O código atual continua Streamlit → Gemini → HeatmapResponse → Plotly: o modelo
-produz países e scores qualitativos. O parser, dataset e ranking da JEV ainda
-não existem. Esta entrega muda documentação e backlog, sem alterar execução.
-As dependências e os testes existentes pertencem ao MVP; não comprovam ranking,
-redução de custo ou qualidade das justificativas futuras.
+O ponto de entrada `src/app.py` usa o motor JEV e `AffinityResponse`. O MVP
+Gemini permanece em `src/legacy_app.py`, com seu contrato e testes separados.
+A implementação possui registro, parser, snapshot local, ranker, seleção e
+explicação opcional, com cache/checkpoints por sessão e cancelamento cooperativo.
+O snapshot histórico tem litoral para 195 Estados e idioma para 133; vigência
+atual requer revisão. A avaliação offline é funcional e sintética. Comparação
+Gemini real, custo e revisão humana permanecem na #17 e em [HANDOFF.md](docs/HANDOFF.md).
 
 Decisão: [ADR 0003](docs/adr/0003-affinity-ranking.md).
 Contratos: [JEV_DESIGN.md](docs/JEV_DESIGN.md).
 Backlog: [JEV_IMPLEMENTATION_PLAN.md](docs/JEV_IMPLEMENTATION_PLAN.md).
-Código atual: [MVP](docs/MVP_LEGACY.md). Propostas anteriores: [histórico](docs/legacy/README.md).
+Código legado: [MVP](docs/MVP_LEGACY.md). Propostas anteriores: [histórico](docs/legacy/README.md).

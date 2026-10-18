@@ -1,6 +1,8 @@
 # Plano de implementação — heatmap de afinidade com JEV
 
-Atualizado em 05/10/2026. Arquitetura-alvo, sem mudança executável nesta entrega.
+Atualizado em 18/10/2026. Fundação, dados, motor e interface implementados.
+Estado e evidências por issue: [DELIVERY.md](DELIVERY.md). A avaliação externa
+da #17 permanece no [repasse manual](HANDOFF.md). A sequência abaixo registra o plano seguido.
 Decisão ativa: [ADR 0003](adr/0003-affinity-ranking.md).
 
 ## Backlog ativo
@@ -61,6 +63,7 @@ consolidar previsão sem LLM. Ela permanece encerrada. ADR 0002 e documentos sã
 #4, #8 e #10 continuam substituídas por mudança de escopo; não reabrir tuning,
 previsão ou Docker. As #13–#17 mantêm números e recebem requisitos revisados.
 
-O código atual é o [MVP Gemini](MVP_LEGACY.md), no qual o modelo gera os scores.
-Esta revisão não implementa parser, dataset ou ranking da JEV nem demonstra
-economia, qualidade de busca ou fundamentação das justificativas.
+O código principal agora executa o ranking JEV. O [MVP Gemini](MVP_LEGACY.md)
+foi preservado separadamente. A avaliação funcional está publicada e não demonstra
+economia monetária nem qualidade de busca em consultas reais. A #17 só deve ser
+encerrada após as medições reais e revisão humana do repasse.

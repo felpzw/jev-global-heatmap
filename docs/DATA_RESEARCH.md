@@ -1,5 +1,10 @@
 # Issue #13 — pesquisa de armazenamento, aquisição e manutenção
 
+> Pesquisa histórica de 05/10/2026, preservada antes da implementação. A decisão
+> executada e o snapshot publicado em 18/10 estão em [SOURCES.md](../data/SOURCES.md),
+> [ADR 0004](adr/0004-local-affinity-data.md) e [DELIVERY.md](DELIVERY.md).
+> As descrições de pendências abaixo registram o estado da pesquisa original.
+
 Data da análise: 05/10/2026. Estado: investigação inicial, com recomendação
 provisória. Escopo: [#13](https://github.com/felpzw/jev-global-heatmap/issues/13),
 conforme [ADR 0003](adr/0003-affinity-ranking.md).

@@ -1,57 +1,52 @@
 # ADR 0004 — snapshots locais para dados de afinidade
 
-- Data: 05/10/2026.
-- Estado: proposta inicial; validar no piloto da #13.
+- Data da proposta: 05/10/2026; decisão confirmada em 18/10/2026.
+- Estado: aceita para a release de demonstração.
 - Issue: [#13](https://github.com/felpzw/jev-global-heatmap/issues/13).
-- Depende de: [ADR 0003](0003-affinity-ranking.md) e contratos da #14.
-- Evidências e comparação: [pesquisa de dados](../DATA_RESEARCH.md).
+- Depende de [ADR 0003](0003-affinity-ranking.md) e contratos da #14.
+- Investigação original preservada em [DATA_RESEARCH.md](../DATA_RESEARCH.md).
 
 ## Contexto
 
-O ranking precisa de atributos verificáveis, com ausência explícita e versões
-capazes de reproduzir o resultado. O primeiro catálogo cobre poucos critérios
-de praia e idioma para 195 Estados. Ainda não há dataset de afinidade, medição
-de volume ou necessidade demonstrada de banco servidor.
+O ranking precisa de atributos rastreáveis, com ausência explícita e versões
+que reproduzam o resultado. O catálogo inicial contém dois booleanos para
+195 Estados. Não foi demonstrada necessidade de banco servidor ou consulta
+online durante o ranking.
 
-## Decisão proposta
+## Decisão
 
-Adotar JSON para catálogo, fontes e manifesto; JSONL para evidências e valores
-resolvidos. Arquivos pequenos e licenciados compõem snapshots imutáveis no Git.
-Carregar um índice Python por país/atributo no ranking, usando versão explícita.
-O formato e a validação serão alinhados aos contratos da #14 antes da implementação.
+JSON para catálogo, registro, extratos e manifesto; JSONL para evidências.
+Arquivos pequenos e permitidos ficam no Git como snapshots completos e
+imutáveis após publicação. O motor valida os hashes e carrega um índice por
+país/atributo. A aquisição é um comando explícito separado da execução.
 
-Separar aquisição e manutenção da execução do ranking. Conectores candidatos
-obtêm dados estruturados ou arquivos específicos em jobs limitados, preservando
-bruto/revisão, hashes e transformações. Publicar somente após validar e revisar
-as diferenças; `local_only` não acessa rede. Nenhum conector é implementado ou
-declarado aprovado por esta proposta.
+A release `factbook-archive-v1` usa campos do arquivo público Factbook na revisão
+`144d6977b2b01ac1cbd220de754c0a005616760b`, com extratos preservados, URLs fixadas,
+hashes dos perfis e código de transformação identificado. A tabela de códigos
+inicialmente investigada não é redistribuída; os perfis são validados pelo
+próprio campo Internet country code. Gaza e Cisjordânia são agregadas em PSE.
 
-Investigar Wikidata para idiomas oficiais, com revisão de fontes oficiais;
-Natural Earth e curadoria para litoral. Proficiência e qualidade de praia não
-são habilitadas até confirmar definição, evidência e reuso adequados.
+O Factbook foi encerrado em 2026. A release é histórica, sem garantia de vigência
+atual. Idioma de facto, status inconclusivo e ausência permanecem missing;
+proficiência e qualidade de praia não foram habilitadas. Fontes, licenças,
+regras e política territorial estão em [SOURCES.md](../../data/SOURCES.md).
 
-Preservar observações e conflitos separados do valor selecionado. Ausência,
-conflito ou expiração impedem o uso conforme a política de cobertura vigente;
-um false demonstrado continua sendo valor válido. Registrar licenças por origem.
+## Evidências do piloto
+
+- 390 posições país/critério: litoral 195/195 e inglês oficial 133/195.
+- 62 lacunas de idioma explícitas, sem inferência por LLM ou imputação.
+- Reconstrução offline byte a byte aprovada por `scripts.verify_dataset`.
+- Nenhuma consulta SQL ou volume observado justificou acrescentar banco.
+- Cobertura de extração não comprova precisão ou vigência dos fatos.
 
 ## Alternativas e consequências
 
-- CSV permanece opção de exportação, com convenções de tipos e ausência.
-- SQLite oferece SQL/transações em arquivo local; pode ser adotado se histórico
-  e consultas justificarem seu custo. Uma derivação SQLite deve ser reconstruível
-  e não se tornar uma segunda fonte editável dos mesmos fatos.
-- Parquet/DuckDB são candidatos para séries ou volume analítico maior.
-- Banco servidor fica adiado até existir necessidade operacional concreta.
-- JSON/JSONL facilita revisão no Git, mas exige validação de relações e publicação
-  do snapshot completo. Não oferece transação de múltiplos arquivos por si só.
-- A retenção dos brutos necessários é parte da reprodução; guardar só uma URL
-  não garante reconstrução. Artefatos grandes precisam de arquivo persistente.
+CSV é exportação; SQLite pode ser uma derivação para histórico/consultas se
+necessário. Parquet/DuckDB ficam para volume analítico maior. Banco servidor
+permanece adiado. JSON/JSONL facilita revisão, mas integridade relacional e
+publicação do conjunto dependem do validador e do manifesto.
 
-## Condições para confirmar ou revisar
-
-Confirmar após obter e reconstruir offline a amostra, medir cobertura admissível
-por critério e alinhar o contrato com #14. Medir custo de leitura e manutenção;
-comparar formatos no mesmo workload se houver necessidade concreta. Mudanças
-de escala, histórico ou concorrência podem levar a outra decisão.
-
-Esta ADR não declara a #13 concluída nem altera o MVP executável.
+Preservar extratos necessários para reprodução. Mudanças de fonte, valor,
+catálogo ou transformação exigem nova release e hashes; rollback usa a versão
+anterior e invalida o cache por identidade. Expansões de escala, concorrência,
+critérios ou exigência de dados atuais podem revisar esta decisão.

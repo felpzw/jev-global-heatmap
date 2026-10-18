@@ -1,7 +1,7 @@
 # ADR 0003 — Heatmap de ranking de afinidade com JEV e justificativas LLM
 
 - Data: 05/10/2026.
-- Estado: decisão aprovada pelo responsável; implementação pendente.
+- Estado: aprovada; catálogo inicial implementado em 18/10/2026. Avaliação externa pendente na #17.
 - Substitui: ADR 0002 e o escopo de previsão probabilística.
 - Issue: [#20](https://github.com/felpzw/jev-global-heatmap/issues/20).
 
@@ -37,6 +37,6 @@ As issues #13–#17 são revisadas mantendo seus números e dependências.
 ## Documentos ativos
 
 [Arquitetura](../../ARCHITECTURE.md), [contratos](../JEV_DESIGN.md) e
-[plano](../JEV_IMPLEMENTATION_PLAN.md). O [MVP atual](../MVP_LEGACY.md) ainda
-usa Gemini para gerar os próprios scores; esta decisão não muda o executável.
+[plano](../JEV_IMPLEMENTATION_PLAN.md). O [MVP legado](../MVP_LEGACY.md) permanece separado. O executável principal
+agora usa o motor JEV; evidências e limites estão em [DELIVERY.md](../DELIVERY.md).
 [Histórico das propostas](../legacy/README.md).
