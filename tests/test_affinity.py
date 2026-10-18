@@ -92,6 +92,32 @@ class FoundationTests(unittest.TestCase):
 
 
 class ParserTests(unittest.TestCase):
+    def test_natural_english_requests_and_landlocked_negation(self):
+        combinations = [
+            ("I prefer countries with a coastline and English as an official language",
+             [(True, "preference"), (True, "preference")]),
+            ("I require a coastline and prefer English as an official language",
+             [(True, "requirement"), (True, "preference")]),
+            ("A coastline is required and I prefer official English",
+             [(True, "requirement"), (True, "preference")]),
+            ("I prefer landlocked countries", [(False, "preference")]),
+            ("I prefer countries that are not landlocked", [(True, "preference")]),
+            ("I prefer countries that don't have a coastline", [(False, "preference")]),
+            ("I prefer non-coastal countries", [(False, "preference")]),
+        ]
+        for text, expected in combinations:
+            with self.subTest(text=text):
+                parsed = interpret(text)
+                self.assertFalse(parsed.questions)
+                self.assertEqual([(c.expected, c.role) for c in parsed.criteria], expected)
+
+    def test_english_ambiguity_disjunction_and_negated_requirement_need_review(self):
+        for text in ["I want beaches and English", "I prefer a coastline and safety",
+                     "A coastline or official English", "I do not require a coastline",
+                     "I prefer a coastline and landlocked countries"]:
+            with self.subTest(text=text):
+                self.assertTrue(interpret(text).questions)
+
     def test_supported_combination_negation_and_requirements(self):
         parsed = interpret("Exijo litoral e prefiro inglês oficial")
         self.assertFalse(parsed.questions)
@@ -119,6 +145,30 @@ class RankingTests(unittest.TestCase):
         self.assertEqual(countries["PSE"].status, "insufficient_data")
         self.assertIsNone(countries["PSE"].affinity_score)
         self.assertEqual(result, AffinityResponse.model_validate(result.model_dump()))
+
+    def test_english_names_explanations_and_evidence_preserve_snapshot_values(self):
+        data = load_dataset()
+        result = run_affinity(request(text="I prefer a coastline and official English"), dataset=data)
+        countries = {c.iso_alpha_3: c for c in result.countries}
+        self.assertEqual(countries["DEU"].name, "Germany")
+        self.assertIn("complete evidence", countries["CAN"].reason)
+        self.assertTrue(countries["CAN"].explanation.text.startswith("Affinity "))
+        self.assertIn("Historical snapshot data", countries["CAN"].explanation.text)
+        self.assertEqual(result.metadata.presentation_version, "en-v1")
+        source = Path(__file__).resolve().parents[1] / "data/affinity/v1/evidence.jsonl"
+        for line in source.read_text().splitlines():
+            original = json.loads(line)
+            current = data.evidence[(original["iso_alpha_3"], original["attribute_id"])]
+            self.assertEqual(current.value, original["value"])
+            self.assertEqual(current.source_sha256, original["source_sha256"])
+            self.assertIn("Derived from", current.reason)
+
+    def test_language_version_invalidates_previous_cached_explanations(self):
+        req = request()
+        current = identity(req, self.dataset, None)
+        with patch("src.services.jev_service.PRESENTATION_VERSION", "pt-v0"):
+            previous = identity(req, self.dataset, None)
+        self.assertNotEqual(current, previous)
 
     def test_known_failure_overrides_missing_requirement_unknown_does_not_exclude(self):
         req = request(criteria=[Criterion(attribute_id="has_maritime_coast", role="requirement"),

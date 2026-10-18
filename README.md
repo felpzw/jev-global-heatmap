@@ -1,14 +1,17 @@
 # JEV Global Heatmap
 
-Uma ideia se transforma em critérios revisáveis e em um **mapa mundial de
-afinidade**. A JEV filtra e calcula o ranking com dados locais e regras; o Gemini,
-quando habilitado, explica somente os selecionados. O projeto demonstra busca
-conceitual explicável com um catálogo inicial de litoral marítimo e inglês oficial
-nacional. Não interpreta qualquer assunto e não usa embeddings.
+**Turn an idea into an explainable world map.** JEV translates a supported
+request into criteria you can review, applies requirements and weights to local
+evidence, and ranks countries by affinity. Gemini can explain the selected
+results; the local engine calculates the scores and order.
 
-## Experimente
+The starter catalog covers maritime coastline and English as an official
+national language. It demonstrates concept-based search with explicit scope,
+traceable evidence and visible data gaps.
 
-Python 3.12+; validado localmente com Python 3.14. Na raiz:
+## Try it locally
+
+Requires Python 3.12+; validated locally with Python 3.14.
 
 ```sh
 python -m venv .venv
@@ -17,63 +20,73 @@ python -m pip install -r requirements.txt
 python -m streamlit run src/app.py
 ```
 
-**Nenhuma chave é necessária.** Escolha um exemplo, revise requisitos,
-preferências e pesos, confirme e clique em **Calcular afinidade global**.
+**No API key is required.** Choose an example, review the criteria, confirm them
+and click **Calculate global affinity**. The interface, country names, map,
+explanations and exported results are in English. Supported Portuguese requests
+continue to work.
 
-| Pedido | O que demonstra |
+| Request | What it demonstrates |
 | --- | --- |
-| Prefiro litoral e inglês oficial | Combinação de conceitos e pesos |
-| Exijo litoral e prefiro inglês oficial | Filtro obrigatório antes do ranking |
-| Prefiro países sem litoral | Negação explícita |
-| Quero praia e inglês | Esclarecimento: praia ≠ litoral; proficiência ≠ idioma oficial |
+| I prefer countries with a coastline and English as an official language | Combining concepts and adjusting weights |
+| I require a coastline and prefer English as an official language | Filtering by a requirement before ranking preferences |
+| I prefer landlocked countries | Negation and a natural English synonym |
+| I want beaches and English | Clarification: coastline, beach quality and language proficiency are different concepts |
 
-O mapa colore todos os países com score, destaca os candidatos e distingue
-exclusões e lacunas. Tabela pesquisável, fatores, evidências e JSON cobrem os
-195 Estados do registro, inclusive microestados sem geometria representativa.
-Scores de 0 a 100 representam afinidade, sem interpretação probabilística.
+The map colors every ranked country, highlights selected candidates and
+separates exclusions from insufficient data. Search, factors, source details
+and JSON cover all 195 states in the registry, including microstates without
+representative map geometry. Scores range from 0 to 100 and express affinity
+with the confirmed criteria. They are not probabilities.
 
-## Dados e explicações
+## Data and explanations
 
-O snapshot histórico do Factbook possui 195/195 valores de litoral e 133/195 de
-inglês oficial. Os 62 casos inconclusivos de idioma permanecem ausentes; não
-viram zero. São 390 posições país/critério com proveniência, hashes e transformação
-reproduzível. O Factbook foi encerrado em 2026; o arquivo não garante vigência
-atual. Litoral não mede qualidade de praia e idioma oficial não mede proficiência.
-Veja [fontes, licenças e políticas](data/SOURCES.md).
+The historical Factbook snapshot has coastline data for 195/195 states and
+admissible official-English data for 133/195. The remaining 62 language cases
+stay missing. There are 390 country/criterion positions with provenance, hashes
+and a reproducible transformation. The Factbook ended in 2026; the archive does
+not guarantee current factual validity. Coastline does not measure beach quality;
+official language does not measure proficiency. See [sources and policies](data/SOURCES.md).
 
-A opção **Demonstração fictícia** usa uma fixture separada, sempre identificada.
-O modo `local_only` não usa rede no motor nem nas explicações. O navegador
-precisa acessar o CDN de geometrias do Plotly para desenhar o mapa base.
+Choose **Synthetic demonstration** to explore a clearly labeled fixture. With
+**Local engine only** enabled, ranking and explanations make no external calls.
+The Plotly basemap still requires geometry from a CDN in your browser.
 
-Para explicações Gemini, copie `.env.example` para `.env`, configure
-`GEMINI_API_KEY` (ou `GOOGLE_API_KEY`) e `GEMINI_MODEL`, e desative **Somente motor
-local**. O modelo padrão continua configurável em `.env.example`; o ensaio real
-precisa verificar sua disponibilidade na conta. Máximo de 20 candidatos, 10
-justificativas, uma chamada, 4096 tokens de saída e 30 s. Falhas usam templates
-e preservam scores. Cancelamento é cooperativo; a chamada já enviada pode terminar
-no provedor. Reruns e cache são isolados por sessão. Nunca versione credenciais.
+For Gemini explanations, copy `.env.example` to `.env`, configure
+`GEMINI_API_KEY` (or `GOOGLE_API_KEY`) and `GEMINI_MODEL`, then disable
+**Local engine only**. Verify that the configured model supports Structured
+Outputs in your account. Limits are 20 candidates, 10 explanations, one API call,
+4,096 output tokens and 30 seconds. Failures fall back to English templates and
+preserve scores. Cancellation is cooperative: an in-flight provider request can
+still finish. Cache and checkpoints are isolated per session and include the
+presentation and prompt versions. Keep credentials out of Git.
 
-## Validação e avaliação
+## Validation and evaluation
 
 ```sh
 python -m unittest discover -s tests -v
 python -m scripts.verify_dataset
 python -m pip check
 python evaluate_affinity.py --output artifacts/affinity-evaluation.json
-# Opcional: 6 consultas × 2 variantes × 3 repetições; pode gerar cobrança
+# Optional: up to 36 billable calls; requires your own provider credentials
 python evaluate_affinity.py --live --repeats 3 --output artifacts/affinity-live.json
+# Regenerate the portfolio summary, ranking CSV and full local result
+python -m scripts.export_showcase
 ```
 
-[Protocolo](docs/EVALUATION_PROTOCOL.md) e [relatório offline](docs/evaluations/affinity_offline.json):
-metas funcionais aprovadas; recall de candidatos 1,0, precision@3 0,722 e NDCG@3
-1,0 no conjunto sintético de teste. Esses números não comprovam relevância em
-pedidos reais, qualidade factual ou economia de tokens/custo. Revisão humana e
-comparação Gemini real estão no [repasse manual](docs/HANDOFF.md).
+The [protocol](docs/EVALUATION_PROTOCOL.md) and [English evaluation](docs/evaluations/affinity_english.json)
+report candidate recall 1.0, precision@3 0.722 and NDCG@3 1.0 on the synthetic test
+set. English cases preserve the original criteria, labels and splits. These
+metrics verify controlled functional behavior; they do not establish relevance
+for real queries, factual accuracy or API savings. Live Gemini comparison and
+human review remain in [the handoff](docs/HANDOFF.md).
 
-## Projeto e portfólio
+## Explore the project
 
-- [Arquitetura](ARCHITECTURE.md), [contratos](docs/JEV_DESIGN.md) e [ADR de dados](docs/adr/0004-local-affinity-data.md).
-- [Situação das issues e evidências](docs/DELIVERY.md), [plano](docs/JEV_IMPLEMENTATION_PLAN.md) e [como estender a JEV](docs/EXTENDING_JEV.md).
-- [Kit para LinkedIn e portfólio](docs/PORTFOLIO.md): narrativa, roteiro de demonstração, números verificáveis e limites.
-- [MVP Gemini preservado](docs/MVP_LEGACY.md): `python -m streamlit run src/legacy_app.py`.
-- [Pesquisa original de dados](docs/DATA_RESEARCH.md) e [propostas anteriores](docs/legacy/README.md).
+- [Architecture](ARCHITECTURE.md), [contracts and scoring](docs/JEV_DESIGN.md), [delivery plan](docs/JEV_IMPLEMENTATION_PLAN.md) and [extension guide](docs/EXTENDING_JEV.md).
+- [LinkedIn and portfolio kit](docs/PORTFOLIO.md): English post, video script, project description, evidence and downloadable data.
+- [English experience notes](docs/ENGLISH_EXPERIENCE.md) and [delivery record](docs/DELIVERY.md).
+- [Original offline evaluation](docs/evaluations/affinity_offline.json) and [data decision](docs/adr/0004-local-affinity-data.md).
+- [Legacy Gemini MVP](docs/MVP_LEGACY.md): `python -m streamlit run src/legacy_app.py`.
+
+Earlier research, issue records and the legacy application are preserved in
+[the project history](docs/legacy/README.md), including their original Portuguese text.

@@ -1,91 +1,104 @@
-# JEV Global Heatmap — kit para portfólio e LinkedIn
+# JEV Global Heatmap — LinkedIn and portfolio kit
 
-Preparado em 18/10/2026. Texto editável; nenhuma publicação foi realizada.
+Prepared on October 18, 2026. Draft material ready for review and publication.
 
-Dados da demonstração salvos: [resumo com os cinco primeiros e seus fatores](evaluations/showcase_summary.json)
-e [ranking dos 195 em CSV](evaluations/showcase_ranking.csv). Reproduzir com
-`python -m scripts.export_showcase`; o JSON completo fica em `artifacts/showcase_result.json`.
+Saved demonstration data: [top five with factors and evidence](evaluations/showcase_summary.json)
+and [all 195 registry entries as CSV](evaluations/showcase_ranking.csv). Run
+`python -m scripts.export_showcase` to regenerate them; the complete JSON result
+is written to `artifacts/showcase_result.json`.
 
-## Narrativa do projeto
+## Project story
 
-Como transformar uma intenção em um resultado global que possa ser inspecionado?
-O projeto organiza um pedido em critérios, aplica filtros e pesos sobre evidências
-versionadas e mostra a afinidade em um mapa mundial. O Gemini é uma etapa opcional
-de explicação dos resultados selecionados. Scores e ordem são responsabilidade
-do motor local JEV, que funciona sem credenciais.
+How do you turn an intention into a global result that people can inspect?
+JEV Global Heatmap converts a supported request into reviewable criteria, applies
+requirements and weights to versioned evidence, and displays country affinity
+on a world map. The local JEV engine owns scores and ranking. Gemini is an
+optional explanation step for selected results.
 
-Competências demonstradas: arquitetura com responsabilidades separadas, contratos
-Pydantic estritos, pipeline de dados reproduzível, tratamento explícito de lacunas,
-visualização Plotly, estado e cancelamento no Streamlit, integração Gemini com
-contexto restrito, testes de falhas, avaliação de ranking e CI sem credenciais.
+The project demonstrates separation of responsibilities, strict Pydantic
+contracts, reproducible data processing, explicit missing-data handling,
+Plotly visualization, Streamlit session state and cancellation, constrained
+Gemini integration, failure testing, ranking evaluation and credential-free CI.
 
-## Números publicáveis e limites
+## Publishable facts and their limits
 
-| Informação | Evidência | Como apresentar |
+| Fact | Evidence | How to describe it |
 | --- | --- | --- |
-| 195 Estados, 193 membros + 2 observadores | `data/country_registry.json` | Cobertura do registro, não garantia de dados completos |
-| 390 posições país/critério | `data/affinity/v1/evidence.jsonl` | Inclui evidências ausentes |
-| Litoral: 195/195; idioma: 133/195; 62 lacunas | `data/affinity/v1/coverage.json` | Snapshot histórico; não validação factual atual |
-| Até 20 candidatos e 10 justificativas | Contratos e testes do motor | Limites funcionais; não parâmetros otimizados |
-| Recall 1,0; precision@3 0,722; NDCG@3 1,0 | `docs/evaluations/affinity_offline.json` | Somente fixtures sintéticas de teste; conjunto pequeno |
-| Latências p50/p95 locais | Mesmo relatório, com ambiente e repetições | Medição desta máquina; não benchmark de produção |
-| Custo e tokens Gemini | Não medidos | Não divulgar porcentagem de economia ou ganho de qualidade |
+| 195 states: 193 UN members and 2 observers | `data/country_registry.json` | Registry scope, not a guarantee of complete evidence |
+| 390 country/criterion positions | `data/affinity/v1/evidence.jsonl` | Includes missing evidence |
+| Coastline: 195/195; language: 133/195; 62 gaps | `data/affinity/v1/coverage.json` | Historical extraction coverage, not current factual accuracy |
+| Up to 20 candidates and 10 explanations | Contracts and engine tests | Functional limits, not optimized research findings |
+| Recall 1.0; precision@3 0.722; NDCG@3 1.0 | `docs/evaluations/affinity_english.json` | Small, synthetic test set only |
+| Local p50/p95 latency | Same report, with environment and repetitions | Measurements on the recorded machine, not a production benchmark |
+| Gemini tokens and cost | Not measured | No claim of measured API savings |
 
-O conjunto local tem dois critérios booleanos. Scores são discretos e há muitos
-empates; o desempate ISO é estável, sem significado de mérito. Não chamar o sistema
-de interpretação universal, previsão probabilística ou recomendador de viagem.
-O mapa exige CDN no navegador; `local_only` descreve o motor e as explicações.
+The current catalog has two boolean attributes. Scores are discrete, with frequent
+ties; alphabetical ISO tie-breaking does not imply that one tied country is a
+better match. The project demonstrates a bounded, explainable concept search.
+The browser needs CDN geometry for the map; `local_only` covers the engine and
+explanations. English is the default interface and explanation language, with
+continued support for the existing Portuguese input phrases.
 
-## Roteiro de vídeo — 60 a 90 segundos
+## Demo video — 60 to 90 seconds
 
-1. **0–10 s:** “E se uma ideia virasse um mapa explicável?” Mostrar a interface e
-   o pedido “Prefiro litoral e inglês oficial”.
-2. **10–25 s:** Rever os dois critérios e alterar o peso do litoral para 3. Explicar
-   que o score vem de regras e evidências, com confirmação do pedido.
-3. **25–40 s:** Calcular. Mostrar 195 registros, cores, candidatos destacados e
-   países sem dados completos. Usar hover e ranking.
-4. **40–55 s:** Abrir Critérios e fontes e inspecionar um país. Mostrar peso,
-   contribuição e proveniência. Buscar um microestado na tabela.
-5. **55–70 s:** Trocar para “Prefiro países sem litoral” e recalcular. Mostrar que
-   a mudança do conceito muda o ranking sem enviar o mundo inteiro à LLM.
-6. **70–90 s:** Mostrar JSON exportável e arquitetura. Encerrar com o limite atual:
-   catálogo pequeno e dados históricos; próximos passos são ampliar critérios
-   e realizar avaliação humana e ensaio Gemini com credenciais.
+1. **0–10 s:** “What if an idea could become an explainable world map?” Show the
+   interface and enter “I prefer countries with a coastline and English as an
+   official language.”
+2. **10–25 s:** Review the two criteria and change the coastline weight to 3.
+   Explain that scores come from rules and evidence. Confirm the request.
+3. **25–40 s:** Calculate. Show the 195 registry entries, selected candidates,
+   color scale and countries with insufficient evidence. Hover over the map.
+4. **40–55 s:** Open **Criteria and sources**. Inspect a country's values, weights,
+   contribution and pinned source. Search for a microstate in the table.
+5. **55–70 s:** Switch to “I prefer landlocked countries” and calculate again.
+   Show how changing the concept changes the result using the same local engine.
+6. **70–90 s:** Show the JSON export and architecture. Explain the current scope:
+   two criteria and historical data, with live provider evaluation and human
+   review as the next research steps.
 
-Para capturas, manter o aviso de snapshot visível e usar apenas dados do projeto.
-Uma revisão no Safari confirmou a renderização do mapa e os controles básicos;
-a captura final para redes deve ser feita com o enquadramento desejado.
+Keep the historical-data notice visible in screenshots. Record only project
+content and select a frame that shows the map alongside its criteria and context.
 
-## Rascunho de publicação
+## LinkedIn post — ready to edit
 
-Uma ideia pode virar um mapa mundial explicável?
+What if a search request could become a world map with an explanation behind each result?
 
-No JEV Global Heatmap, um pedido como “prefiro litoral e inglês oficial” vira
-critérios que o usuário revisa, pondera e confirma. A JEV aplica os requisitos e
-calcula a afinidade de forma determinística. O resultado aparece em um mapa,
-com ranking, fatores, fontes e exportação JSON.
+I built JEV Global Heatmap to explore that idea.
 
-O registro cobre 195 Estados. Ausência de dados aparece como ausência; um país
-excluído por requisito também fica identificado. Quando habilitado, o Gemini
-recebe somente os selecionados para explicar o resultado. O motor funciona sem
-chave, com justificativas locais por template.
+Start with a request such as “I prefer countries with a coastline and English as
+an official language.” Review the criteria, choose what is required, adjust your
+preferences, and explore the resulting affinity map.
 
-Usei Python, Pydantic, Streamlit e Plotly para explorar essa separação entre
-interpretação de critérios, ranking e explicação. O catálogo inicial tem dois
-atributos e usa um snapshot histórico com proveniência. A avaliação funcional
-em dados sintéticos está publicada; qualidade em consultas reais e custo de API
-ainda exigem ensaio próprio.
+The local JEV engine applies the requirements and calculates the scores. You can
+inspect each country's factors and sources, see where evidence is missing, and
+export the result as JSON. When enabled, Gemini receives only the selected
+countries to explain their results. The application also works without an API key.
 
-O próximo passo é ampliar os conceitos com fontes comparáveis e avaliar os
-resultados com usuários. Em qual domínio essa abordagem seria útil para você?
+The stack is Python, Pydantic, Streamlit and Plotly, with versioned data,
+strict contracts, session caching and automated tests.
 
-Código: https://github.com/felpzw/jev-global-heatmap/tree/develop
+The current catalog has two attributes and uses a historical dataset with a
+195-state registry. The published evaluation checks functional behavior on
+synthetic cases. Real-query relevance and API costs still need a separate study.
 
-#Python #EngenhariaDeSoftware #InteligenciaArtificial #DataVisualization #Portfolio
+For me, the interesting engineering question is how to make concept-based
+search inspectable, reproducible and easy to extend.
 
-## Descrição curta para portfólio
+Which concepts would you add to the map?
 
-Aplicação de busca conceitual global com mapa de afinidade, critérios revisáveis
-e evidências rastreáveis. Motor JEV determinístico, registro de 195 Estados,
-ranking por pesos e explicação Gemini opcional restrita aos selecionados.
-Inclui testes offline, reprodução do dataset e avaliação funcional publicada.
+Code and setup: https://github.com/felpzw/jev-global-heatmap/tree/develop
+
+#Python #SoftwareEngineering #ArtificialIntelligence #DataVisualization #Portfolio
+
+## Short portfolio description
+
+An explainable concept-search application with a global affinity map,
+reviewable criteria and traceable evidence. A deterministic JEV engine ranks a
+195-state registry using requirements and weighted preferences. Optional Gemini
+explanations are restricted to selected results. Includes reproducible data,
+offline tests and a published functional evaluation.
+
+## One-line caption
+
+From a concept to a world map: explore country affinity, inspect the evidence
+and understand why each result appears.

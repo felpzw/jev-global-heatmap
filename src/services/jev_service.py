@@ -13,27 +13,28 @@ from src.services.affinity_schema import (
     RANKER_VERSION, RunMetadata, CountryAffinity,
 )
 from src.services.evidence_service import Dataset, load_dataset
+from src.services.presentation import CRITERION_LABELS, EXPLANATION_PROMPT_VERSION, PRESENTATION_VERSION
 
-LABELS = {"has_maritime_coast": "litoral marítimo", "english_official": "inglês oficial nacional"}
-PROMPT_VERSION = "evidence-only-v1"
+PROMPT_VERSION = EXPLANATION_PROMPT_VERSION
 
 
 def template(country, *, synthetic=False):
     factors = "; ".join(
-        f"{LABELS[f.criterion.attribute_id]}: {'sim' if f.evidence.value else 'não'} "
-        f"({'atende' if f.normalized else 'não atende'} ao critério, "
-        f"{'obrigatório' if f.criterion.role == 'requirement' else f'peso {f.criterion.weight:g}'})"
+        f"{CRITERION_LABELS[f.criterion.attribute_id]}: {'yes' if f.evidence.value else 'no'} "
+        f"({'matches' if f.normalized else 'does not match'} the requested value, "
+        f"{'required' if f.criterion.role == 'requirement' else f'weight {f.criterion.weight:g}'})"
         for f in country.factors)
-    note = "Dados fictícios de demonstração." if synthetic else "Dados do snapshot histórico."
+    note = "Synthetic demonstration data." if synthetic else "Historical snapshot data."
     return CandidateExplanation(iso_alpha_3=country.iso_alpha_3,
-        text=f"Afinidade {country.affinity_score:.1f}/100. {factors}. {note}",
+        text=f"Affinity {country.affinity_score:.1f}/100. {factors}. {note}",
         evidence_ids=[f.evidence.evidence_id for f in country.factors])
 
 
 def identity(request: AffinityRequest, dataset: Dataset, model: str | None):
     payload = {"request": request.model_dump(), "dataset": dataset.fingerprint,
                "ranker": RANKER_VERSION, "catalog": CATALOG_VERSION,
-               "model": model, "prompt": PROMPT_VERSION, "limits": "1-call-4096-tokens-30s-v1"}
+               "model": model, "prompt": PROMPT_VERSION, "presentation": PRESENTATION_VERSION,
+               "limits": "1-call-4096-tokens-30s-v1"}
     return sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
 
 
@@ -57,9 +58,9 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
     # Revalida instâncias possivelmente alteradas fora do construtor.
     request = AffinityRequest.model_validate(request.model_dump())
     if not request.confirmed:
-        raise ValueError("Confirme os critérios antes de executar.")
+        raise ValueError("Confirm the criteria before running the search.")
     if cancelled():
-        raise RunCancelled("Execução cancelada.")
+        raise RunCancelled("Search cancelled.")
     dataset = dataset or load_dataset()
     if not request.local_only:
         from src.services.llm_client import configured_model
@@ -88,10 +89,10 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
     if response is not None:
         response.metadata.metrics.cache_hit = True
         if stage == "final":
-            progress("Resultado recuperado sem nova chamada.")
+            progress("Result restored without another API call.")
             return response
     else:
-        progress("Aplicando critérios aos 195 Estados…")
+        progress("Applying criteria to the 195 states…")
         start = perf_counter()
         countries, candidates = rank_countries(request, dataset, cancelled=cancelled)
         explanation_ids = candidates[:request.explanation_limit]
@@ -109,12 +110,12 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
         if checkpoint is not None:
             save_checkpoint(checkpoint, response, stage="ranked")
     if cancelled():
-        raise RunCancelled("Execução cancelada antes da explicação; ranking salvo para retomada.")
+        raise RunCancelled("Search cancelled before explanations; ranking saved for resuming.")
     if not request.local_only and response.explanation_ids:
         from src.services.explanation_client import explain, validate_batch
         has_key = bool(os.getenv("GEMINI_API_KEY", "").strip() or os.getenv("GOOGLE_API_KEY", "").strip())
         if has_key or explanation_fn is not None:
-            progress(f"Explicando somente {len(response.explanation_ids)} selecionados…")
+            progress(f"Explaining only {len(response.explanation_ids)} selected countries…")
             selected = [{c.iso_alpha_3: c for c in response.countries}[iso] for iso in response.explanation_ids]
             response.metadata.provider = "gemini"
             response.metadata.model = model
@@ -129,14 +130,14 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
                 response.metadata.metrics.input_tokens = result.input_tokens
                 response.metadata.metrics.output_tokens = result.output_tokens
                 if cancelled():
-                    raise RunCancelled("Execução cancelada; ranking salvo sem publicar a explicação.")
+                    raise RunCancelled("Search cancelled; ranking saved without publishing the explanation.")
                 updates = {e.iso_alpha_3: e for e in batch.explanations}
                 response.countries = [CountryAffinity.model_validate({
                     **c.model_dump(), "explanation": updates[c.iso_alpha_3].model_dump(),
                     "explanation_status": "generated", "explanation_source": "gemini",
                 }) if c.iso_alpha_3 in updates else c for c in response.countries]
             except RunCancelled:
-                response.metadata.errors.append("Cancelado após envio ao provedor; templates e orçamento consumido preservados.")
+                response.metadata.errors.append("Cancelled after sending to the provider; templates and consumed budget preserved.")
                 response.status = "partial"
                 response.countries = [CountryAffinity.model_validate({
                     **c.model_dump(), "explanation_status": "error",
@@ -146,7 +147,7 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
                     save_checkpoint(checkpoint, response, stage="final")
                 raise
             except Exception:
-                response.metadata.errors.append("Explicação indisponível ou inválida; templates preservados.")
+                response.metadata.errors.append("Explanations unavailable or invalid; templates preserved.")
                 response.status = "partial"
                 response.countries = [CountryAffinity.model_validate({
                     **c.model_dump(), "explanation_status": "error",
@@ -154,9 +155,9 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
             finally:
                 response.metadata.metrics.explanation_ms = (perf_counter() - start) * 1000
         else:
-            progress("Sem chave: justificativas locais por template.")
+            progress("No API key: using local explanation templates.")
     if cancelled():
-        raise RunCancelled("Execução cancelada.")
+        raise RunCancelled("Search cancelled.")
     response = AffinityResponse.model_validate(response.model_dump())
     if checkpoint is not None:
         save_checkpoint(checkpoint, response, stage="final")
@@ -164,5 +165,5 @@ def run_affinity(request: AffinityRequest, *, dataset: Dataset | None = None,
         cache[key] = response.model_dump()
         while len(cache) > 8:
             del cache[next(iter(cache))]
-    progress("Concluído: mapa, ranking e evidências disponíveis.")
+    progress("Complete: map, ranking and evidence are ready.")
     return response

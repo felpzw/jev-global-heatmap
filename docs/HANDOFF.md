@@ -1,45 +1,45 @@
-# Repasse manual — 18/10/2026
+# Manual handoff
 
-O fluxo local está implementado. A pendência de aceite da #17 exige credenciais
-do provedor e julgamento humano, ausentes neste ambiente. O projeto não precisa
-de uma implementação manual adicional para rodar a demonstração sem API.
+The local demonstration is implemented and available in English. Issue #17 still
+requires provider credentials and human judgment. Running the demonstration
+without an API key requires no additional manual implementation.
 
-## Ensaio real da #17
+## Complete the live evaluation for #17
 
-1. Criar `.env` a partir de `.env.example` e configurar a própria chave Gemini e
-   um modelo com Structured Outputs disponível na conta. Não publicar o arquivo.
-2. Ler [o protocolo](EVALUATION_PROTOCOL.md) e executar:
+1. Copy `.env.example` to `.env` and configure your Gemini key and a model with
+   Structured Outputs available in your account. Keep the credentials private.
+2. Read [the protocol](EVALUATION_PROTOCOL.md), then run:
 
    ```sh
    python evaluate_affinity.py --live --repeats 3 --output artifacts/affinity-live.json
    ```
 
-   São até 36 chamadas (6 consultas × 2 variantes × 3 repetições), com cobrança
-   conforme a conta; o caso vazio pode evitar a chamada JEV. Não executar em loop.
-3. Conferir status por chamada, truncamentos, tokens disponíveis e p50/p95 por
-   variante. Registrar a tarifa consultada, sua data e modelo antes de calcular
-   custos. Custo null significa não medido; falha não representa economia.
-4. Revisar cada afirmação das justificativas e IDs de evidência. Registrar revisor,
-   data, sustentada/não sustentada/inconclusiva e razão. Conferir ordem, filtros
-   e ausência de fatos que não estejam no payload.
-5. Anotar um conjunto independente de consultas reais com julgamentos de relevância
-   antes de avaliar qualidade externa. Conferir especialmente idioma oficial vs.
-   de facto, status regional, vigência e agregação nacional. A release histórica
-   não substitui essa revisão.
-6. Salvar o relatório revisado em `docs/evaluations/`, atualizar os itens restantes
-   da #17 e fechar a issue somente com essas evidências. Não há alegação atual de
-   economia, precisão universal ou superioridade sobre baselines.
+   This makes up to 36 billable calls: 6 queries × 2 variants × 3 repetitions.
+   The empty-selection case can skip a JEV call. Avoid repeated live runs.
+3. Inspect call status, truncation, available token counts and p50/p95 by variant.
+   Record the model's verified tariff and its date before calculating costs.
+   Null cost means unmeasured; a failed call is not evidence of savings.
+4. Review each explanation claim and evidence ID. Record reviewer, date,
+   supported/unsupported/inconclusive classification and reason. Check ordering,
+   requirements and claims beyond the supplied evidence. Explanations should be
+   in English for both variants.
+5. Annotate an independent set of real queries before evaluating external
+   relevance. Review national versus regional or de facto official-language
+   status, current validity and national aggregation. The historical snapshot
+   does not substitute for this review.
+6. Save the reviewed report in `docs/evaluations/`, update the remaining items in
+   #17, and close it once that evidence is available. There is currently no
+   measured claim of monetary savings or external ranking superiority.
 
-## Demonstração e publicação
+## Demonstration and publication
 
-- Rodar `python -m streamlit run src/app.py`, confirmar os critérios e verificar
-  hover/zoom, busca por VAT/PSE, JSON e leitura em celular. O mapa usa CDN: reservar
-  conexão ao gravar. Microestados permanecem pesquisáveis na tabela.
-- Gravar o roteiro de [PORTFOLIO.md](PORTFOLIO.md) e revisar o texto antes de postar.
-  Nenhuma publicação no LinkedIn foi feita automaticamente.
-- Hospedagem é opcional e não foi provisionada: em um serviço compatível com
-  Streamlit, usar `src/app.py`, Python 3.12+ e `requirements.txt`; guardar a chave
-  no gerenciador de segredos do host, habilitar acesso ao CDN e validar quotas.
-  Sem chave, a demonstração local continua funcional.
-- A integração desta entrega tem destino `develop`. A promoção para `main` e uma
-  URL pública podem ser feitas após escolher a hospedagem e concluir a revisão.
+- Run `python -m streamlit run src/app.py`, confirm the criteria, then check hover,
+  zoom, country search, VAT/PSE entries, JSON export and a narrow screen layout.
+  The browser needs CDN geometry while recording. Microstates remain searchable.
+- Follow [the English video script and post draft](PORTFOLIO.md). Review the final
+  wording and framing before publishing.
+- Hosting is optional. A Streamlit-compatible host needs `src/app.py`, Python
+  3.12+ and `requirements.txt`. Keep API keys in the host's secret manager, allow
+  the map CDN and verify quotas. The demonstration works without credentials.
+- Integration targets `develop`. Promotion to `main` and a public deployment can
+  follow the hosting decision and release review.

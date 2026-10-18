@@ -27,8 +27,8 @@ def load_registry() -> list[dict]:
     ids = [c["iso_alpha_3"] for c in countries]
     if (data["version"] != REGISTRY_VERSION or len(ids) != 195
             or set(ids) != COUNTRY_IDS or len(set(ids)) != len(ids)):
-        raise ValueError("Registro deve representar exatamente os 195 Estados do escopo.")
+        raise ValueError("The registry must represent exactly the 195 states in scope.")
     if any(not isinstance(c["m49"], str) or len(c["m49"]) != 3
            or not c["m49"].isdigit() for c in countries):
-        raise ValueError("M49 deve ser uma string de três dígitos.")
+        raise ValueError("M49 must be a three-digit string.")
     return countries

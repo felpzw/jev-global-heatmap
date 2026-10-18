@@ -1,22 +1,17 @@
-# MVP executável — Gemini e intensidade qualitativa
+# Legacy Gemini MVP
 
-O MVP preservado em `src/legacy_app.py` usa Streamlit, Gemini Structured Outputs, Pydantic e Plotly.
-Execute `python -m streamlit run src/legacy_app.py`. A aplicação principal em `src/app.py` já usa o motor JEV.
-Recebe contexto livre e produz heat_score de 0 a 100, não probabilidades.
-Não consulta fontes, não garante os 195 e não implementa a nova JEV.
+The original Gemini-scored demonstration is preserved in `src/legacy_app.py`:
 
-Pontos: src/app.py, src/services/llm_client.py, schema.py, prompts.py e
-src/components/map_renderer.py. Há demonstração fictícia, sessão preservada,
-tabela e download. O contexto é limitado a 4.000 caracteres; a saída a 8.192
-tokens; o prompt prefere até 40 países. HeatmapResponse aceita até 249 códigos
-válidos de pycountry, que inclui territórios fora do novo universo.
+```sh
+python -m streamlit run src/legacy_app.py
+```
 
-Falhas/truncamentos não substituem o resultado anterior. Reruns não geram nova
-consulta. As geometrias atuais vêm de CDN. A suíte offline de 29 testes passou
-em 05/10/2026, sem demonstrar qualidade factual nem a arquitetura nova.
+It uses Streamlit, Gemini Structured Outputs, Pydantic and Plotly. Gemini generates
+countries and qualitative scores directly, without external source retrieval or
+guaranteed coverage of the 195-state registry. Its original Portuguese UI,
+contract and regression tests are retained as historical reference.
 
-Instalação permanece no README; use o comando legado acima. Histórico do MVP em
-[IMPLEMENTATION.md](IMPLEMENTATION.md) e prompts em [PROMPT_DESIGN.md](PROMPT_DESIGN.md).
-As propostas anteriores foram [arquivadas](legacy/README.md). A direção atual
-é [ranking de afinidade](adr/0003-affinity-ranking.md), implementado no catálogo inicial.
-Veja [DELIVERY.md](DELIVERY.md) para evidências e limitações.
+The main application, `src/app.py`, implements the English JEV experience with
+local deterministic scores, explicit evidence and optional selected explanations.
+See [the README](../README.md), [architecture](../ARCHITECTURE.md) and
+[original MVP implementation history](IMPLEMENTATION.md).

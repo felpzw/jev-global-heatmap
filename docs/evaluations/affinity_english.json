@@ -1,0 +1,471 @@
+{
+  "evaluated_at": "2026-10-18T17:47:23.297173+00:00",
+  "protocol": "docs/EVALUATION_PROTOCOL.md",
+  "evaluator_sha256": "dc1a5fae1b2c4f69014b91ae0bf206a3f89e3d9e86f7724eddeac51c6ac910d7",
+  "protocol_sha256": "eb97dd438015cd31c411234d50cadfa0cf3ed7613c858a29e19a8823727b1170",
+  "cases_version": "synthetic-affinity-cases-en-v2",
+  "cases_sha256": "c3bd4dd7096df6272566b788e01547437c763cf1b5dcceae1664874d81a18dd2",
+  "dataset": "synthetic-demo-v1",
+  "dataset_sha256": "ae7c96c8be53d3a4895d1d1d0e937350314801b3ec84a9a0c2e856996efdf145",
+  "environment": {
+    "python": "3.14.6",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "packages": {
+      "pydantic": "2.13.5",
+      "pycountry": "26.2.16",
+      "plotly": "7.1.0",
+      "streamlit": "1.64.0",
+      "google-genai": "2.26.0"
+    }
+  },
+  "k": 3,
+  "repeats": 5,
+  "cases": [
+    {
+      "id": "coast-tune",
+      "split": "tune",
+      "type": "coast",
+      "metrics": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "candidate_ids": [
+        "BRA",
+        "CAN",
+        "KEN",
+        "MEX",
+        "PSE"
+      ],
+      "explanation_ids": [
+        "BRA",
+        "CAN",
+        "KEN",
+        "MEX",
+        "PSE"
+      ],
+      "ranking": [
+        "BRA",
+        "CAN",
+        "KEN",
+        "MEX",
+        "PSE",
+        "CHE",
+        "KAZ",
+        "VAT"
+      ],
+      "status_counts": {
+        "insufficient_data": 187,
+        "ranked": 8
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    },
+    {
+      "id": "combination-test",
+      "split": "test",
+      "type": "combination",
+      "metrics": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "candidate_ids": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX"
+      ],
+      "explanation_ids": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX"
+      ],
+      "ranking": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX",
+        "CHE",
+        "KAZ"
+      ],
+      "status_counts": {
+        "insufficient_data": 189,
+        "ranked": 6
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    },
+    {
+      "id": "requirement-test",
+      "split": "test",
+      "type": "requirement",
+      "metrics": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 0.6666666666666666,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "candidate_ids": [
+        "CAN",
+        "KEN"
+      ],
+      "explanation_ids": [
+        "CAN",
+        "KEN"
+      ],
+      "ranking": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX"
+      ],
+      "status_counts": {
+        "insufficient_data": 188,
+        "ranked": 4,
+        "filtered_out": 3
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 0.6666666666666666,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    },
+    {
+      "id": "negation-test",
+      "split": "test",
+      "type": "negation",
+      "metrics": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "candidate_ids": [
+        "CHE",
+        "KAZ",
+        "VAT"
+      ],
+      "explanation_ids": [
+        "CHE",
+        "KAZ",
+        "VAT"
+      ],
+      "ranking": [
+        "CHE",
+        "KAZ",
+        "VAT",
+        "BRA",
+        "CAN",
+        "KEN",
+        "MEX",
+        "PSE"
+      ],
+      "status_counts": {
+        "insufficient_data": 187,
+        "ranked": 8
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    },
+    {
+      "id": "language-test",
+      "split": "test",
+      "type": "language",
+      "metrics": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 0.6666666666666666,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "candidate_ids": [
+        "CAN",
+        "KEN"
+      ],
+      "explanation_ids": [
+        "CAN",
+        "KEN"
+      ],
+      "ranking": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "CHE",
+        "KAZ",
+        "MEX"
+      ],
+      "status_counts": {
+        "insufficient_data": 189,
+        "ranked": 6
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 0.6666666666666666,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    },
+    {
+      "id": "empty-test",
+      "split": "test",
+      "type": "empty",
+      "metrics": {
+        "candidate_recall": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": null,
+        "false_discards": []
+      },
+      "candidate_ids": [],
+      "explanation_ids": [],
+      "ranking": [
+        "CAN",
+        "KEN"
+      ],
+      "status_counts": {
+        "insufficient_data": 189,
+        "filtered_out": 4,
+        "ranked": 2
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": null,
+        "precision_at_k": 0.0,
+        "ndcg_at_k": null,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    },
+    {
+      "id": "missing-test",
+      "split": "test",
+      "type": "missing",
+      "metrics": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "candidate_ids": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX"
+      ],
+      "explanation_ids": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX"
+      ],
+      "ranking": [
+        "CAN",
+        "KEN",
+        "BRA",
+        "MEX",
+        "CHE",
+        "KAZ"
+      ],
+      "status_counts": {
+        "insufficient_data": 189,
+        "ranked": 6
+      },
+      "requirement_violations": [],
+      "expected_missing_status_pass": true,
+      "baseline_simple": {
+        "candidate_recall": 1.0,
+        "precision_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "false_discards": []
+      },
+      "same_order_as_simple_baseline": true,
+      "local_calls": 0
+    }
+  ],
+  "aggregate": {
+    "tune": {
+      "candidate_recall": 1.0,
+      "precision_at_k": 1.0,
+      "ndcg_at_k": 1.0
+    },
+    "test": {
+      "candidate_recall": 1.0,
+      "precision_at_k": 0.7222222222222222,
+      "ndcg_at_k": 1.0
+    }
+  },
+  "clarifications": [
+    {
+      "text": "I want beaches and English",
+      "questions": [
+        "Beaches are not the same as a coastline. Confirm whether maritime coastline is the criterion you want.",
+        "Confirm whether you mean English as an official national language; proficiency is outside this catalog.",
+        "Terms outside the catalog: beaches english. Review the scope before confirming.",
+        "Select at least one supported preference during criteria review."
+      ]
+    },
+    {
+      "text": "I prefer a coastline and safety",
+      "questions": [
+        "Terms outside the catalog: safety. Review the scope before confirming."
+      ]
+    }
+  ],
+  "functional_gates_pass": true,
+  "latency_ms": {
+    "uncached": {
+      "p50": 6.679084035567939,
+      "p95": 7.697025110246614
+    },
+    "cached": {
+      "p50": 1.6176659846678376,
+      "p95": 2.0362126175314184
+    },
+    "acquisition": null,
+    "note": "Local engine only; excludes network, UI and acquisition latency."
+  },
+  "real_snapshot": {
+    "version": "factbook-archive-v1",
+    "sha256": "38cc917d6e16d7997ad9a7b41dc3ba6eb25fda057332bc59e91b1ad96efc5981",
+    "coverage": {
+      "denominator": 195,
+      "coverage": {
+        "has_maritime_coast": {
+          "observed": 195
+        },
+        "english_official": {
+          "missing": 62,
+          "observed": 133
+        }
+      },
+      "gaps": {
+        "has_maritime_coast": [],
+        "english_official": [
+          "AFG",
+          "AND",
+          "ARE",
+          "ARG",
+          "ARM",
+          "AUS",
+          "AZE",
+          "BHR",
+          "BLZ",
+          "BRA",
+          "BRN",
+          "CHE",
+          "CHL",
+          "CRI",
+          "CYP",
+          "DNK",
+          "ECU",
+          "EGY",
+          "ETH",
+          "GBR",
+          "GRC",
+          "HUN",
+          "IDN",
+          "ISL",
+          "ISR",
+          "JAM",
+          "JOR",
+          "JPN",
+          "KAZ",
+          "KOR",
+          "KWT",
+          "LAO",
+          "LBN",
+          "LBR",
+          "LBY",
+          "LKA",
+          "LUX",
+          "MCO",
+          "MDG",
+          "MDV",
+          "MEX",
+          "MUS",
+          "MYS",
+          "NRU",
+          "NZL",
+          "OMN",
+          "PAK",
+          "PAN",
+          "PRK",
+          "PSE",
+          "QAT",
+          "SMR",
+          "SOM",
+          "STP",
+          "SUR",
+          "SYR",
+          "THA",
+          "TLS",
+          "TON",
+          "VAT",
+          "VCT",
+          "VNM"
+        ]
+      },
+      "values": {
+        "has_maritime_coast": {
+          "true": 151,
+          "false": 44
+        },
+        "english_official": {
+          "true": 47,
+          "false": 86
+        }
+      }
+    }
+  },
+  "live": {
+    "status": "not_run",
+    "reason": "offline_mode",
+    "tokens": null,
+    "cost_usd": null
+  },
+  "human_review": "pending",
+  "limitations": [
+    "Synthetic fixtures verify functional behaviour; they do not establish external relevance.",
+    "Two boolean criteria; discrete scores and frequent ties.",
+    "Snapshot coverage does not establish accuracy; current validity requires review.",
+    "The 20/10 limits are tested functionally, not optimized through a user study.",
+    "Cache retrieval includes contract validation and may cost as much as ranking for a small workload."
+  ]
+}

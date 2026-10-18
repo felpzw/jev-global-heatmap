@@ -1,69 +1,76 @@
-# Dados, proveniência e reprodução
+# Data sources, provenance and reproduction
 
-Release de demonstração: `factbook-archive-v1`. Registro: 193 membros ONU + Santa
-Sé/VAT e Palestina/PSE; sem dependências, Kosovo ou Taiwan no conjunto pontuado.
-As geometrias do Plotly podem representar outras unidades; não alteram o registro.
+Demonstration release: `factbook-archive-v1`. The registry contains 193 UN member
+states plus the Holy See/VAT and Palestine/PSE. Dependencies, Kosovo and Taiwan
+are outside the scoring registry. Plotly geometry can represent additional
+units without changing the registry.
 
-## Fontes e licenças
+## Sources and licenses
 
-| Artefato | Origem e reuso | Transformação |
+| Artifact | Source and reuse | Transformation |
 | --- | --- | --- |
-| `sources/factbook_extract.json` | Fatos do governo dos EUA em domínio público; espelho [factbook.json](https://github.com/factbook/factbook.json), revisão `144d6977b2b01ac1cbd220de754c0a005616760b`; [licença CC0 do espelho](https://github.com/factbook/factbook.json/blob/144d6977b2b01ac1cbd220de754c0a005616760b/LICENSE.md) | Somente campos Coastline, Languages e identificadores nacionais; hashes dos perfis originais e dos arquivos locais |
-| `sources/factbook_routes.json` | Roteamento explícito entre IDs internos e perfis públicos | Código ISO alpha-2 conferido contra Internet country code de cada perfil; GBR permite `.uk`; PSE agrega Gaza e Cisjordânia |
-| `country_registry.json` | Códigos, nomes e tradução de [pycountry](https://github.com/pycountry/pycountry), baseado em Debian iso-codes, LGPL 2.1 ou posterior | Recorte explícito dos 195 IDs; M49 como string; [licença](licenses/pycountry-LGPL-2.1.txt) e [copyright](licenses/pycountry-COPYRIGHT.txt) preservados |
-| `affinity_demo.json` | Fixture sintética própria, CC0-1.0 | Oito países com valores fictícios; demais posições ausentes |
-| `criteria_catalog.json` | Definições e regras próprias | Dois booleanos, comparação `eq`, normalização 0/1 e ausência explícita |
+| `sources/factbook_extract.json` | Public-domain US government facts, mirrored by [factbook.json](https://github.com/factbook/factbook.json), revision `144d6977b2b01ac1cbd220de754c0a005616760b`; [mirror's CC0 license](https://github.com/factbook/factbook.json/blob/144d6977b2b01ac1cbd220de754c0a005616760b/LICENSE.md) | Selected Coastline, Languages and country-identity fields; hashes of original profiles and local artifacts |
+| `sources/factbook_routes.json` | Explicit mapping from internal ISO IDs to public profile paths | ISO alpha-2 checked against each profile's Internet country code; GBR accepts `.uk`; PSE combines Gaza and the West Bank |
+| `country_registry.json` | Names, codes and translations from [pycountry](https://github.com/pycountry/pycountry), based on Debian iso-codes, LGPL 2.1 or later | Explicit 195-state scope; three-character M49 strings; [license](licenses/pycountry-LGPL-2.1.txt) and [copyright](licenses/pycountry-COPYRIGHT.txt) retained |
+| `affinity_demo.json` | Original synthetic fixture, CC0-1.0 | Eight states with fictional values; other entries remain missing |
+| `criteria_catalog.json` | Original definitions and rules | Two boolean attributes, equality comparison, 0/1 normalization and explicit missing values |
 
-O escopo do registro segue [membros ONU](https://www.un.org/en/about-us/member-states)
-e [observadores](https://research.un.org/en/unmembers/observers). Essas páginas
-são referências de escopo; seus textos/tabelas não foram redistribuídos. Nenhuma
-tabela completa de códigos de terceiros com licença incerta acompanha o projeto.
+Registry scope follows the [UN member list](https://www.un.org/en/about-us/member-states)
+and [observer-state references](https://research.un.org/en/unmembers/observers).
+Their text and tables are not redistributed. The project does not bundle the
+third-party full country-code table whose reuse terms were uncertain.
 
-A CIA anunciou o [encerramento do Factbook em 04/02/2026](https://www.cia.gov/stories/story/spotlighting-the-world-factbook-as-we-bid-a-fond-farewell/).
-Coleta e revisão do espelho não equivalem à data de publicação ou à vigência do
-fato. `published_at` é null porque esses campos não informam uma data única.
-Datas citadas dentro dos textos brutos são preservadas. A curadoria é derivação
-automática conservadora, sem auditoria humana completa das afirmações nacionais.
+The CIA announced the [Factbook's end on February 4, 2026](https://www.cia.gov/stories/story/spotlighting-the-world-factbook-as-we-bid-a-fond-farewell/).
+Collection time and mirror revision are distinct from a fact's publication date
+and validity. `published_at` is null because these fields provide no single
+publication date. Dates within raw source text are preserved. The release uses
+conservative automatic derivation without a complete human factual audit.
 
-## Regras da release
+## Extraction rules
 
-- Litoral: `0 km`/`landlocked` → false; número positivo de km → true. O próprio
-  arquivo explicita Cáspio/Aral como landlocked para KAZ/AZE/TKM. PSE usa `any`
-  de Gaza/Cisjordânia. Não agrega territórios dependentes à metrópole.
-- Idioma: marcador explícito `English (official)` (incluindo `English only`) ou
-  frases explícitas sobre inglês oficial nacional/subsidiário → true. Lista
-  oficial sem menção ao inglês → false. Texto inconclusivo, inglês sem status
-  explícito ou divergência entre perfis → missing. Amostras de tradução em inglês
-  dentro do perfil não contam como idioma oficial. Idiomas de facto ficam ausentes.
-- `missing`, `conflicting`, `expired` e `not_applicable` nunca pontuam. Na primeira
-  release há apenas observed/missing; os contratos reservam os demais estados.
-- Com dois critérios ativos, cobertura conjunta observada: 133/195. Somente
-  litoral: 195/195. São 151 true/44 false para litoral e 47 true/86 false para
-  inglês oficial. Cobertura mede extração admissível, não precisão ou vigência.
-- Snapshot histórico permanece utilizável como demonstração com aviso; expiração
-  não é inferida da coleta. Uso factual atual requer revisão e uma nova release.
+- Coastline: `0 km`/`landlocked` means false; a positive distance means true.
+  KAZ/AZE/TKM explicitly describe their Caspian/Aral boundaries as landlocked.
+  PSE uses the boolean `any` of Gaza and West Bank values. Dependencies are not
+  aggregated into their parent state.
+- Language: an explicit `English (official)` marker, including `English only`, or
+  explicit national/subsidiary-official wording means true. An official-language
+  list without an English mention means false. Inconclusive status, an English
+  mention without official status or disagreement between profiles stays missing.
+  Translated sample text is not evidence of an official language. De facto
+  English remains missing when the required status is not established.
+- `missing`, `conflicting`, `expired` and `not_applicable` do not score. The first
+  release contains only observed/missing values; contracts reserve the other states.
+- Joint coverage for both criteria is 133/195; coastline alone is 195/195.
+  Coastline has 151 true/44 false values; official English has 47 true/86 false.
+  Coverage measures admissible extraction, not accuracy or current validity.
+- The historical snapshot remains usable as a labeled demonstration. Current
+  factual use requires review and a new data release.
 
-## Reconstruir e atualizar
+## Rebuild and update
 
 ```sh
-# Sem rede; reconstrói byte a byte e verifica a release existente
+# Offline: verify byte-for-byte reconstruction and integrity of the existing release
 python -m scripts.verify_dataset
-# Deriva novamente os artefatos locais; usar durante preparação de uma nova release
+# Derive local artifacts while preparing a new release
 python -m scripts.build_dataset
-# Aquisição explícita opcional: 196 perfis, 4 conexões, 30 s/arquivo, até 2 MB/arquivo
+# Optional explicit acquisition: 196 profiles, 4 workers, 30 s and 2 MB per file
 python -m scripts.acquire_factbook
 ```
 
-O ranking nunca executa aquisição. Os extratos mantidos no Git permitem reconstruir
-evidências, cobertura e manifesto sem os perfis completos. Para auditar a extração,
-as URLs fixadas e hashes permitem baixar cada perfil original e conferir os campos.
-O manifesto também identifica o hash do código de transformação. Nenhuma revisão
-do snapshot é trocada durante uma execução.
+Ranking never acquires data. Preserved extracts allow offline reconstruction of
+evidence, coverage and the manifest. Pinned URLs and original hashes support
+profile-level audits. The manifest identifies the transformation-code hash.
 
-Revisar mensalmente correções e fontes substitutas atuais; o arquivo encerrado
-não receberá atualização oficial. Mudanças de valores, critérios ou fontes geram
-`v2`, novos hashes e relatório de diferenças; não alterar a release publicada.
-Preservar snapshots e extratos pequenos no Git; não há necessidade de SQLite,
-PostgreSQL, DuckDB ou scheduler para este volume. Rollback seleciona uma versão
-anterior com as mesmas regras. Checkpoints de sessão ficam em `artifacts/`, fora
-do Git; podem ser removidos com o aplicativo parado se a retomada não for desejada.
+Review corrections and replacement sources monthly; the closed archive will not
+receive official updates. Changes to values, criteria or sources require a new
+release, hashes and a diff report. Keep published releases immutable. Local Git
+snapshots are sufficient for this volume; a server database and scheduler are
+unnecessary. Session checkpoints live outside Git in `artifacts/`.
+
+## English presentation
+
+The published catalog, registry and evidence files retain their original bytes.
+The application uses the registry's existing `name_en` names and translates
+explanatory notes after integrity verification. Values, source identifiers,
+period semantics, ISO codes and hashes do not change. New results identify
+`presentation_version: en-v1`; earlier Portuguese artifacts remain reproducible.

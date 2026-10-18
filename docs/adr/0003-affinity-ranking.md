@@ -1,42 +1,35 @@
-# ADR 0003 — Heatmap de ranking de afinidade com JEV e justificativas LLM
+# ADR 0003 — JEV affinity ranking with optional LLM explanations
 
-- Data: 05/10/2026.
-- Estado: aprovada; catálogo inicial implementado em 18/10/2026. Avaliação externa pendente na #17.
-- Substitui: ADR 0002 e o escopo de previsão probabilística.
-- Issue: [#20](https://github.com/felpzw/jev-global-heatmap/issues/20).
+- Decision date: October 5, 2026; starter catalog implemented October 18, 2026.
+- Status: accepted and implemented; external evaluation remains in #17.
+- Supersedes ADR 0002 and the probability-prediction scope.
+- Architecture issue: [#20](https://github.com/felpzw/jev-global-heatmap/issues/20).
 
-## Contexto e decisão
+## Decision
 
-O responsável definiu o produto como ranking de afinidade com o pedido.
-A JEV interpreta critérios suportados, filtra requisitos, calcula scores 0–100
-por preferências e pesos e seleciona candidatos. Gemini recebe somente os
-melhores candidatos e evidências para produzir justificativas. Países sem
-proximidade suficiente não consomem chamadas de explicação.
+The product ranks affinity with a confirmed request. JEV interprets supported
+criteria, filters requirements, calculates 0–100 scores from weighted preferences
+and selects candidates. Gemini receives only the explanation subset and its
+evidence. It cannot select countries, calculate scores or change order.
 
-O score mede afinidade segundo dados/regras; não mede probabilidade de evento.
-LLM não escolhe os países, não atribui scores e não altera a ordem. O primeiro
-MVP usa catálogo pequeno, regras/sinônimos e dataset local versionado. Inputs
-ambíguos ou não suportados exigem esclarecimento, sem interpretação universal.
+The score is affinity under explicit data and rules, not the probability of an
+event. The starter catalog uses conservative phrases and a versioned local
+snapshot. Unknown or ambiguous concepts require clarification.
 
-## Consequências e alternativas
+## Consequences
 
-- Requisitos obrigatórios são separados de preferências graduadas.
-- Falta de dados e exclusão não viram zero; baixa afinidade válida pode ser zero.
-- Registro dos 195 permanece no resultado, mas justificativas LLM são limitadas.
-- Templates mantêm utilidade sem chave, em local_only ou após falha da LLM.
-- Embeddings, interpretação por LLM e reordenação por LLM ficam adiados até
-  existir evidência de necessidade; não são dependências iniciais.
-- Retorno de previsão, calibração, prazo de evento e Brier/log loss sai do backlog
-  ativo. A avaliação passa a seleção, ranking, fundamentação e custo/latência.
-- Limites de candidatos são hipóteses a avaliar, não promessa de economia.
+- Requirements and preferences have separate roles.
+- Missing data and exclusions have null scores; valid low affinity can be zero.
+- Every final response contains the 195-state registry, with bounded explanations.
+- Templates keep the ranking useful without credentials or after provider failure.
+- Embeddings, LLM interpretation and LLM reranking are deferred until evidence
+  establishes their need.
+- Evaluation covers selection, ranking, grounding and cost/latency; probability
+  calibration, forecast horizons, Brier score and log loss are outside scope.
+- Candidate limits are functional hypotheses, not evidence of savings.
 
-A ADR 0002 e seus documentos são preservados como histórico. A #12 permanece
-concluída no escopo anterior, sem ser reaberta ou declarada entrega deste produto.
-As issues #13–#17 são revisadas mantendo seus números e dependências.
-
-## Documentos ativos
-
-[Arquitetura](../../ARCHITECTURE.md), [contratos](../JEV_DESIGN.md) e
-[plano](../JEV_IMPLEMENTATION_PLAN.md). O [MVP legado](../MVP_LEGACY.md) permanece separado. O executável principal
-agora usa o motor JEV; evidências e limites estão em [DELIVERY.md](../DELIVERY.md).
-[Histórico das propostas](../legacy/README.md).
+Earlier architecture decisions remain in the project history. The English
+presentation changes names and explanatory text while preserving scoring and
+source-data semantics. See [architecture](../../ARCHITECTURE.md),
+[contracts](../JEV_DESIGN.md), [plan](../JEV_IMPLEMENTATION_PLAN.md) and
+[the legacy MVP](../MVP_LEGACY.md).

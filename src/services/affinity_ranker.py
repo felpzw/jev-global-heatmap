@@ -11,11 +11,11 @@ class RunCancelled(Exception):
 
 def rank_countries(request: AffinityRequest, dataset: Dataset, *, cancelled=lambda: False):
     if not request.confirmed:
-        raise ValueError("Confirme os critérios antes de executar.")
+        raise ValueError("Confirm the criteria before running the search.")
     rows = []
     for country in load_registry():
         if cancelled():
-            raise RunCancelled("Execução cancelada.")
+            raise RunCancelled("Search cancelled.")
         iso = country["iso_alpha_3"]
         factors = []
         for criterion in request.criteria:
@@ -28,15 +28,15 @@ def rank_countries(request: AffinityRequest, dataset: Dataset, *, cancelled=lamb
         failed = any(f.criterion.role == "requirement" and f.normalized == 0 for f in factors)
         missing = any(f.normalized is None for f in factors)
         if failed:
-            status, reason, score = "filtered_out", "Requisito obrigatório descumprido com evidência.", None
+            status, reason, score = "filtered_out", "An observed value fails a required criterion.", None
         elif missing:
-            status, reason, score = "insufficient_data", "Dados insuficientes para os critérios ativos.", None
+            status, reason, score = "insufficient_data", "Insufficient evidence for the active criteria.", None
         else:
             preferences = [f for f in factors if f.criterion.role == "preference"]
             score = 100 * sum(f.contribution for f in preferences) / sum(f.criterion.weight for f in preferences)
-            status, reason = "ranked", "Afinidade calculada com dados completos dos critérios ativos."
+            status, reason = "ranked", "Affinity calculated from complete evidence for the active criteria."
         # Constrói a posição somente após ordenar todos os scores não arredondados.
-        rows.append(dict(iso_alpha_3=iso, name=country["name"], status=status,
+        rows.append(dict(iso_alpha_3=iso, name=country["name_en"], status=status,
                          affinity_score=score, reason=reason, factors=factors,
                          rank=None, selection="not_eligible"))
     ranked = sorted((r for r in rows if r["status"] == "ranked"),

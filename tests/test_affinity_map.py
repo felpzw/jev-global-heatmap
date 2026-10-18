@@ -22,5 +22,5 @@ class AffinityMapTests(unittest.TestCase):
         self.assertNotIn("VAT", scores)
         self.assertEqual(figure.layout.coloraxis.cmin, 0)
         self.assertEqual(figure.layout.coloraxis.cmax, 100)
-        self.assertIn("Dados insuficientes", [t.name for t in figure.data])
+        self.assertIn("Insufficient data", [t.name for t in figure.data])
 
